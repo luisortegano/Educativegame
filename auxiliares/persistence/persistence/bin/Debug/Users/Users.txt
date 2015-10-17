@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Users>
+    <User>
+      <Name>test407440650</Name>
+      <BirthDay>2015-10-10T14:27:35.418886-04:30</BirthDay>
+    </User>
+    <User>
+      <Name>test1521643834</Name>
+      <BirthDay>2015-10-10T14:27:35.428113-04:30</BirthDay>
+    </User>
+  </Users>
+</UserCollection>
