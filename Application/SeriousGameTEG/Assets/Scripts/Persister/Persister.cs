@@ -6,68 +6,45 @@ using UnityEngine;
 
 namespace Persistence
 {
-	public class Persister<T>
+	public class Persister
 	{
-		private string _dataFileName;
-		public string dataFileName
+		public void Save<T>(string relativeFilePath, T objToPersist)
 		{
-			get { return (_dataFileName); }
-			set { _dataFileName = value;  }
-		}
-
-
-		private T _objToPersist;
-		public T objToPersist
-		{
-			get { return (_objToPersist); }
-			set { _objToPersist = value;  }
-		}
-
-
-		public Persister(string dataFileName)
-		{
-			//this._dataFileName = Path.Combine(Application.persistentDataPath,dataFileName);
-			this._dataFileName = Application.persistentDataPath+Path.AltDirectorySeparatorChar+dataFileName;
-			Debug.Log(this._dataFileName);
-				//AppDomain.CurrentDomain.BaseDirectory + Path.DirectorySeparatorChar + dataFileName ;
-			//this._objList = Activator.CreateInstance<List<T>>();
-		}
-
-		public void save()
-		{
-			lock (_dataFileName)
+			lock (relativeFilePath)
 			{
-				using (FileStream writer = File.Create(_dataFileName))
+				relativeFilePath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + relativeFilePath;
+				using (FileStream writer = File.Create(relativeFilePath))
 				{
-					Debug.Log (_objToPersist.GetType ());
-					XmlSerializer serializer = new XmlSerializer(_objToPersist.GetType());
-					serializer.Serialize(writer, _objToPersist);
+					Debug.Log (objToPersist.GetType ());
+					XmlSerializer serializer = new XmlSerializer(objToPersist.GetType());
+					serializer.Serialize(writer, objToPersist);
 					writer.Close();
 				}
 			}
 		}
 
-		public T load()
+		public T Load <T>(string relativeFilePath)
 		{
-			if (File.Exists(_dataFileName))
+			T objToPersist = default(T);
+			relativeFilePath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + relativeFilePath;
+			if (File.Exists(relativeFilePath))
 			{
-				lock (_dataFileName)
+				lock (relativeFilePath)
 				{
-					using (FileStream reader = File.Open(_dataFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+					using (FileStream reader = File.Open(relativeFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 					{
 						Debug.Log (typeof(List<T>));
 						XmlSerializer serializer = new XmlSerializer(typeof(T));
-						_objToPersist = (T)serializer.Deserialize(reader);
+						objToPersist = (T)serializer.Deserialize(reader);
 						reader.Close();
 					}
 				}
 			}
 			else
 			{
-				Debug.Log ("Trying to load "+this.dataFileName+ " but the file does not exist");
+				Debug.Log ("Trying to load "+relativeFilePath+ " but the file does not exist");
 			}
-
-			return _objToPersist;
+			return objToPersist;
 		}
 	}
 }
