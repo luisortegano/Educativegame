@@ -13,6 +13,7 @@ public class Configuration : MonoBehaviour {
 
 	void Awake () {
 		Debug.Log("Configuration is Awaking");
+		LoadingGroup.SetActive(true);
 
 		if(this.Users == null){
 
