@@ -14,6 +14,12 @@ namespace Persistence
 			set { name = value; }
 		}
 
+		private string lastName;
+		[XmlElement("LastName")]
+		public string LastName {
+			get { return lastName; }
+			set { lastName = value; }
+		}
 
 		private string birthDate;
 		[XmlElement("BirthDay")]
