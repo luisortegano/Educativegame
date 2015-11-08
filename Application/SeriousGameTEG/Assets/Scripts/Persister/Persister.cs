@@ -20,6 +20,7 @@ namespace Persistence
 					serializer.Serialize(writer, objToPersist);
 					writer.Close();
 				}
+				Debug.Log (relativeFilePath);
 			}
 		}
 
@@ -33,7 +34,6 @@ namespace Persistence
 				{
 					using (FileStream reader = File.Open(relativeFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 					{
-						Debug.Log (typeof(List<T>));
 						XmlSerializer serializer = new XmlSerializer(typeof(T));
 						objToPersist = (T)serializer.Deserialize(reader);
 						reader.Close();

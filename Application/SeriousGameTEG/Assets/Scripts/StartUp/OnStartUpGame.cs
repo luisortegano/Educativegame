@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using UnityEngine.UI;
 
-[InitializeOnLoad]
+//[InitializeOnLoad]
 public class Startup {
 
 	public GameObject ConfigurationElement = new GameObject ();
