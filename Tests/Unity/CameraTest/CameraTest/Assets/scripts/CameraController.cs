@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.IO;
 
 
 public class CameraController : MonoBehaviour {
@@ -39,4 +40,18 @@ public class CameraController : MonoBehaviour {
 			//.renderer.material.mainTexture = mCamera;
 		//mCamera.Play ();	
 	}
+
+	void Update (){
+
+	}
+
+	public void saveimage (){
+		Texture2D snap = new Texture2D(wct.width, wct.height);
+		snap.SetPixels(wct.GetPixels());
+		snap.Apply();
+
+		string relativeFilePath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "capture.png";
+		File.WriteAllBytes(relativeFilePath, snap.EncodeToPNG());
+	}
+
 }
