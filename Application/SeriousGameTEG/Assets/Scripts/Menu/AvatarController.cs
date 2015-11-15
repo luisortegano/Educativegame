@@ -16,13 +16,13 @@ public class AvatarController : MonoBehaviour {
 
 	private string filepath;
 
-
 	private SqliteDatabase sqlDB;
 	
 	void Awake() 
 	{
-		string dbPath = System.IO.Path.Combine (Application.persistentDataPath, "game.db");
-		var dbTemplatePath = System.IO.Path.Combine(Application.streamingAssetsPath, "default.db");
+		/*
+		string dbPath = System.IO.Path.Combine (Application.persistentDataPath, "TEG_SG.db");
+		var dbTemplatePath = System.IO.Path.Combine(Application.streamingAssetsPath, "TEG_SG.db");
 		
 		if (!System.IO.File.Exists(dbPath)) {
 			Debug.Log ("#########################The Database was not initialized");
@@ -39,15 +39,19 @@ public class AvatarController : MonoBehaviour {
 				System.IO.File.Copy(dbTemplatePath, dbPath, true);
 			}       
 		}
-		/**/
+		*/
+		/*
 		Debug.Log("##################Before Create anything");
 		sqlDB = new SqliteDatabase(dbPath);
 
-		DataTable result = sqlDB.ExecuteQuery("SELECT * FROM example;");
+		DataTable result = sqlDB.ExecuteQuery("SELECT * FROM user;");
 		Debug.Log("ELEMENTOOOOOOOOOOOOOOOOOOOS " + result.Rows.Count );
-
-		foreach(DataRow current in result.Rows){
-			Debug.Log(current["name"]+"---"+current["dummy"]);
+		*/
+		user users = new user();
+		if(users.loadUsers()){
+			foreach(DataRow current in users.Users.Rows){
+				Debug.Log("###########"+current[user.Id]+"||"+current[user.Name]+"||"+current[user.LastName]);
+			}
 		}
 	}
 	
