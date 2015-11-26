@@ -5,6 +5,12 @@ using System;
 
 public class ContentPanelUserSelection : MonoBehaviour {
 
+	/**/
+	public GameObject UserSelectionPanel;
+
+	/*New user Form*/
+	public GameObject newUserFormPanel;
+
 	public GameObject userThumbPrefab;
 
 	void OnEnable() {
@@ -22,12 +28,11 @@ public class ContentPanelUserSelection : MonoBehaviour {
 		}
 	}
 
-
 	public void populateUsers(){
-		user Usuarios = new user();
+		UserSQLite Usuarios = new UserSQLite();
 		Usuarios.loadUsers();
 		foreach( DataRow currentUser in Usuarios.Users.Rows ){
-			this.InstantiateUser(Convert.ToString(currentUser[user.Name]),Convert.ToString(currentUser[user.LastName]), Convert.ToInt32(currentUser[user.Id]));
+			this.InstantiateUser(Convert.ToString(currentUser[UserSQLite.Name]),Convert.ToString(currentUser[UserSQLite.LastName]), Convert.ToInt32(currentUser[UserSQLite.Id]));
 		}
 	}
 
@@ -39,5 +44,10 @@ public class ContentPanelUserSelection : MonoBehaviour {
 		button.userId = UserId;
 		newUserThumb.transform.SetParent(gameObject.transform);
 		newUserThumb.transform.localScale = new Vector3(1,1,1);
+	}
+
+	public void displayCreateUserForm (){
+		this.UserSelectionPanel.SetActive(false);
+		this.newUserFormPanel.SetActive(true);
 	}
 }
