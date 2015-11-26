@@ -15,7 +15,7 @@ public class ContenPanelController : MonoBehaviour {
 	void Start (){
 		GameObject go = GameObject.FindGameObjectWithTag("ConfigurationObject");
 		UserManager umCO =  go.GetComponent<UserManager>();
-		populateUsers(umCO.getUserList());
+		//populateUsers(umCO.getUserList());
 	}
 
 	public void populateUsers(List<User> Users){
@@ -39,6 +39,6 @@ public class ContenPanelController : MonoBehaviour {
 	void OnEnable() {
 		GameObject go = GameObject.FindGameObjectWithTag("ConfigurationObject");
 		UserManager umCO =  go.GetComponent<UserManager>();
-		populateUsers(umCO.getUserList());
+		//populateUsers(umCO.getUserList());
 	}
 }

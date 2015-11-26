@@ -6,35 +6,10 @@ using Persistence;
 
 public class UserManager : MonoBehaviour {
 
-	/*UserData on view*/
-	public InputField nameInputField;
-	public InputField lastNameInputField;
-
-	private Persister persisterXML;
-
-	/*Collection of users on system*/
-	private UserContainer userContainer = null;
-	/*User selected in menu*/
-	private User userSelected = null;
-
-	/*When UserManagers awake load the users*/
-	void Awake (){
-		/*Make it Permanent*/
-		DontDestroyOnLoad(gameObject);
-
-		/*Load users*/
-		if(this.userContainer == null){
-			userContainer = this.PersisterXML().Load<UserContainer>(UserContainer.FILE_NAME );
-			/*No existe aun un archivo de usuarios*/
-			if(userContainer == null){
-				userContainer = new UserContainer ();
-				this.PersisterXML().Save<UserContainer>(UserContainer.FILE_NAME ,userContainer);
-				Debug.Log("Se creo el archivo "+UserContainer.FILE_NAME+" sin data.");
-			}
-		}
-	}
+	private int actualUserId;
 
 	public void createUser(){
+		/*
 		if( nameInputField.text.Trim().Length != 0 && lastNameInputField.text.Trim().Length != 0 ){
 			if(userContainer != null){
 				User newUser = new User ();
@@ -50,24 +25,20 @@ public class UserManager : MonoBehaviour {
 				Debug.LogError("userContainer es null, ya deberia estar instanciado.");
 			}
 		}
+		*/
 	}
 
 	public void setUserWithUserId (int UserId){
-		if (userContainer == null ) return;
-		this.userSelected = userContainer.Users.Find(f => f.UserId == UserId);
-		Debug.Log(this.userSelected.Name);
-		Debug.Log(this.userSelected.LastName);
-		Debug.Log(this.userSelected.UserId);
-	}
+		this.actualUserId = UserId;
 
-	public List<User> getUserList (){
-		if (userContainer != null)
-			return userContainer.Users;
-		return new List<User>();
-	}
+		SqliteDatabase sql = new SqliteDatabase (System.IO.Path.Combine(Application.persistentDataPath,"TEG_SG.db"));
+		DataTable result = sql.ExecuteQuery("SELECT * FROM user WHERE id = "+this.actualUserId.ToString()+";");
+		if( 0 < result.Rows.Count ){
+			DataRow current = result.Rows[0];
+			Debug.Log (current[UserSQLite.Id]);
+			Debug.Log (current[UserSQLite.Name]);
+			Debug.Log (current[UserSQLite.LastName]);
+		}
 
-	public Persister PersisterXML () {
-		if (this.persisterXML == null) this.persisterXML = new Persister();
-		return this.persisterXML;
 	}
 }

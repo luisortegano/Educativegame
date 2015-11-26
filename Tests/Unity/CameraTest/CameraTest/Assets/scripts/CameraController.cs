@@ -15,30 +15,16 @@ public class CameraController : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-		/*
-		WebCamTexture webcamTexture = new WebCamTexture();
-		Image.texture = webcamTexture;
-		Image.material.mainTexture = webcamTexture;
-		webcamTexture.Play();
-		*/
-
 		foreach(WebCamDevice wcd in WebCamTexture.devices ){
 			if(wcd.isFrontFacing) this.FrontCamera = wcd;
 		}
 
 		if(FrontCamera.isFrontFacing){
-			wct = new WebCamTexture (FrontCamera.name);
+			this.wct = new WebCamTexture (FrontCamera.name);
 			Image.texture = wct;
 			Image.material.mainTexture = wct;
-			wct.Play();
-		}
-
-		//Debug.Log ("Script has been started");
-		//plane = GameObject.FindWithTag ("Player");
-		//mCamera = new WebCamTexture ();
-		//plane.GetComponent<Renderer>().material.mainTexture = mCamera;
-			//.renderer.material.mainTexture = mCamera;
-		//mCamera.Play ();	
+			//this.wct.Play();
+		}	
 	}
 
 	void Update (){
@@ -51,7 +37,9 @@ public class CameraController : MonoBehaviour {
 		snap.Apply();
 
 		string relativeFilePath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "capture.png";
+		Debug.Log ( "###########SAVED ON: " + relativeFilePath );
 		File.WriteAllBytes(relativeFilePath, snap.EncodeToPNG());
+		//this.wct.Pause();
 	}
 
 }
