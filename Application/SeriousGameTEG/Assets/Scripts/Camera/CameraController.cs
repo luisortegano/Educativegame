@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VR;
 using System.Collections;
 using System.IO;
 
@@ -43,6 +44,7 @@ public class CameraController : MonoBehaviour {
 	}
 
 	public void saveimage (){
+
 		if (this.cameraIsActive){
 			if( this.wct.isPlaying ){
 				// take picture
