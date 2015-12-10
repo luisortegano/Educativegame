@@ -35,7 +35,13 @@ public class CameraController : MonoBehaviour {
 
 	public void OnEnable (){
 		//Activate camera
-		if ( this.cameraIsActive )wct.Play();
+		if ( this.cameraIsActive ){
+			wct.Play();
+			this.CreateUserButton.gameObject.SetActive(false);
+			Debug.Log ("########################################################");
+			Debug.Log ("####################@OnEnable: the camera was activated");
+			Debug.Log ("########################################################");
+		}
 	} 
 
 	public void OnDisable (){
@@ -54,7 +60,7 @@ public class CameraController : MonoBehaviour {
 				snap.Apply();
 				
 				string relativeFilePath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "capture.png";
-				Debug.Log ( "###########SAVED ON: " + relativeFilePath );
+				Debug.Log("###########SAVED ON: " + relativeFilePath );
 				File.WriteAllBytes(relativeFilePath, snap.EncodeToPNG());
 				CreateUserButton.gameObject.SetActive(true);
 			}else{

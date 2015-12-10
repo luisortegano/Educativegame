@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System;
 
 public class UserSQLite {
 
@@ -20,6 +21,18 @@ public class UserSQLite {
 		SqliteDatabase sqlDB = new SqliteDatabase(Path.Combine (Application.persistentDataPath, "TEG_SG.db"));
 		this.users = sqlDB.ExecuteQuery("SELECT * FROM "+UserSQLite.table+";");
 		return this.Users!=null;
+	}
+
+	public int SaveUser ( string Name, string LastName ){
+		SqliteDatabase sqlDB = new SqliteDatabase(Path.Combine (Application.persistentDataPath, "TEG_SG.db"));
+		sqlDB.ExecuteNonQuery("insert into user (name, lastname) values ('"+Name+"','"+ LastName+"');");
+		DataTable result = sqlDB.ExecuteQuery("select seq from sqlite_sequence where name = '"+UserSQLite.table+"';");
+		if (result.Rows.Count == 1){
+			//DataRow a = result.Rows[0]["seq"];
+			//return Convert.ToInt32(a["seq"]);
+			return Convert.ToInt32(result.Rows[0]["seq"]);
+		}
+		return -1;
 	}
 
 
