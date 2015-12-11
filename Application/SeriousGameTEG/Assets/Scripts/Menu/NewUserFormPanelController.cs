@@ -20,30 +20,29 @@ public class NewUserFormPanelController : MonoBehaviour {
 
 	public void CreateNewUser () {
 		this.gameObject.SetActive(false); //deactivate button
-		AndroidNativePopups.OpenProgressDialog("Espere","Guardando usuario");
-		
-		if(this.isSuperUserToggle.isOn){
-			string password = "pass";
-			if (!password.Equals(supeUserInputField.text)){
-				AndroidNativePopups.OpenAlertDialog(
-					"Clave Incorrecta", "La clave de super usuario es incorrecta.",
-					"Continuar", 
-					() => {
 
-					UserSQLite user = new UserSQLite();
-					int idOfUser = user.SaveUser(this.nameInputField.text.Trim(),this.lastNameInputField.text.Trim());
 
-					/*Guardar imagen en carpeta con el numero de id del usuario */
-					
-					this.UserSelectionPanel.SetActive(true);
-					AndroidNativePopups.CloseProgressDialog();
-					Debug.Log("Accept was pressed"); 
-				});
-			}
+		//If want to register like super user
+		if(this.isSuperUserToggle.isOn && !"pass".Equals(supeUserInputField.text)){
+			AndroidNativePopups.OpenAlertDialog(
+				"Clave Incorrecta", "La clave de super usuario es incorrecta.",
+				"Continuar", "Cancelar", 
+				() => {
+				UserSQLite user = new UserSQLite();
+				int idOfUser = user.SaveUser(this.nameInputField.text.Trim(),this.lastNameInputField.text.Trim());
+				
+				/*Guardar imagen en carpeta con el numero de id del usuario */
+				
+				this.UserSelectionPanel.SetActive(true);
+			},
+			() => {
+				this.gameObject.SetActive(true); //deactivate button
+			});
 		}else{
+			AndroidNativePopups.OpenProgressDialog("Espere","Guardando usuario");
 			UserSQLite user = new UserSQLite();
 			int idOfUser = user.SaveUser(this.nameInputField.text.Trim(),this.lastNameInputField.text.Trim());
-
+			
 			/*Guardar imagen en carpeta con el numero de id del usuario */
 			
 			this.UserSelectionPanel.SetActive(true);
