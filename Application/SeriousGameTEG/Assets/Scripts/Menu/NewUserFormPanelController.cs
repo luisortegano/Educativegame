@@ -12,6 +12,7 @@ public class NewUserFormPanelController : MonoBehaviour {
 	public InputField lastNameInputField;
 	public InputField supeUserInputField;
 	public Toggle isSuperUserToggle;
+	private string superUserPassword = "pass";
 
 	public void CancelCreateNewUser () {
 		this.gameObject.SetActive(false);
@@ -23,15 +24,20 @@ public class NewUserFormPanelController : MonoBehaviour {
 
 
 		//If want to register like super user
-		if(this.isSuperUserToggle.isOn && !"pass".Equals(supeUserInputField.text)){
+		if(this.isSuperUserToggle.isOn && !superUserPassword.Equals(supeUserInputField.text)){
 			AndroidNativePopups.OpenAlertDialog(
 				"Clave Incorrecta", "La clave de super usuario es incorrecta.",
 				"Continuar", "Cancelar", 
 				() => {
 				UserSQLite user = new UserSQLite();
 				int idOfUser = user.SaveUser(this.nameInputField.text.Trim(),this.lastNameInputField.text.Trim());
-				
+
 				/*Guardar imagen en carpeta con el numero de id del usuario */
+				if( !Directory.Exists(UserSQLite.PROFILE_IMAGE_PATH) ){
+					Directory.CreateDirectory(UserSQLite.PROFILE_IMAGE_PATH);
+				}
+
+				File.Move(CameraController.temporalCapture,UserSQLite.PROFILE_IMAGE_PATH+Path.PathSeparator+idOfUser+".png");
 				
 				this.UserSelectionPanel.SetActive(true);
 			},
@@ -44,7 +50,11 @@ public class NewUserFormPanelController : MonoBehaviour {
 			int idOfUser = user.SaveUser(this.nameInputField.text.Trim(),this.lastNameInputField.text.Trim());
 			
 			/*Guardar imagen en carpeta con el numero de id del usuario */
-			
+			if( !Directory.Exists(UserSQLite.PROFILE_IMAGE_PATH) ){
+				Directory.CreateDirectory(UserSQLite.PROFILE_IMAGE_PATH);
+			}
+			File.Move(CameraController.temporalCapture,UserSQLite.PROFILE_IMAGE_PATH+Path.PathSeparator+idOfUser+".png");
+
 			this.UserSelectionPanel.SetActive(true);
 			AndroidNativePopups.CloseProgressDialog();
 		}

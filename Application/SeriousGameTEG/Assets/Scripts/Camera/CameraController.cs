@@ -7,6 +7,8 @@ using System.IO;
 
 public class CameraController : MonoBehaviour {
 
+	public static string temporalCapture = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "capture.png";
+
 	public Button CreateUserButton;
 	public Button SaveButton;
 	public RawImage Image;
@@ -59,9 +61,9 @@ public class CameraController : MonoBehaviour {
 				snap.SetPixels(wct.GetPixels());
 				snap.Apply();
 				
-				string relativeFilePath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "capture.png";
-				Debug.Log("###########SAVED ON: " + relativeFilePath );
-				File.WriteAllBytes(relativeFilePath, snap.EncodeToPNG());
+
+				Debug.Log("###########SAVED ON: " + CameraController.temporalCapture );
+				File.WriteAllBytes(CameraController.temporalCapture, snap.EncodeToPNG());
 				CreateUserButton.gameObject.SetActive(true);
 			}else{
 				this.wct.Play();

@@ -10,6 +10,8 @@ public class UserSQLite {
 	public static string Id = "id";
 	public static string Name = "name";
 	public static string LastName = "lastname";
+	public static string PROFILE_IMAGE_PATH = Application.persistentDataPath + Path.AltDirectorySeparatorChar +
+		"users" +Path.AltDirectorySeparatorChar + "profile";
 
 	private DataTable users;
 
