@@ -10,8 +10,8 @@ public class UserSQLite {
 	public static string Id = "id";
 	public static string Name = "name";
 	public static string LastName = "lastname";
-	public static string PROFILE_IMAGE_PATH = Application.persistentDataPath + Path.AltDirectorySeparatorChar +
-		"users" +Path.AltDirectorySeparatorChar + "profile";
+	public static string PROFILE_IMAGE_PATH = Path.Combine(Path.Combine(Application.persistentDataPath,"users"),
+	                                                       "profile")+Path.DirectorySeparatorChar;
 
 	private DataTable users;
 
@@ -30,8 +30,6 @@ public class UserSQLite {
 		sqlDB.ExecuteNonQuery("insert into user (name, lastname) values ('"+Name+"','"+ LastName+"');");
 		DataTable result = sqlDB.ExecuteQuery("select seq from sqlite_sequence where name = '"+UserSQLite.table+"';");
 		if (result.Rows.Count == 1){
-			//DataRow a = result.Rows[0]["seq"];
-			//return Convert.ToInt32(a["seq"]);
 			return Convert.ToInt32(result.Rows[0]["seq"]);
 		}
 		return -1;

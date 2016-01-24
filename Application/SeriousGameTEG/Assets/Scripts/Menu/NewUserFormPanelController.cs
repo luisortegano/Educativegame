@@ -22,6 +22,14 @@ public class NewUserFormPanelController : MonoBehaviour {
 	public void CreateNewUser () {
 		this.gameObject.SetActive(false); //deactivate button
 
+		if("".Equals(lastNameInputField.text.Trim()) || "".Equals(nameInputField.text.Trim())){
+			AndroidNativePopups.OpenAlertDialog("Ups!","Al parecer hace faltan datos.",
+            "continuar",
+            () => {
+				this.gameObject.SetActive(true);
+			});
+			return;
+		}
 
 		//If want to register like super user
 		if(this.isSuperUserToggle.isOn && !superUserPassword.Equals(supeUserInputField.text)){
@@ -37,7 +45,12 @@ public class NewUserFormPanelController : MonoBehaviour {
 					Directory.CreateDirectory(UserSQLite.PROFILE_IMAGE_PATH);
 				}
 
-				File.Move(CameraController.temporalCapture,UserSQLite.PROFILE_IMAGE_PATH+Path.PathSeparator+idOfUser+".png");
+				Debug.Log ("########################################################");
+				Debug.Log ("####################" + UserSQLite.PROFILE_IMAGE_PATH+ idOfUser.ToString() +".png");
+				Debug.Log ("########################################################");
+
+				File.Move(CameraController.temporalCapture,
+				          Path.Combine(UserSQLite.PROFILE_IMAGE_PATH, "PRUEBA.png"));
 				
 				this.UserSelectionPanel.SetActive(true);
 			},
@@ -45,7 +58,6 @@ public class NewUserFormPanelController : MonoBehaviour {
 				this.gameObject.SetActive(true); //deactivate button
 			});
 		}else{
-			AndroidNativePopups.OpenProgressDialog("Espere","Guardando usuario");
 			UserSQLite user = new UserSQLite();
 			int idOfUser = user.SaveUser(this.nameInputField.text.Trim(),this.lastNameInputField.text.Trim());
 			
@@ -53,10 +65,11 @@ public class NewUserFormPanelController : MonoBehaviour {
 			if( !Directory.Exists(UserSQLite.PROFILE_IMAGE_PATH) ){
 				Directory.CreateDirectory(UserSQLite.PROFILE_IMAGE_PATH);
 			}
-			File.Move(CameraController.temporalCapture,UserSQLite.PROFILE_IMAGE_PATH+Path.PathSeparator+idOfUser+".png");
+
+			File.Move(CameraController.temporalCapture,
+			          Path.Combine(UserSQLite.PROFILE_IMAGE_PATH, idOfUser.ToString() +".png"));
 
 			this.UserSelectionPanel.SetActive(true);
-			AndroidNativePopups.CloseProgressDialog();
 		}
 	}
 }
