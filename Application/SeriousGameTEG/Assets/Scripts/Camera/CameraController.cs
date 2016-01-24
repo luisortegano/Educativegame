@@ -7,7 +7,7 @@ using System.IO;
 
 public class CameraController : MonoBehaviour {
 
-	public static string temporalCapture = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "capture.png";
+	public static string temporalCapture;
 
 	public Button CreateUserButton;
 	public Button SaveButton;
@@ -20,6 +20,7 @@ public class CameraController : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
+		temporalCapture = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "capture.png";
 		if(0 < WebCamTexture.devices.Length){
 			foreach(WebCamDevice wcd in WebCamTexture.devices ){
 				if(wcd.isFrontFacing) this.FrontCamera = wcd;
@@ -29,7 +30,8 @@ public class CameraController : MonoBehaviour {
 				wct = new WebCamTexture (FrontCamera.name);
 				Image.texture = wct;
 				Image.material.mainTexture = wct;
-				//wct.Play();
+				//Ajuste para camara frontal que se guarde y se vea de manera correcta
+				Image.transform.localScale = new Vector3 (1,-1,1);
 				this.cameraIsActive=true;
 			}
 		}
@@ -39,6 +41,7 @@ public class CameraController : MonoBehaviour {
 		//Activate camera
 		if ( this.cameraIsActive ){
 			wct.Play();
+
 			this.CreateUserButton.gameObject.SetActive(false);
 			Debug.Log ("########################################################");
 			Debug.Log ("####################@OnEnable: the camera was activated");
@@ -60,7 +63,6 @@ public class CameraController : MonoBehaviour {
 				this.wct.Pause();
 				snap.SetPixels(wct.GetPixels());
 				snap.Apply();
-				
 
 				Debug.Log("###########SAVED ON: " + CameraController.temporalCapture );
 				File.WriteAllBytes(CameraController.temporalCapture, snap.EncodeToPNG());
