@@ -7,7 +7,7 @@ using System.IO;
 
 public class UserManager : MonoBehaviour {
 
-	private int actualUserId;
+	private int actualUserId = -1;
 
 	public void createUser(){
 		/*
@@ -39,5 +39,9 @@ public class UserManager : MonoBehaviour {
 			Debug.Log (current[UserSQLite.Name]);
 			Debug.Log (current[UserSQLite.LastName]);
 		}
+	}
+
+	public bool isUserSelected (){
+		return 0<this.actualUserId;
 	}
 }
