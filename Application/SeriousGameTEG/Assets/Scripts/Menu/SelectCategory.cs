@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using TheNextFlow.UnityPlugins;
+using System.Collections.Generic;
 
 public class SelectCategory : MonoBehaviour {
 
@@ -8,6 +9,7 @@ public class SelectCategory : MonoBehaviour {
 	public GameObject configurationGameObject;
 
 	public void clickCategoryButton() {
+		this.gameObject.SetActive(false);
 		UserManager userManagerConfiguration = configurationGameObject.GetComponent<UserManager>();
 
 		if(userManagerConfiguration == null ){
@@ -21,7 +23,9 @@ public class SelectCategory : MonoBehaviour {
 
 		if( !userManagerConfiguration.isUserSelected() ){
 			AndroidNativePopups.OpenAlertDialog("Wooot!", "Debes Seleccionar un jugador primero!", "Continuar",
-                () => {});
+                () => {
+				this.gameObject.SetActive(true);
+			});
 			Debug.Log("No se ha seleccionado ningun usuario");
 			return;
 		}
