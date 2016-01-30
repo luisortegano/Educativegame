@@ -7,6 +7,8 @@ public class SelectCategory : MonoBehaviour {
 
 	/*@Canvas>HomePanel>CentralButtonPanel*/
 	public GameObject configurationGameObject;
+	public GameObject HomePanel;
+	public GameObject CategorySelectionpanel;
 
 	public void clickCategoryButton() {
 		this.gameObject.SetActive(false);
@@ -28,7 +30,10 @@ public class SelectCategory : MonoBehaviour {
 			});
 			Debug.Log("No se ha seleccionado ningun usuario");
 			return;
+		}else{
+			//hide this
+			this.HomePanel.SetActive(false);
+			this.CategorySelectionpanel.SetActive(true);
 		}
-
 	}
 }

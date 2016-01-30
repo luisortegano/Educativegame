@@ -31,6 +31,7 @@ public class ContentPanelUserSelection : MonoBehaviour {
 	public void populateUsers(){
 		UserSQLite Usuarios = new UserSQLite();
 		Usuarios.loadUsers();
+		//Debug.Log("Cantidad de usuarios" + Usuarios.Users.Rows.Count);
 		foreach( DataRow currentUser in Usuarios.Users.Rows ){
 			this.InstantiateUser(Convert.ToString(currentUser[UserSQLite.Name]),Convert.ToString(currentUser[UserSQLite.LastName]), Convert.ToInt32(currentUser[UserSQLite.Id]));
 		}

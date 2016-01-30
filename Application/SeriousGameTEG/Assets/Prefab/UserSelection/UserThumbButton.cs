@@ -11,5 +11,7 @@ public class UserThumbButton : MonoBehaviour {
 	public void setAsActualuser (){
 		GameObject ConfigurationObject = GameObject.FindGameObjectWithTag("ConfigurationObject");
 		ConfigurationObject.SendMessage("setUserWithUserId", this.userId);
+		GameObject UIManager = GameObject.FindGameObjectWithTag("UIManager");
+		UIManager.SendMessage("DisplayHome");
 	}
 }

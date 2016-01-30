@@ -3,13 +3,15 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class AvatarController : MonoBehaviour {
+	public GameObject UIManager;
 
-	public GameObject UserSelectionPanel;
-	public GameObject NewUserFormPanel;
 
 	public void ToggleUserSelectionPanel(){
-		if( !this.NewUserFormPanel.activeSelf ){
-			UserSelectionPanel.gameObject.SetActive(!UserSelectionPanel.gameObject.activeSelf);
+		UserInterfaceManager UIM = UIManager.GetComponent<UserInterfaceManager>();
+
+		if( !UIM.MenuActiveSelf(Menu.NewUserFormPanel) ){
+			UIM.MenuSetActive(Menu.UserSelectionPanel,!UIM.MenuActiveSelf(Menu.UserSelectionPanel));
+			UIM.MenuSetActive(Menu.HomePanel,!UIM.MenuActiveSelf(Menu.HomePanel));
 		}
 	}
 }

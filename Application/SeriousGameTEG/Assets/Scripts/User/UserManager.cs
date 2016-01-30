@@ -9,26 +9,6 @@ public class UserManager : MonoBehaviour {
 
 	private int actualUserId = -1;
 
-	public void createUser(){
-		/*
-		if( nameInputField.text.Trim().Length != 0 && lastNameInputField.text.Trim().Length != 0 ){
-			if(userContainer != null){
-				User newUser = new User ();
-				newUser.Name = nameInputField.text.Trim();
-				newUser.LastName = lastNameInputField.text.Trim();
-				newUser.UserId = userContainer.Users.Count;
-				userContainer.Users.Add(newUser);
-				this.PersisterXML().Save<UserContainer>(UserContainer.FILE_NAME,userContainer);
-				nameInputField.text = "";
-				lastNameInputField.text = "";
-				Debug.Log(userContainer.Users.Count);
-			}else{
-				Debug.LogError("userContainer es null, ya deberia estar instanciado.");
-			}
-		}
-		*/
-	}
-
 	public void setUserWithUserId (int UserId){
 		SqliteDatabase sql = new SqliteDatabase (System.IO.Path.Combine(Application.persistentDataPath,"TEG_SG.db"));
 		DataTable result = sql.ExecuteQuery("SELECT * FROM user WHERE id = "+this.actualUserId.ToString()+";");
@@ -42,6 +22,7 @@ public class UserManager : MonoBehaviour {
 	}
 
 	public bool isUserSelected (){
-		return 0<this.actualUserId;
+		Debug.Log("USERIDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"+this.actualUserId);
+		return 0<=this.actualUserId;
 	}
 }
