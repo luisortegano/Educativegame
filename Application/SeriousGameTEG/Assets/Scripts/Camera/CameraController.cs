@@ -41,11 +41,12 @@ public class CameraController : MonoBehaviour {
 		//Activate camera
 		if ( this.cameraIsActive ){
 			wct.Play();
-
 			this.CreateUserButton.gameObject.SetActive(false);
+			/*
 			Debug.Log ("########################################################");
 			Debug.Log ("####################@OnEnable: the camera was activated");
 			Debug.Log ("########################################################");
+			*/
 		}
 	} 
 
