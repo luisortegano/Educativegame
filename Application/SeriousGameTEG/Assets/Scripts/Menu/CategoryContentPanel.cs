@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CategoryContentPanel : MonoBehaviour {
 
+	public GameObject UIManger;
 	public GameObject categoryPanelContainer;
 
 	void OnBecameVisible (){
@@ -23,14 +24,7 @@ public class CategoryContentPanel : MonoBehaviour {
 		for ( int i = 0 ; i < 4 ; i++ ){
 			this.instantiateCategory();
 		}
-
-		/*
-		foreach( DataRow currentUser in Usuarios.Users.Rows ){
-			this.InstantiateUser(Convert.ToString(currentUser[UserSQLite.Name]),Convert.ToString(currentUser[UserSQLite.LastName]), Convert.ToInt32(currentUser[UserSQLite.Id]));
-		}
-		*/
 	}
-
 
 	public void instantiateCategory () {
 		GameObject newCategoryPanel = (GameObject)Instantiate(categoryPanelContainer); 
@@ -38,5 +32,13 @@ public class CategoryContentPanel : MonoBehaviour {
 		panel.testText.text = "prueba";
 		newCategoryPanel.transform.SetParent(gameObject.transform);
 		newCategoryPanel.transform.localScale = new Vector3(1,1,1);
+	}
+
+	public void closeCategoryPanel (){
+		UserInterfaceManager uim = UIManger.GetComponent<UserInterfaceManager>();
+		if (uim != null) {
+			uim.MenuSetActive(Menu.CategorySelectionPanel,false);
+			uim.MenuSetActive(Menu.HomePanel,true);
+		}
 	}
 }

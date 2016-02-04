@@ -7,18 +7,23 @@ public class SelectCategory : MonoBehaviour {
 
 	/*@Canvas>HomePanel>CentralButtonPanel*/
 	public GameObject configurationGameObject;
-	public GameObject HomePanel;
-	public GameObject CategorySelectionpanel;
+	public GameObject UIManager;
 
 	public void clickCategoryButton() {
-		this.gameObject.SetActive(false);
+		UserInterfaceManager uim = UIManager.GetComponent<UserInterfaceManager> ();
 		UserManager userManagerConfiguration = configurationGameObject.GetComponent<UserManager>();
+
+		if (uim == null || userManagerConfiguration == null) {
+			Debug.Log("Error @SelectCategory class");
+			return;
+		}
+		uim.MenuSetActive (Menu.HomePanel, false);
 
 		if(userManagerConfiguration == null ){
 			AndroidNativePopups.OpenAlertDialog("Ups!","Al parecer No existe componente de UserManager.",
 			                                    "continuar",
 			                                    () => {
-				this.gameObject.SetActive(true);
+				uim.MenuSetActive (Menu.HomePanel, true);
 			});
 			Debug.LogError("No existe componente de UserManager");
 		}
@@ -26,14 +31,14 @@ public class SelectCategory : MonoBehaviour {
 		if( !userManagerConfiguration.isUserSelected() ){
 			AndroidNativePopups.OpenAlertDialog("Wooot!", "Debes Seleccionar un jugador primero!", "Continuar",
                 () => {
-				this.gameObject.SetActive(true);
+				uim.MenuSetActive (Menu.HomePanel, true);
 			});
 			Debug.Log("No se ha seleccionado ningun usuario");
 			return;
 		}else{
 			//hide this
-			this.HomePanel.SetActive(false);
-			this.CategorySelectionpanel.SetActive(true);
+			uim.MenuSetActive (Menu.HomePanel, false);
+			uim.MenuSetActive (Menu.CategorySelectionPanel, true);
 		}
 	}
 }
