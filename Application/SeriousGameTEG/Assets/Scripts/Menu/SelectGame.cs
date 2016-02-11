@@ -3,18 +3,18 @@ using System.Collections;
 using TheNextFlow.UnityPlugins;
 using System.Collections.Generic;
 
-public class SelectCategory : MonoBehaviour {
+public class SelectGame : MonoBehaviour {
 
 	/*@Canvas>HomePanel>CentralButtonPanel*/
 	public GameObject configurationGameObject;
 	public GameObject UIManager;
 
-	public void clickCategoryButton() {
+	public void clickGameButton() {
 		UserInterfaceManager uim = UIManager.GetComponent<UserInterfaceManager> ();
 		UserManager userManagerConfiguration = configurationGameObject.GetComponent<UserManager>();
 
 		if (uim == null || userManagerConfiguration == null) {
-			Debug.Log("Error @SelectCategory class");
+			Debug.Log("Error @SelectGame class");
 			return;
 		}
 		uim.MenuSetActive (Menu.HomePanel, false);
@@ -38,7 +38,7 @@ public class SelectCategory : MonoBehaviour {
 		}else{
 			//hide this
 			uim.MenuSetActive (Menu.HomePanel, false);
-			uim.MenuSetActive (Menu.CategorySelectionPanel, true);
+			uim.MenuSetActive (Menu.GameSelectionPanel, true);
 		}
 	}
 }

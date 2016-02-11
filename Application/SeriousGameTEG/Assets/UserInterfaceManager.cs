@@ -13,7 +13,7 @@ public enum Menu {
 	HomePanel, 
 	UserSelectionPanel, 
 	NewUserFormPanel, 
-	CategorySelectionPanel
+	GameSelectionPanel
 };
 
 public class UserInterfaceManager : MonoBehaviour {
@@ -38,6 +38,6 @@ public class UserInterfaceManager : MonoBehaviour {
 		MenuList[(int)Menu.HomePanel].SetActive(true);
 		MenuList[(int)Menu.UserSelectionPanel].SetActive(false);
 		MenuList[(int)Menu.NewUserFormPanel].SetActive(false);
-		MenuList[(int)Menu.CategorySelectionPanel].SetActive(false);
+		MenuList[(int)Menu.GameSelectionPanel].SetActive(false);
 	}
 }

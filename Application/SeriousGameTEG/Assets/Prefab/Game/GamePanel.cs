@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 
-public class CategoryPanel : MonoBehaviour {
+public class GamePanel : MonoBehaviour {
 	public Text testText;
 	//public Button button;
 	//public Text nameLabel;
