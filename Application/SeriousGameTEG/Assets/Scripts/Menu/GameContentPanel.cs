@@ -4,12 +4,11 @@ using System.Collections;
 public class GameContentPanel : MonoBehaviour {
 
 	public GameObject UIManger;
-	public GameObject gamePanelContainer;
+	public GameObject gamePanelPrefab;
 
-	void OnBecameVisible (){
+	void OnEnable() {
 		GameObject[] ListGame = GameObject.FindGameObjectsWithTag("GamePanel");
-		Debug.Log ("Game count= "+ListGame.Length);
-
+		Debug.Log ("########## Game count= "+ListGame.Length);
 		this.cleanGameContentPanel(ListGame);
 		this.populateGame();
 	}
@@ -29,14 +28,14 @@ public class GameContentPanel : MonoBehaviour {
 	}
 
 	public void instantiateGame () {
-		GameObject newCategoryPanel = (GameObject)Instantiate(gamePanelContainer); 
+		GameObject newCategoryPanel = (GameObject)Instantiate(gamePanelPrefab); 
 		GamePanel panel = newCategoryPanel.GetComponent<GamePanel>();
 		panel.testText.text = "prueba";
 		newCategoryPanel.transform.SetParent(gameObject.transform);
 		newCategoryPanel.transform.localScale = new Vector3(1,1,1);
 	}
 
-	public void closeCategoryPanel (){
+	public void closeGameContentPanel (){
 		UserInterfaceManager uim = UIManger.GetComponent<UserInterfaceManager>();
 		if (uim != null) {
 			uim.MenuSetActive(Menu.GameSelectionPanel,false);
