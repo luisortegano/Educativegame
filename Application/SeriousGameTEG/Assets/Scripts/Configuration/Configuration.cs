@@ -23,4 +23,10 @@ public class Configuration : MonoBehaviour {
 			}       
 		}
 	}
+
+	void Update () {
+		if(Input.GetKeyDown(KeyCode.Escape)){
+			Application.Quit();
+		}
+	}
 }
