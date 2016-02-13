@@ -30,8 +30,15 @@ public class CameraController : MonoBehaviour {
 				wct = new WebCamTexture (FrontCamera.name);
 				Image.texture = wct;
 				Image.material.mainTexture = wct;
-				//Ajuste para camara frontal que se guarde y se vea de manera correcta
-				Image.transform.localScale = new Vector3 (1,-1,1);
+
+				//Ajuste para camara frontal que se vea de manera correcta
+				if ( Screen.orientation == ScreenOrientation.LandscapeLeft){
+					Image.transform.localScale = new Vector3 (-1,1,1);
+				}else if (Screen.orientation == ScreenOrientation.LandscapeRight){
+					Image.transform.localScale = new Vector3 (1,-1,1);
+				}
+
+
 				this.cameraIsActive=true;
 			}
 		}
@@ -42,11 +49,6 @@ public class CameraController : MonoBehaviour {
 		if ( this.cameraIsActive ){
 			wct.Play();
 			this.CreateUserButton.gameObject.SetActive(false);
-			/*
-			Debug.Log ("########################################################");
-			Debug.Log ("####################@OnEnable: the camera was activated");
-			Debug.Log ("########################################################");
-			*/
 		}
 	} 
 
@@ -64,6 +66,11 @@ public class CameraController : MonoBehaviour {
 				this.wct.Pause();
 				snap.SetPixels(wct.GetPixels());
 				snap.Apply();
+
+				//if (wct.videoVerticallyMirrored)
+				//	snap = FlipTexture(photo);
+				//if (wct.videoRotationAngle != 0)
+				//	snap = RotateTexture(photo, wct.videoRotationAngle);
 
 				Debug.Log("###########SAVED ON: " + CameraController.temporalCapture );
 				File.WriteAllBytes(CameraController.temporalCapture, snap.EncodeToPNG());
