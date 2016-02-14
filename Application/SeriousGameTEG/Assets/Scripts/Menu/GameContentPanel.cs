@@ -9,6 +9,7 @@ public class GameContentPanel : MonoBehaviour {
 
 	void OnEnable() {
 		GameObject[] ListGame = GameObject.FindGameObjectsWithTag("GamePanel");
+		Debug.Log ("########## Game count= "+ListGame.Length);
 		this.cleanGameContentPanel(ListGame);
 		this.populateGame();
 	}
@@ -24,11 +25,13 @@ public class GameContentPanel : MonoBehaviour {
 	public void populateGame(){
 		GameSQLite gameORM = new GameSQLite ();
 		if (gameORM.loadGames ()) {
+			Debug.Log ("##########Games was loaded total: " + gameORM.Games.Rows.Count);
 			foreach (DataRow game in gameORM.Games.Rows) {
 				//this.instantiateGame ((string)game [GameSQLite.Name], (int)game [GameSQLite.Id_Category]);
-				//this.instantiateGame((string)game[GameSQLite.Name]);
-				this.instantiateGame((int)game[GameSQLite.Id], (string)game[GameSQLite.Name], (string)game["category_name"]);
+				this.instantiateGame((string)game[GameSQLite.Name]);
 			}
+		} else {
+			Debug.Log("##########Games was not loaded");
 		}
 	}
 
@@ -40,10 +43,9 @@ public class GameContentPanel : MonoBehaviour {
 		newGamePanel.transform.localScale = new Vector3(1,1,1);
 	}
 
-	public void instantiateGame (int GameId, string Name, string Categoria) {
+	public void instantiateGame (string Name, string Categoria) {
 		GameObject newCategoryPanel = (GameObject)Instantiate(gamePanelPrefab); 
 		GamePanel panel = newCategoryPanel.GetComponent<GamePanel>();
-		panel.GameId = GameId;
 		panel.NameText.text = Name;
 		panel.CategoriaText.text = Categoria;
 		newCategoryPanel.transform.SetParent(gameObject.transform);
