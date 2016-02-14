@@ -4,8 +4,6 @@ using System.Collections;
 
 
 public class GamePanel : MonoBehaviour {
-	public Text testText;
-	//public Button button;
-	//public Text nameLabel;
-	//public Text lastNameLabel;
+	public Text NameText;
+	public Text CategoriaText;
 }

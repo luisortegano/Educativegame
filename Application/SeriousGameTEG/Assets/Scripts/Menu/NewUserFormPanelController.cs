@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using TheNextFlow.UnityPlugins;
 using System.IO;
+using ORM;
 
 public class NewUserFormPanelController : MonoBehaviour {
 
