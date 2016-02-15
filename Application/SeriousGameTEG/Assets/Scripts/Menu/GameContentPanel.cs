@@ -25,19 +25,9 @@ public class GameContentPanel : MonoBehaviour {
 		GameSQLite gameORM = new GameSQLite ();
 		if (gameORM.loadGames ()) {
 			foreach (DataRow game in gameORM.Games.Rows) {
-				//this.instantiateGame ((string)game [GameSQLite.Name], (int)game [GameSQLite.Id_Category]);
-				//this.instantiateGame((string)game[GameSQLite.Name]);
 				this.instantiateGame((int)game[GameSQLite.Id], (string)game[GameSQLite.Name], (string)game["category_name"]);
 			}
 		}
-	}
-
-	public void instantiateGame (string Name) {
-		GameObject newGamePanel = (GameObject)Instantiate(gamePanelPrefab); 
-		GamePanel panel = newGamePanel.GetComponent<GamePanel>();
-		panel.NameText.text = Name;
-		newGamePanel.transform.SetParent(gameObject.transform);
-		newGamePanel.transform.localScale = new Vector3(1,1,1);
 	}
 
 	public void instantiateGame (int GameId, string Name, string Categoria) {

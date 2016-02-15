@@ -18,6 +18,10 @@ namespace ORM
 		public string innerJoin (string joinTable, string joinAttributte, string baseTable, string baseAttribute){
 			return " inner join " + joinTable + " on " + attributeFromTable(baseTable,baseAttribute) +" = "+ attributeFromTable(joinTable,joinAttributte) +" ";
 		}
+
+		public string equalsValue( string table, string attribute, int value ){
+			return attributeFromTable (table, attribute) + " = " + value.ToString ();
+		}
 	}
 }
 

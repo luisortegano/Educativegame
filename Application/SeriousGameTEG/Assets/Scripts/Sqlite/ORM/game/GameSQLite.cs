@@ -11,6 +11,7 @@ namespace ORM {
 		public static string Id_Category = "id_category";
 		public static string Name = "name";
 		public static string Description = "description";
+		private SqliteDatabase sqlDBAttr = null;
 
 		QueryUtils qutil = new QueryUtils ();
 
@@ -21,14 +22,7 @@ namespace ORM {
 		}
 
 		public bool loadGames () {
-			SqliteDatabase sqlDB = new SqliteDatabase(Path.Combine (Application.persistentDataPath, "TEG_SG.db"));
-
-			/*
-			Debug.Log ("SELECT " + qutil.allModel (GameSQLite.table) + ", "
-			           + qutil.attributeFromTable (CategorySQLite.table, CategorySQLite.Name) + " as " + qutil.attributeFromTableTag (CategorySQLite.table, CategorySQLite.Name) +
-			           " FROM " + GameSQLite.table + qutil.innerJoin (CategorySQLite.table, CategorySQLite.Id, GameSQLite.table, GameSQLite.Id_Category) + ";");
-			*/
-			this.games = sqlDB.ExecuteQuery ("SELECT "+ qutil.allModel(GameSQLite.table) + ", "
+			this.games = this.sqlDB().ExecuteQuery ("SELECT "+ qutil.allModel(GameSQLite.table) + ", "
 			                                 + qutil.attributeFromTable(CategorySQLite.table,CategorySQLite.Name) + " as "+ qutil.attributeFromTableTag(CategorySQLite.table,CategorySQLite.Name)+
 			    " FROM " + GameSQLite.table + qutil.innerJoin(CategorySQLite.table, CategorySQLite.Id, GameSQLite.table, GameSQLite.Id_Category) + ";");
 
@@ -39,6 +33,16 @@ namespace ORM {
 			return null;
 		}
 
+		public DataTable getLevelsOfGame ( int IdGame ){
+			GameLevelSQLite GameLevelORM = new GameLevelSQLite ();
+			return GameLevelORM.getLevelsOfGame (IdGame);
+		}
 
+		public SqliteDatabase sqlDB (){
+			if (sqlDBAttr == null) {
+				sqlDBAttr = new SqliteDatabase(Path.Combine (Application.persistentDataPath, "TEG_SG.db"));
+			}
+			return sqlDBAttr;
+		}
 	}
 }
