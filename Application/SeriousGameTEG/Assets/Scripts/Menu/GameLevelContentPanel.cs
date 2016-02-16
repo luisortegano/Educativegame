@@ -7,8 +7,16 @@ public class GameLevelContentPanel : MonoBehaviour {
 
 	public GameObject UIManger;
 	public GameObject gameLevelPanelPrefab;
-	
+	private int GameIdSelected = 0;
+
+	public void setGameIdSelected (int SelectedGameId){
+		Debug.Log("@setGameIdSelected selectedGameId: "+ SelectedGameId);
+		this.GameIdSelected = SelectedGameId;
+		this.OnEnable();
+	}
+
 	void OnEnable() {
+		Debug.Log("GameLevelContentPanes is enable");
 		this.gameObject.GetComponentInParent<ScrollRect> ().content = this.gameObject.GetComponent<RectTransform> ();
 		GameObject[] ListGame = GameObject.FindGameObjectsWithTag("GameLevelPanel");
 		this.cleanGameLevelContentPanel(ListGame);
@@ -23,10 +31,9 @@ public class GameLevelContentPanel : MonoBehaviour {
 		}
 	}
 
-	public void populateGameLevel(/*int IdGame*/){
-		int IdGame = 1;
+	public void populateGameLevel(){
 		GameLevelSQLite gameORM = new GameLevelSQLite ();
-		DataTable dt = gameORM.getLevelsOfGame (IdGame);
+		DataTable dt = gameORM.getLevelsOfGame (this.GameIdSelected);
 		foreach (DataRow level in dt.Rows) {
 			this.instantiateGameLevel((int)level[GameLevelSQLite.Level],(string)level[GameLevelSQLite.Configuration]);
 		}

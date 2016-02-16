@@ -13,7 +13,9 @@ public enum Menu {
 	HomePanel, 
 	UserSelectionPanel, 
 	NewUserFormPanel, 
-	GameSelectionPanel
+	GameSelectionPanel,
+	GameContentPanel,
+	GameLevelContentPanel
 };
 
 public class UserInterfaceManager : MonoBehaviour {

@@ -10,14 +10,11 @@ public class GamePanel : MonoBehaviour {
 	public Button SelectLevelButton;
 
 	public void selectGameButtonAction (){
-
-		/*FTP*/
-		GameLevelSQLite gl = new GameLevelSQLite ();
-		DataTable dt = gl.getLevelsOfGame (1);
-		foreach (DataRow dr in dt.Rows) {
-			Debug.Log( "Level: " + dr[GameLevelSQLite.Level] + ", id game" + dr[GameLevelSQLite.Id_Game] );
-		 }
-		/*FTP*/
+		GameObject UIM = GameObject.FindGameObjectWithTag("UIManager");
+		UserInterfaceManager uim = UIM.GetComponent<UserInterfaceManager>();
+		uim.MenuSetActive(Menu.GameContentPanel,false);
+		uim.MenuSetActive(Menu.GameLevelContentPanel,true);
+		uim.getMenuGameobject(Menu.GameLevelContentPanel).SendMessage("setGameIdSelected", this.GameId);
 
 		Debug.Log ( "The game " + this.NameText.text + " with id: " + this.GameId + " was selected");
 	}
