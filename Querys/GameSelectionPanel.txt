@@ -1,0 +1,10 @@
+##############################################################################
+Calculo de juegos que se deben desplegar para el usuario
+
+select game.*, category.name as c_n 
+from 
+	game  
+	left outer join level_results on game.level_code_pass = level_results.level_code
+	join category on game.id_category = category.id
+	where 
+	game.is_default = 1 or level_results.level_code is not null;
