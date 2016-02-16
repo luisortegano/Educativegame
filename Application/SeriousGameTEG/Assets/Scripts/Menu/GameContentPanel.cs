@@ -49,4 +49,8 @@ public class GameContentPanel : MonoBehaviour {
 			uim.MenuSetActive(Menu.HomePanel,true);
 		}
 	}
+
+	public void backButtonCallback (){
+		closeGameContentPanel ();
+	}
 }

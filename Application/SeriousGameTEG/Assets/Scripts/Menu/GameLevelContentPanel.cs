@@ -52,8 +52,12 @@ public class GameLevelContentPanel : MonoBehaviour {
 	public void closeGameLevelContentPanel (){
 		UserInterfaceManager uim = UIManger.GetComponent<UserInterfaceManager>();
 		if (uim != null) {
-			uim.MenuSetActive(Menu.GameSelectionPanel,false);
-			uim.MenuSetActive(Menu.HomePanel,true);
+			uim.MenuSetActive(Menu.GameLevelContentPanel,false);
+			uim.MenuSetActive(Menu.GameContentPanel,true);
 		}
+	}
+
+	public void backButtonCallback (){
+		closeGameLevelContentPanel ();
 	}
 }

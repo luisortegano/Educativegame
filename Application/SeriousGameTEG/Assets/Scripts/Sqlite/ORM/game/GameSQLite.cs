@@ -11,6 +11,7 @@ namespace ORM {
 		public static string Id_Category = "id_category";
 		public static string Name = "name";
 		public static string Description = "description";
+		public static string Level_code_pass = "level_code_pass";
 		private SqliteDatabase sqlDBAttr = null;
 
 		QueryUtils qutil = new QueryUtils ();
@@ -23,8 +24,14 @@ namespace ORM {
 
 		public bool loadGames () {
 			this.games = this.sqlDB().ExecuteQuery ("SELECT "+ qutil.allModel(GameSQLite.table) + ", "
-			                                 + qutil.attributeFromTable(CategorySQLite.table,CategorySQLite.Name) + " as "+ qutil.attributeFromTableTag(CategorySQLite.table,CategorySQLite.Name)+
-			    " FROM " + GameSQLite.table + qutil.innerJoin(CategorySQLite.table, CategorySQLite.Id, GameSQLite.table, GameSQLite.Id_Category) + ";");
+			    + qutil.attributeFromTable(CategorySQLite.table,CategorySQLite.Name) + " as "+ qutil.attributeFromTableTag(CategorySQLite.table,CategorySQLite.Name)
+			    +" FROM " + GameSQLite.table + qutil.innerJoin(CategorySQLite.table, CategorySQLite.Id, GameSQLite.table, GameSQLite.Id_Category)
+			    + ";");
+
+			Debug.Log ("SELECT " + qutil.allModel (GameSQLite.table) + ", "
+				+ qutil.attributeFromTable (CategorySQLite.table, CategorySQLite.Name) + " as " + qutil.attributeFromTableTag (CategorySQLite.table, CategorySQLite.Name)
+				+ " FROM " + GameSQLite.table + qutil.innerJoin (CategorySQLite.table, CategorySQLite.Id, GameSQLite.table, GameSQLite.Id_Category)
+				+ ";");
 
 			return this.Games!=null;
 		}
@@ -33,7 +40,7 @@ namespace ORM {
 			return null;
 		}
 
-		public DataTable getLevelsOfGame ( int IdGame ){
+		public DataTable getLevelsOfGame (int IdGame){
 			GameLevelSQLite GameLevelORM = new GameLevelSQLite ();
 			return GameLevelORM.getLevelsOfGame (IdGame);
 		}
