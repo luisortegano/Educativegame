@@ -12,6 +12,7 @@ namespace ORM {
 		public static string Name = "name";
 		public static string Description = "description";
 		public static string Level_code_pass = "level_code_pass";
+		public static string Is_Default = "is_default";
 		private SqliteDatabase sqlDBAttr = null;
 
 		QueryUtils qutil = new QueryUtils ();
@@ -23,10 +24,23 @@ namespace ORM {
 		}
 
 		public bool loadGames () {
+			UserManager userManager = GameObject.FindGameObjectWithTag("ConfigurationObject").GetComponent<UserManager>();
+
+
+			this.games = this.sqlDB().ExecuteQuery ("SELECT "+ qutil.allModel(GameSQLite.table) + ", "
+                + qutil.attributeFromTable(CategorySQLite.table,CategorySQLite.Name) + " as "+ qutil.attributeFromTableTag(CategorySQLite.table,CategorySQLite.Name)
+			    +" FROM " + GameSQLite.table + qutil.leftOuterJoin(LevelResultSQLite.table, LevelResultSQLite.Level_Code, GameSQLite.table, GameSQLite.Level_code_pass)
+			    + qutil.join(CategorySQLite.table,CategorySQLite.Id,GameSQLite.table,GameSQLite.Id_Category)
+			    + " WHERE " + qutil.equalsValue(GameSQLite.table,GameSQLite.Is_Default,1)
+                + " or " + qutil.equalsValue(LevelResultSQLite.table, LevelResultSQLite.Id_User, userManager.getUserSelected())
+			    + ";");
+
+			/*
 			this.games = this.sqlDB().ExecuteQuery ("SELECT "+ qutil.allModel(GameSQLite.table) + ", "
 			    + qutil.attributeFromTable(CategorySQLite.table,CategorySQLite.Name) + " as "+ qutil.attributeFromTableTag(CategorySQLite.table,CategorySQLite.Name)
 			    +" FROM " + GameSQLite.table + qutil.innerJoin(CategorySQLite.table, CategorySQLite.Id, GameSQLite.table, GameSQLite.Id_Category)
 			    + ";");
+			*/
 
 			Debug.Log ("SELECT " + qutil.allModel (GameSQLite.table) + ", "
 				+ qutil.attributeFromTable (CategorySQLite.table, CategorySQLite.Name) + " as " + qutil.attributeFromTableTag (CategorySQLite.table, CategorySQLite.Name)

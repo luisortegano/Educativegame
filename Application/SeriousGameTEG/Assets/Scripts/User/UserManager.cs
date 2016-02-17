@@ -15,12 +15,12 @@ public class UserManager : MonoBehaviour {
 		Debug.Log ("the reult count was " + result.Rows.Count);
 		if( 0 < result.Rows.Count ){
 			this.actualUserId = UserId;
-			//DataRow current = result.Rows[0];
-			//Debug.Log (current[UserSQLite.Id]);
-			//Debug.Log (current[UserSQLite.Name]);
-			//Debug.Log (current[UserSQLite.LastName]);
 		}
 		Debug.Log ("the userid "+this.actualUserId+" was selected");
+	}
+
+	public int getUserSelected (){
+		return this.actualUserId;
 	}
 
 	public bool isUserSelected (){

@@ -15,6 +15,10 @@ namespace ORM
 			return table + "_" + attribute;
 		}
 
+		public string join(string joinTable, string joinAttributte, string baseTable, string baseAttribute){
+			return " join " + joinTable + " on " + attributeFromTable(baseTable,baseAttribute) +" = "+ attributeFromTable(joinTable,joinAttributte) +" ";
+		}
+
 		public string innerJoin (string joinTable, string joinAttributte, string baseTable, string baseAttribute){
 			return " inner join " + joinTable + " on " + attributeFromTable(baseTable,baseAttribute) +" = "+ attributeFromTable(joinTable,joinAttributte) +" ";
 		}
