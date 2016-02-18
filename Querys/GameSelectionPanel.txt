@@ -8,3 +8,19 @@ from
 	join category on game.id_category = category.id
 	where 
 	game.is_default = 1 or level_results.level_code is not null;
+	
+	
+##############################################################################
+Calculo de juegos que se deben desplegar para el usuario
+
+1 -> Juegos default
+2 -> Juegos que ha descubierto
+
+select game.*
+from game_user join game on game_user.id_game = game.id 
+where game_user.id_user = 1
+	union
+select game.*
+from game
+where game.is_default = 1
+;

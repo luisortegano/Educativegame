@@ -26,7 +26,17 @@ namespace ORM {
 		public bool loadGames () {
 			UserManager userManager = GameObject.FindGameObjectWithTag("ConfigurationObject").GetComponent<UserManager>();
 
+			this.games = this.sqlDB().ExecuteQuery("SELECT " + qutil.allModel(GameSQLite.table)+ " FROM "+GameUserSQLite.table
+				+ qutil.join(GameSQLite.table,GameSQLite.Id,GameUserSQLite.table,GameUserSQLite.Id_Game)
+				+" WHERE "+ qutil.equalsValue(GameUserSQLite.table,GameUserSQLite.Id_User,userManager.getUserSelected())
+				+ " UNION "
+				+ "SELECT "+ qutil.allModel(GameSQLite.table)+ " FROM "+ GameSQLite.table + " WHERE "
+				+ qutil.equalsValue(GameSQLite.table,GameSQLite.Is_Default,1)
+				);
+			
+			Debug.Log("Query return games #:" + this.games.Rows.Count);
 
+			/*
 			this.games = this.sqlDB().ExecuteQuery ("SELECT "+ qutil.allModel(GameSQLite.table) + ", "
                 + qutil.attributeFromTable(CategorySQLite.table,CategorySQLite.Name) + " as "+ qutil.attributeFromTableTag(CategorySQLite.table,CategorySQLite.Name)
 			    +" FROM " + GameSQLite.table + qutil.leftOuterJoin(LevelResultSQLite.table, LevelResultSQLite.Level_Code, GameSQLite.table, GameSQLite.Level_code_pass)
@@ -41,11 +51,6 @@ namespace ORM {
 			    +" FROM " + GameSQLite.table + qutil.innerJoin(CategorySQLite.table, CategorySQLite.Id, GameSQLite.table, GameSQLite.Id_Category)
 			    + ";");
 			*/
-
-			Debug.Log ("SELECT " + qutil.allModel (GameSQLite.table) + ", "
-				+ qutil.attributeFromTable (CategorySQLite.table, CategorySQLite.Name) + " as " + qutil.attributeFromTableTag (CategorySQLite.table, CategorySQLite.Name)
-				+ " FROM " + GameSQLite.table + qutil.innerJoin (CategorySQLite.table, CategorySQLite.Id, GameSQLite.table, GameSQLite.Id_Category)
-				+ ";");
 
 			return this.Games!=null;
 		}

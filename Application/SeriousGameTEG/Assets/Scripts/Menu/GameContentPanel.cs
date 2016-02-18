@@ -9,7 +9,8 @@ public class GameContentPanel : MonoBehaviour {
 	public GameObject gamePanelPrefab;
 
 	void OnEnable() {
-		this.gameObject.GetComponentInParent<ScrollRect> ().content = this.gameObject.GetComponent<RectTransform> ();
+		ScrollRect scroll = this.gameObject.GetComponentInParent<ScrollRect> ();
+		scroll.content = this.gameObject.GetComponent<RectTransform> ();
 		GameObject[] ListGame = GameObject.FindGameObjectsWithTag("GamePanel");
 		this.cleanGameContentPanel(ListGame);
 		this.populateGame();
