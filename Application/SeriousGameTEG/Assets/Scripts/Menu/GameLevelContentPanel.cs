@@ -34,8 +34,9 @@ public class GameLevelContentPanel : MonoBehaviour {
 	}
 
 	public void populateGameLevel(){
+		UserManager um = GameObject.FindGameObjectWithTag("ConfigurationObject").GetComponent<UserManager>();
 		GameLevelSQLite gameORM = new GameLevelSQLite ();
-		DataTable dt = gameORM.getLevelsOfGame (this.GameIdSelected);
+		DataTable dt = gameORM.getLevelsOfGame ( um.getUserSelected(), this.GameIdSelected);
 		foreach (DataRow level in dt.Rows) {
 			this.instantiateGameLevel((int)level[GameLevelSQLite.Level],(string)level[GameLevelSQLite.Configuration]);
 		}

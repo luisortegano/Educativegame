@@ -59,9 +59,9 @@ namespace ORM {
 			return null;
 		}
 
-		public DataTable getLevelsOfGame (int IdGame){
+		public DataTable getLevelsOfGame (int IdUser,int IdGame){
 			GameLevelSQLite GameLevelORM = new GameLevelSQLite ();
-			return GameLevelORM.getLevelsOfGame (IdGame);
+			return GameLevelORM.getLevelsOfGame (IdUser, IdGame);
 		}
 
 		public SqliteDatabase sqlDB (){

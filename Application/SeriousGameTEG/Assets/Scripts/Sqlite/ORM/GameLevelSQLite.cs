@@ -15,8 +15,8 @@ namespace ORM {
 		
 		QueryUtils qutil = new QueryUtils ();
 
-		public DataTable getLevelsOfGame ( int IdGame ){
-			return this.sqlDB ().ExecuteQuery ("SELECT * from "+GameLevelSQLite.table+" where "+ qutil.equalsValue(GameLevelSQLite.table, GameLevelSQLite.Id_Game, IdGame ) +";");
+		public DataTable getLevelsOfGame (int IdUser, int IdGame ){
+			return this.sqlDB ().ExecuteQuery ("SELECT * FROM game_level LEFT OUTER JOIN game_level_user ON game_level_user.id_user = "+IdUser+" AND game_level_user.game_level_code = game_level.code WHERE (game_level_user.id_user NOT null OR level=1) AND game_level.id_game = "+IdGame+";");
 		}
 
 		public SqliteDatabase sqlDB (){

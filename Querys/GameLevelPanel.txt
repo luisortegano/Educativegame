@@ -1,0 +1,55 @@
+--Busqueda de los niveles disponibles para un jugador de un nivel especifico 
+-- [U] = id del usuario || [G] = id del juego
+
+SELECT * FROM game_level 
+LEFT OUTER JOIN game_level_user ON game_level_user.id_user = [U] AND game_level_user.game_level_code = game_level.code
+WHERE (game_level_user.id_user NOT null OR level=1) AND game_level.id_game = [G]
+
+-- verificacion de si existe siguiente nivel segun nivel actual
+select * 
+from game_level 
+where 
+	game_level.id_game = (select id_game from game_level join level_results on game_level.code=level_results.level_code and level_results.level_code = NEW.level_code) 
+	and game_level.level = (select game_level.level+1 from game_level join level_results on game_level.code=level_results.level_code and level_results.level_code = NEW.level_code)	
+
+-- Insert si no se ha revelado el siguiente nivel
+
+INSERT INTO game_level_user(id_user,game_level_code) 
+SELECT 
+	1, 
+	(select game_level.code from game_level where 
+		game_level.id_game = (select id_game from game_level join level_results on game_level.code=level_results.level_code and level_results.level_code = NEW.level_code) 
+		and game_level.level = (select game_level.level+1 from game_level join level_results on game_level.code=level_results.level_code and level_results.level_code = NEW.level_code)
+	)
+from 
+WHERE NOT EXISTS(
+	SELECT * FROM game_level_user where game_level_user.game_level_code = (select game_level.code from game_level where 
+		game_level.id_game = (select id_game from game_level join level_results on game_level.code=level_results.level_code and level_results.level_code = NEW.level_code) 
+		and game_level.level = (select game_level.level+1 from game_level join level_results on game_level.code=level_results.level_code and level_results.level_code = NEW.level_code)
+	)
+);
+
+--Trigger pa guardar siguiente nivel
+
+create trigger LR_next_level  AFTER INSERT ON level_results
+WHEN EXISTS ( 
+		select * 
+		from game_level 
+		where 
+			game_level.id_game = (select id_game from game_level join level_results on game_level.code=level_results.level_code and level_results.level_code = NEW.level_code) 
+			and game_level.level = (select game_level.level+1 from game_level join level_results on game_level.code=level_results.level_code and level_results.level_code = NEW.level_code)
+	)
+BEGIN
+	insert into game_level_user (id_user,game_level_code) 
+	select NEW.id_user , (select game_level.code from game_level where (game_level.id_game||'-'||game_level.level) like (select id_game|| '-' || (level+1)  from game_level where game_level.code = NEW.level_code))
+	where not exists ( select * from game_level_user where game_level_user.id_user = NEW.id_user and  game_level_user.game_level_code = (select game_level.code from game_level where (game_level.id_game||'-'||game_level.level) like (select id_game|| '-' || (level+1)  from game_level where game_level.code =NEW.level_code)));
+END		
+	
+
+--Trigger pa guardar siguiente nivel
+
+create trigger LR_next_level  AFTER INSERT ON level_results
+WHEN NOT EXISTS ( select * from game_level join game on game.id = game_level.id_game where code = 2 and game_level.level = game.level_code_pass )
+BEGIN
+	
+END
