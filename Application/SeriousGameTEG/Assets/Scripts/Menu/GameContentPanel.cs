@@ -14,6 +14,7 @@ public class GameContentPanel : MonoBehaviour {
 		GameObject[] ListGame = GameObject.FindGameObjectsWithTag("GamePanel");
 		this.cleanGameContentPanel(ListGame);
 		this.populateGame();
+		scroll.verticalNormalizedPosition = 1f; // for positionate at the first element
 	}
 
 	public void cleanGameContentPanel(GameObject[] ListGame){

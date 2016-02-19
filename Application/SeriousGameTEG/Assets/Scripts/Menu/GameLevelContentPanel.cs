@@ -17,10 +17,12 @@ public class GameLevelContentPanel : MonoBehaviour {
 
 	void OnEnable() {
 		Debug.Log("GameLevelContentPanes is enable");
-		this.gameObject.GetComponentInParent<ScrollRect> ().content = this.gameObject.GetComponent<RectTransform> ();
+		ScrollRect scroll = this.gameObject.GetComponentInParent<ScrollRect> ();
+		scroll.content = this.gameObject.GetComponent<RectTransform> ();
 		GameObject[] ListGame = GameObject.FindGameObjectsWithTag("GameLevelPanel");
 		this.cleanGameLevelContentPanel(ListGame);
 		this.populateGameLevel();
+		scroll.verticalNormalizedPosition = 1f; // for positionate at the first element
 	}
 
 	public void cleanGameLevelContentPanel(GameObject[] ListGameLevel){
