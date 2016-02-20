@@ -180,7 +180,7 @@ where  completed = to_complete
 create trigger LR_next_game AFTER INSERT ON level_results
 WHEN EXISTS ( select * from game_level join game on game.id = game_level.id_game where code = NEW.level_code and game_level.level = game.level_code_pass )
 BEGIN
-	insert into enabled_game_user  select NEW.id_user as id_user, id_game from 
+	insert into enabled_game_user  select NEW.id_user as id_user, to_reveal.id_game from 
 	(
 		select 
 			game_dependation.id_dependent_game as id_game,
@@ -215,6 +215,8 @@ BEGIN
 				)
 			and level_results.id_user not null
 		group by game_dependation.id_dependent_game 
-	) 
-	where  completed = to_complete;
+	) as to_reveal
+	left outer join enabled_game_user on to_reveal.id_game = enabled_game_user.id_game
+	where  completed = to_complete and enabled_game_user.id_user is null
+    ;
 END
