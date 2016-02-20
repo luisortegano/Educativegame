@@ -29,7 +29,7 @@ WHERE NOT EXISTS(
 	)
 );
 
---Trigger pa guardar siguiente nivel
+--Trigger pa guardar siguiente nivel [OK]
 
 create trigger LR_next_level  AFTER INSERT ON level_results
 WHEN EXISTS ( 
@@ -46,10 +46,175 @@ BEGIN
 END		
 	
 
---Trigger pa guardar siguiente nivel
+--Trigger pa guardar siguiente juego
+    -- si el nivel es trigger de completacion de juegos
+    -- verificar que juegos dependen de este juego
 
-create trigger LR_next_level  AFTER INSERT ON level_results
-WHEN NOT EXISTS ( select * from game_level join game on game.id = game_level.id_game where code = 2 and game_level.level = game.level_code_pass )
+create trigger LR_next_game AFTER INSERT ON level_results
+WHEN EXISTS ( select * from game_level join game on game.id = game_level.id_game where code = 2 and game_level.level = game.level_code_pass )
 BEGIN
 	
+END
+
+
+-- Hayar id_game a partir de un level_code
+select game_level.id_game 
+from game_level 
+where game_level.code = [LevelCode]
+
+-- Hayar lista de juegos dependientes dado un level code
+select game_dependation.id_dependent_game 
+from game_dependation 
+where game_dependation.id_game = (select game_level.id_game from game_level where game_level.code = [LevelCode])
+
+-- Hayar todos los juegos que se tienen que completar para abrir un nivel dependiente encontrados a partir de ganar un level
+select * 
+from game_dependation 
+where game_dependation.id_dependent_game in (select game_dependation.id_dependent_game from game_dependation where game_dependation.id_game = [IdGame])
+
+-- juegos completado para desbloquear un nivel
+select 
+	game_dependation.id_dependent_game,
+	count(*) as completed
+from 
+	game_dependation 
+	left outer join game on game_dependation.id_game = game.id
+	left outer join level_results on level_results.id_user = [IdUser] and level_results.level_code = game.level_code_pass
+where 
+	game_dependation.id_dependent_game in (select game_dependation.id_dependent_game from game_dependation where game_dependation.id_game = [IdGame])
+	and level_results.id_user not null
+group by game_dependation.id_dependent_game
+
+
+-- Cantidad de juegos para completar 
+select 
+	game_dependation.id_dependent_game as id_game,
+	count(*) as to_complete
+from 
+	game_dependation 
+	left outer join game on game_dependation.id_game = game.id
+	left outer join level_results on level_results.id_user = 1 and level_results.level_code = game.level_code_pass
+where 
+	game_dependation.id_dependent_game in (select game_dependation.id_dependent_game from game_dependation where game_dependation.id_game = 1)
+group by game_dependation.id_dependent_game
+
+
+-- Cantidad de juegos que se deben ganar para completar
+select 
+	game_dependation.id_dependent_game as id_game,
+	count(*) as to_complete
+from 
+	game_dependation 
+	left outer join game on game_dependation.id_game = game.id
+	left outer join level_results on level_results.id_user = 1 and level_results.level_code = game.level_code_pass
+where 
+	game_dependation.id_dependent_game in (select game_dependation.id_dependent_game from game_dependation where game_dependation.id_game = 1)
+group by game_dependation.id_dependent_game
+
+
+-- Query para saber que juegos se han completado a partir de un id game 
+select * from 
+(
+	select 
+		game_dependation.id_dependent_game as id_game,
+		count(*) as completed ,
+		to_complete.to_complete 
+	from 
+		game_dependation 
+		left outer join game on game_dependation.id_game = game.id
+		left outer join level_results on level_results.id_user = 1 and level_results.level_code = game.level_code_pass
+		join
+		(
+			select 
+				game_dependation.id_dependent_game as id_game,
+				count(*) as to_complete
+			from 
+				game_dependation 
+				left outer join game on game_dependation.id_game = game.id
+				left outer join level_results on level_results.id_user = 1 and level_results.level_code = game.level_code_pass
+			where 
+				game_dependation.id_dependent_game in (select game_dependation.id_dependent_game from game_dependation where game_dependation.id_game = 1)
+			group by game_dependation.id_dependent_game
+		) as to_complete on to_complete.id_game = game_dependation.id_dependent_game
+	where 
+		game_dependation.id_dependent_game in (select game_dependation.id_dependent_game from game_dependation where game_dependation.id_game = 1)
+		and level_results.id_user not null 
+	group by game_dependation.id_dependent_game 
+) 
+where  completed = to_complete
+
+
+----
+-- insert de elementos a partir de un IdGame y un IdUser
+insert into enabled_game_user  select 1 as id_user, id_game from 
+(
+	select 
+		game_dependation.id_dependent_game as id_game,
+		count(*) as completed ,
+		to_complete.to_complete 
+	from 
+		game_dependation 
+		left outer join game on game_dependation.id_game = game.id
+		left outer join level_results on level_results.id_user = 1 and level_results.level_code = game.level_code_pass
+		join
+		(
+			select 
+				game_dependation.id_dependent_game as id_game,
+				count(*) as to_complete
+			from 
+				game_dependation 
+				left outer join game on game_dependation.id_game = game.id
+				left outer join level_results on level_results.id_user = 1 and level_results.level_code = game.level_code_pass
+			where 
+				game_dependation.id_dependent_game in (select game_dependation.id_dependent_game from game_dependation where game_dependation.id_game = 1)
+			group by game_dependation.id_dependent_game
+		) as to_complete on to_complete.id_game = game_dependation.id_dependent_game
+	where 
+		game_dependation.id_dependent_game in (select game_dependation.id_dependent_game from game_dependation where game_dependation.id_game = 1)
+		and level_results.id_user not null 
+	group by game_dependation.id_dependent_game 
+) 
+where  completed = to_complete
+
+-- FINISHED TRIGGER
+create trigger LR_next_game AFTER INSERT ON level_results
+WHEN EXISTS ( select * from game_level join game on game.id = game_level.id_game where code = NEW.level_code and game_level.level = game.level_code_pass )
+BEGIN
+	insert into enabled_game_user  select NEW.id_user as id_user, id_game from 
+	(
+		select 
+			game_dependation.id_dependent_game as id_game,
+			count(*) as completed ,
+			to_complete.to_complete 
+		from 
+			game_dependation 
+			left outer join game on game_dependation.id_game = game.id
+			left outer join level_results on level_results.id_user = NEW.id_user and level_results.level_code = game.level_code_pass
+			join
+			(
+				select 
+					game_dependation.id_dependent_game as id_game,
+					count(*) as to_complete
+				from 
+					game_dependation 
+					left outer join game on game_dependation.id_game = game.id
+					left outer join level_results on level_results.id_user = NEW.id_user and level_results.level_code = game.level_code_pass
+				where 
+					game_dependation.id_dependent_game in (
+						select game_dependation.id_dependent_game from game_dependation where game_dependation.id_game = (
+							select id_game from game_level join game on game.id = game_level.id_game where game_level.code = NEW.level_code and game_level.level = game.level_code_pass
+						)
+					)
+				group by game_dependation.id_dependent_game
+			) as to_complete on to_complete.id_game = game_dependation.id_dependent_game
+		where 
+			game_dependation.id_dependent_game in (
+				select game_dependation.id_dependent_game from game_dependation where game_dependation.id_game = (
+						select id_game from game_level join game on game.id = game_level.id_game where game_level.code = NEW.level_code and game_level.level = game.level_code_pass
+					) 
+				)
+			and level_results.id_user not null
+		group by game_dependation.id_dependent_game 
+	) 
+	where  completed = to_complete;
 END
