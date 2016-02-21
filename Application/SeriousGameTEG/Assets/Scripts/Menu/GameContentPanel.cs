@@ -27,7 +27,9 @@ public class GameContentPanel : MonoBehaviour {
 
 	public void populateGame(){
 		GameSQLite gameORM = new GameSQLite ();
-		if (gameORM.loadGames ()) {
+		UserManager userManager = GameObject.FindGameObjectWithTag("ConfigurationObject").GetComponent<UserManager>();
+
+		if (gameORM.loadGames (userManager.getUserSelected())) {
 			foreach (DataRow game in gameORM.Games.Rows) {
 				this.instantiateGame((int)game[GameSQLite.Id], (string)game[GameSQLite.Name], (string)game["category_name"]);
 			}
