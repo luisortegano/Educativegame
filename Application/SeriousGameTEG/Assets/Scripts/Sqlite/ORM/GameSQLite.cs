@@ -23,9 +23,10 @@ namespace ORM {
 			get{ return this.games; }
 		}
 
-		public bool loadGames () {
-			UserManager userManager = GameObject.FindGameObjectWithTag("ConfigurationObject").GetComponent<UserManager>();
+		public bool loadGames (int IdUser) {
+			this.games = this.sqlDB().ExecuteQuery("select * from game left outer join enabled_game_user on game.id=enabled_game_user.id_game and enabled_game_user.id_user = "+IdUser+" where game.is_default = 1 or enabled_game_user.id_user not null");
 
+			/*
 			this.games = this.sqlDB().ExecuteQuery("SELECT " + qutil.allModel(GameSQLite.table)+ " FROM "+GameUserSQLite.table
 				+ qutil.join(GameSQLite.table,GameSQLite.Id,GameUserSQLite.table,GameUserSQLite.Id_Game)
 				+" WHERE "+ qutil.equalsValue(GameUserSQLite.table,GameUserSQLite.Id_User,userManager.getUserSelected())
