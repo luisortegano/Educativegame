@@ -6,9 +6,11 @@ public class Configuration : MonoBehaviour {
 	void Awake () {
 		string dbPath = System.IO.Path.Combine (Application.persistentDataPath, "TEG_SG.db");
 		var dbTemplatePath = System.IO.Path.Combine(Application.streamingAssetsPath, "TEG_SG.db");
-		
-		if (!System.IO.File.Exists(dbPath)) {
-			Debug.Log ("#########################The Database was not initialized");
+        Debug.Log("DataBasePath on StreamingAssets [" + dbTemplatePath + "]");
+        Debug.Log("DataBasePath on Copy [" + dbPath + "]");
+
+        if (!System.IO.File.Exists(dbPath)) {
+			Debug.Log ("The Database was not initialized");
 			// game database does not exists, copy default db as template
 			if (Application.platform == RuntimePlatform.Android)
 			{
