@@ -15,7 +15,7 @@ namespace ORM {
 		public static string Is_Default = "is_default";
 		private SqliteDatabase sqlDBAttr = null;
 
-		QueryUtils qutil = new QueryUtils ();
+		//QueryUtils qutil = new QueryUtils ();
 
 		private DataTable games;
 
