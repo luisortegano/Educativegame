@@ -5,6 +5,9 @@ using System.IO;
 
 public class FindFigure : MonoBehaviour {
 	
+	float time = 1.0f;
+	float timeLeft = 1.0f;
+	
 	public RawImage image;
 	
     public void setFindFigure()
@@ -19,5 +22,14 @@ public class FindFigure : MonoBehaviour {
             tex.LoadImage(bytes);
             image.texture = tex;
         }
+    }
+    
+    void Update (){
+		if (0 < timeLeft){
+			timeLeft -= Time.deltaTime;
+		}else{
+			setFindFigure();
+			timeLeft = time;
+		}
     }
 }
