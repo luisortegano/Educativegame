@@ -25,7 +25,8 @@ public class FigurePanel : MonoBehaviour {
 	}
 	
 	public void clickFigure(){
-		GameObject.FindGameObjectWithTag("ImageCenter").SendMessage("checkPairSelected",imagePosition);
+		GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
+		gameController.SendMessage("checkPairSelected",imagePosition);
 	}
 	
 }
