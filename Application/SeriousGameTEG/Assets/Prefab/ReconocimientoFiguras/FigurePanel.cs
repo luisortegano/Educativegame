@@ -18,6 +18,12 @@ public class FigurePanel : MonoBehaviour {
 		}
 	}
 	
+	public void setNewImage(byte[] imageBytes){
+		var tex = new Texture2D(1, 1);
+		tex.LoadImage(imageBytes);
+		figureImage.texture = tex;
+	}
+	
 	public void clickFigure(){
 		GameObject.FindGameObjectWithTag("ImageCenter").SendMessage("checkPairSelected",imagePosition);
 	}
