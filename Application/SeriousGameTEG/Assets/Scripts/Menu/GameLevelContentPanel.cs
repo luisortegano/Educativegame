@@ -38,16 +38,17 @@ public class GameLevelContentPanel : MonoBehaviour {
 		GameLevelSQLite gameORM = new GameLevelSQLite ();
 		DataTable dt = gameORM.getLevelsOfGame ( um.getUserSelected(), this.GameIdSelected);
 		foreach (DataRow level in dt.Rows) {
-			this.instantiateGameLevel((int)level[GameLevelSQLite.code] ,(int)level[GameLevelSQLite.Level],(string)level[GameLevelSQLite.Configuration]);
+			this.instantiateGameLevel(this.GameIdSelected,(int)level[GameLevelSQLite.code] ,(int)level[GameLevelSQLite.Level],(string)level[GameLevelSQLite.Configuration]);
 		}
 	}
 	
-	public void instantiateGameLevel (int LevelCode, int Level, string Configuration) {
+	public void instantiateGameLevel (int GameId, int LevelCode, int Level, string Configuration) {
 		GameObject newGameLevel = (GameObject)Instantiate(gameLevelPanelPrefab); 
-		GameLevelPanel panel = newGameLevel.GetComponent<GameLevelPanel>();
-		panel.CodeLevel = LevelCode;
-		panel.LevelText.text = ("Level: " + Level.ToString());
-		panel.ConfigurationText.text = Configuration;
+		GameLevelPanel levelGamePanel = newGameLevel.GetComponent<GameLevelPanel>();
+		levelGamePanel.CodeLevel = LevelCode;
+		levelGamePanel.LevelText.text = ("Level: " + Level.ToString());
+		levelGamePanel.ConfigurationText.text = Configuration;
+		levelGamePanel.GameId = GameId;
 		newGameLevel.transform.SetParent(gameObject.transform);
 		newGameLevel.transform.localScale = new Vector3(1,1,1);
 
