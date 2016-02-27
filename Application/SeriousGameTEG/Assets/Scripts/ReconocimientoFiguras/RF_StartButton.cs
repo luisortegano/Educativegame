@@ -21,6 +21,10 @@ public class RF_StartButton : MonoBehaviour {
 		ImageCenter ic = imageCenter.GetComponent<ImageCenter>();
 		ic.loadImages();
 		GameController gc = ContainerPanel.GetComponent<GameController>();
+		
+		gc.setCountDownTime(getRF_Config().challengeTime);
+		gc.setAmountToFind(getRF_Config().maxDiscoverFigures);
+		
 		ContainerPanel.SetActive(true);
 		gc.initGameController();
 		gc.setImagesTable();

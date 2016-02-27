@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour {
 	
 	//Tablero
 	GameObject gamePanel;
+	//Velo
+	public GameObject veloPanel;
 	
 	
 	// For rotation purpouse
@@ -30,7 +32,8 @@ public class GameController : MonoBehaviour {
 	public Text countDownText;
 	
 	// Cuenta regresiva
-	float points = 100.0f;
+	int points = 0;
+	int fails = 0;
 	public Text pointsText;
 	
 	//TiempoDeAlerta
@@ -40,6 +43,7 @@ public class GameController : MonoBehaviour {
 	// Figura a encontrar
 	public int toFindValue;
 	public RawImage toFindImage;
+	public int amountToFind;
 	
 	
 	
@@ -83,19 +87,21 @@ public class GameController : MonoBehaviour {
 	}
 	
 	public void checkPairSelected (int selectedValue){
+		if ( this.amountToFind == this.points || 0 < alertTime ) return;
 		if (0 < countDown){
 			if (selectedValue == toFindValue){
-				points++;
-				pointsText.text = points.ToString();
+				this.points++;
+				this.pointsText.text = points.ToString();
 				addAlert(true);
 			}else{
+				this.fails++;
 				addAlert(false);
 			}
 		}
 	}
 	
 	void addAlert ( bool isGood ){
-		 Color colorAlert;
+		Color colorAlert;
 		if(isGood){
 			colorAlert = new Color (0,255,0,.5f);
 		}else{
@@ -108,12 +114,28 @@ public class GameController : MonoBehaviour {
 	void removeAlert (){
 		alertTime -= Time.deltaTime;
 		if( alertTime < 0 ){ 
+			if(this.gameObject.GetComponent<Image>().color.g > 0){
+				this.setImagesTable();
+				timeLeft = time;
+			}
 			this.gameObject.GetComponent<Image>().color = new Color (0,0,0);
 		}
 	}
 	
 	void Update (){
-		if( 0 < this.countDown ) {
+		if ( this.amountToFind == this.points )	{
+			getRF_Config().calculateExpendedTime((int)this.countDown);
+			getRF_Config().setHits(this.points);
+			getRF_Config().setFails(this.fails);
+			getRF_Config().verifiedResult();
+			
+			/*Raise velo*/
+			veloPanel.GetComponent<VeloPanel>().FinalText.text = getRF_Config().getResultMessage();
+			veloPanel.SetActive(true);
+			return;
+		}
+	
+		if( 0 < this.countDown  ) {
 			removeAlert();
 			countDownUpdate();
 			timeLeftUpdate();
@@ -122,6 +144,14 @@ public class GameController : MonoBehaviour {
 				timeLeft = time;
 			}
 		}
+	}
+	
+	public void setCountDownTime (float time){
+		this.countDown = time;
+	}
+	
+	public void setAmountToFind (int amount){
+		this.amountToFind = amount;
 	}
 }
 	
