@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 using System.Collections;
+using System;
 
+[Serializable]
 public class RF_Configuration : MonoBehaviour {
 	
 	/* Cantidad distintas de figuras que hay en el juego */
@@ -14,6 +17,9 @@ public class RF_Configuration : MonoBehaviour {
 	
 	/* Tiempo del juego */
 	public int challengeTime;
+
+	[NonSerialized]
+	public GameLevelPanel gameLevelPanel;
 	
 	
 	
@@ -59,6 +65,26 @@ public class RF_Configuration : MonoBehaviour {
 			return;
 		}
 		this.winGame = false;
+	}
+
+	public void setConfiguration (string JsonConfigurations){
+		Debug.Log( "Configuration to use ["+JsonConfigurations+"]" );
+		Debug.Log("NewConfig ["+JsonUtility.ToJson(this)+"]");
+		RF_Configuration aux = JsonUtility.FromJson<RF_Configuration>("{'AmountFigures':6}");
+		this.maxFails=aux.maxFails;
+		this.challengeTime=aux.challengeTime;
+
+		Debug.Log("NewConfig ["+JsonUtility.ToJson(this)+"]");
+		Debug.Log( "Configuration to use ["+JsonConfigurations+"] FINISH" );
+		printValues();
+	}
+
+	public void setGameLevelPanel ( GameLevelPanel glp  ){
+		this.gameLevelPanel = glp;
+	}
+
+	void printValues(){
+		Debug.Log("["+AmountFigures +" " +maxDiscoverFigures+" " + maxFails + " " + challengeTime + "]");
 	}
 	
 }

@@ -9,8 +9,9 @@ public class RemoveLevel : MonoBehaviour {
 		foreach(GameObject go in RemoveList){
 			Destroy(go) ;
 		}
-		GameObject.FindGameObjectWithTag("UIManager")
-			.GetComponent<UserInterfaceManager>().MenuSetActive(Menu.Canvas,true);
+
+		GameObject uim = GameObject.FindGameObjectWithTag("UIManager");
+		if( uim != null ) uim.GetComponent<UserInterfaceManager>().MenuSetActive(Menu.Canvas,true);
 		Destroy(this.gameObject);
 	}
 	

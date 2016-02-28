@@ -49,6 +49,7 @@ public class GameLevelContentPanel : MonoBehaviour {
 		levelGamePanel.LevelText.text = ("Level: " + Level.ToString());
 		levelGamePanel.ConfigurationText.text = Configuration;
 		levelGamePanel.GameId = GameId;
+		levelGamePanel.cnf = Configuration;
 		newGameLevel.transform.SetParent(gameObject.transform);
 		newGameLevel.transform.localScale = new Vector3(1,1,1);
 

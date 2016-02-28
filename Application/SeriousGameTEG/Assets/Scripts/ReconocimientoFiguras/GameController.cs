@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Serialization;
 using System.Collections;
 
 public class GameController : MonoBehaviour {
@@ -128,7 +129,10 @@ public class GameController : MonoBehaviour {
 			getRF_Config().setHits(this.points);
 			getRF_Config().setFails(this.fails);
 			getRF_Config().verifiedResult();
-			
+
+			//this.getRF_Config().
+			Debug.Log("Configuration ToJson [" + JsonUtility.ToJson(this.getRF_Config()) +"]" );
+
 			/*Raise velo*/
 			veloPanel.GetComponent<VeloPanel>().FinalText.text = getRF_Config().getResultMessage();
 			veloPanel.SetActive(true);
