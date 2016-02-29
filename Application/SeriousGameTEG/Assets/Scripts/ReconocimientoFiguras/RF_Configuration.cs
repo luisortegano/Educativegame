@@ -72,8 +72,12 @@ public class RF_Configuration : MonoBehaviour {
         
 		GameConfigurationJson configuration = JsonUtility.FromJson<GameConfigurationJson>(JsonConfigurations);
 		
-        this.maxFails=aux.maxFails;
-		this.challengeTime=aux.challengeTime;
+        Debug.Log( "Configuration readed and reversed [" + JsonUtility.ToJson(configuration) + "]");
+        
+        this.AmountFigures=configuration.AmountFigures;
+        this.maxDiscoverFigures=configuration.maxDiscoverFigures;
+        this.maxFails=configuration.maxFails;
+		this.challengeTime=configuration.challengeTime;
 		printValues();
 	}
 
