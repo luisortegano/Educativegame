@@ -13,7 +13,7 @@ public class RF_Configuration : MonoBehaviour {
 	public int maxDiscoverFigures;
 	
 	/* Cantidad posible de fallos */
-	public int maxFails = -1;
+	public int maxFails;
 	
 	/* Tiempo del juego */
 	public int challengeTime;
@@ -69,13 +69,11 @@ public class RF_Configuration : MonoBehaviour {
 
 	public void setConfiguration (string JsonConfigurations){
 		Debug.Log( "Configuration to use ["+JsonConfigurations+"]" );
-		Debug.Log("NewConfig ["+JsonUtility.ToJson(this)+"]");
-		RF_Configuration aux = JsonUtility.FromJson<RF_Configuration>("{'AmountFigures':6}");
-		this.maxFails=aux.maxFails;
+        
+		GameConfigurationJson configuration = JsonUtility.FromJson<GameConfigurationJson>(JsonConfigurations);
+		
+        this.maxFails=aux.maxFails;
 		this.challengeTime=aux.challengeTime;
-
-		Debug.Log("NewConfig ["+JsonUtility.ToJson(this)+"]");
-		Debug.Log( "Configuration to use ["+JsonConfigurations+"] FINISH" );
 		printValues();
 	}
 
@@ -84,7 +82,7 @@ public class RF_Configuration : MonoBehaviour {
 	}
 
 	void printValues(){
-		Debug.Log("["+AmountFigures +" " +maxDiscoverFigures+" " + maxFails + " " + challengeTime + "]");
+		Debug.Log("Configuration Values for Game: ["+AmountFigures +" " +maxDiscoverFigures+" " + maxFails + " " + challengeTime + "]");
 	}
 	
 }
