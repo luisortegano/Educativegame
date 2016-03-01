@@ -11,7 +11,7 @@ public class pConf : MonoBehaviour
 	public int maxDiscoverFigures;
 	
 	/* Cantidad posible de fallos */
-	public int maxFails = -1;
+	public int maxFails;
 	
 	/* Tiempo del juego */
 	public int challengeTime;	

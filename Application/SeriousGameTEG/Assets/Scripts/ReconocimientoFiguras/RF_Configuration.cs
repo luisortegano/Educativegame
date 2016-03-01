@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
-using System.Collections;
 using System;
+using System.Collections;
+using ORM;
+
 
 [Serializable]
 public class RF_Configuration : MonoBehaviour {
@@ -20,9 +22,7 @@ public class RF_Configuration : MonoBehaviour {
 
 	[NonSerialized]
 	public GameLevelPanel gameLevelPanel;
-	
-	
-	
+
 	/* results */
 	int expendedTime ;
 	int hits;
@@ -31,7 +31,7 @@ public class RF_Configuration : MonoBehaviour {
 	string message;
 	
 	public void calculateExpendedTime(int restantTime){
-		this.expendedTime = this.challengeTime-restantTime;
+		this.expendedTime = Math.Abs(restantTime-challengeTime);
 	}
 	
 	public void setHits (int hits){
@@ -47,7 +47,7 @@ public class RF_Configuration : MonoBehaviour {
 	}
 	
 	public void verifiedResult (){
-		if ( expendedTime <= 0){
+		if ( challengeTime - expendedTime <= 0){
 			message = "Ups! Se acabo el tiempo pequeño";
 			this.winGame = false;
 			return;
@@ -69,24 +69,24 @@ public class RF_Configuration : MonoBehaviour {
 
 	public void setConfiguration (string JsonConfigurations){
 		Debug.Log( "Configuration to use ["+JsonConfigurations+"]" );
-        
-		GameConfigurationJson configuration = JsonUtility.FromJson<GameConfigurationJson>(JsonConfigurations);
-		
-        Debug.Log( "Configuration readed and reversed [" + JsonUtility.ToJson(configuration) + "]");
-        
-        this.AmountFigures=configuration.AmountFigures;
-        this.maxDiscoverFigures=configuration.maxDiscoverFigures;
-        this.maxFails=configuration.maxFails;
-		this.challengeTime=configuration.challengeTime;
-		printValues();
+		JsonUtility.FromJsonOverwrite(JsonConfigurations,this);
 	}
 
 	public void setGameLevelPanel ( GameLevelPanel glp  ){
 		this.gameLevelPanel = glp;
 	}
 
+	public void persistResults (){
+		LevelResultsSQLite lr = new LevelResultsSQLite();
+		UserManager um = GameObject.FindGameObjectWithTag("ConfigurationObject").GetComponent<UserManager>();
+		lr.insertLevelResult(um.getUserSelected(), this.gameLevelPanel.CodeLevel);
+	}
+
 	void printValues(){
 		Debug.Log("Configuration Values for Game: ["+AmountFigures +" " +maxDiscoverFigures+" " + maxFails + " " + challengeTime + "]");
+		if(this.gameLevelPanel != null){
+			Debug.Log("LevelCode:"+this.gameLevelPanel.CodeLevel+"|GameId:"+this.gameLevelPanel.GameId);
+		}
 	}
 	
 }
