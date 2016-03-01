@@ -124,8 +124,10 @@ public class GameController : MonoBehaviour {
 	}
 	
 	void Update (){
-		if ( this.amountToFind == this.points && !veloPanel.activeSelf )	{
+		if( veloPanel.activeSelf ) return;
+		if ( this.amountToFind == this.points)	{
 			finishGame();
+			return;
 		}
 	
 		if( 0 < this.countDown  ) {
@@ -147,8 +149,6 @@ public class GameController : MonoBehaviour {
 		getRF_Config().setFails(this.fails);
 		getRF_Config().verifiedResult();
 		getRF_Config().persistResults();
-
-		//Debug.Log("Configuration ToJson [" + JsonUtility.ToJson(this.getRF_Config()) +"]" );
 
 		/*Raise velo*/
 		veloPanel.GetComponent<VeloPanel>().FinalText.text = getRF_Config().getResultMessage();

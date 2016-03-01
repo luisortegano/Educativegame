@@ -19,9 +19,10 @@ namespace ORM
 			return sqlDBAttr;
 		}
 		
-		public void insertLevelResult (int IdUser, int LevelCode){
+		public void insertLevelResult (int IdUser, int LevelCode, bool win, string resultJson){
 			printAllLevelResult();
-			this.sqlDB().ExecuteNonQuery("INSERT INTO "+LevelResultsSQLite.table+" VALUES ("+IdUser+","+LevelCode+");");
+			this.sqlDB().ExecuteNonQuery("INSERT INTO "+LevelResultsSQLite.table+" VALUES ("+IdUser+","+LevelCode+","
+				+(win?1:0)+", '"+ resultJson +"');");
 		}
 		
 		public void printAllLevelResult (){

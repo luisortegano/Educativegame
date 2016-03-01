@@ -77,9 +77,15 @@ public class RF_Configuration : MonoBehaviour {
 	}
 
 	public void persistResults (){
-		LevelResultsSQLite lr = new LevelResultsSQLite();
+		LevelResultsSQLite levelResult = new LevelResultsSQLite();
 		UserManager um = GameObject.FindGameObjectWithTag("ConfigurationObject").GetComponent<UserManager>();
-		lr.insertLevelResult(um.getUserSelected(), this.gameLevelPanel.CodeLevel);
+
+		LevelResultJson lrJson = new LevelResultJson (this.challengeTime,this.expendedTime,this.maxDiscoverFigures,this.hits
+			,this.maxFails,this.fails,this.winGame);
+
+		Debug.Log("Resultados a Json: ["+JsonUtility.ToJson(lrJson)+"]");
+
+		levelResult.insertLevelResult(um.getUserSelected(), this.gameLevelPanel.CodeLevel,this.winGame,JsonUtility.ToJson(lrJson));
 	}
 
 	void printValues(){
