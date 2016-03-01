@@ -124,19 +124,8 @@ public class GameController : MonoBehaviour {
 	}
 	
 	void Update (){
-		if ( this.amountToFind == this.points )	{
-			getRF_Config().calculateExpendedTime((int)this.countDown);
-			getRF_Config().setHits(this.points);
-			getRF_Config().setFails(this.fails);
-			getRF_Config().verifiedResult();
-
-			//this.getRF_Config().
-			Debug.Log("Configuration ToJson [" + JsonUtility.ToJson(this.getRF_Config()) +"]" );
-
-			/*Raise velo*/
-			veloPanel.GetComponent<VeloPanel>().FinalText.text = getRF_Config().getResultMessage();
-			veloPanel.SetActive(true);
-			return;
+		if ( this.amountToFind == this.points && !veloPanel.activeSelf )	{
+			finishGame();
 		}
 	
 		if( 0 < this.countDown  ) {
@@ -147,11 +136,29 @@ public class GameController : MonoBehaviour {
 				setImagesTable();
 				timeLeft = time;
 			}
+		}else if (!veloPanel.activeSelf){
+			finishGame();
 		}
+	}
+
+	public void finishGame(){
+		getRF_Config().calculateExpendedTime((int)this.countDown);
+		getRF_Config().setHits(this.points);
+		getRF_Config().setFails(this.fails);
+		getRF_Config().verifiedResult();
+		getRF_Config().persistResults();
+
+		//Debug.Log("Configuration ToJson [" + JsonUtility.ToJson(this.getRF_Config()) +"]" );
+
+		/*Raise velo*/
+		veloPanel.GetComponent<VeloPanel>().FinalText.text = getRF_Config().getResultMessage();
+		veloPanel.SetActive(true);
+		return;
 	}
 	
 	public void setCountDownTime (float time){
 		this.countDown = time;
+		this.countDownText.text = this.countDown.ToString();
 	}
 	
 	public void setAmountToFind (int amount){
