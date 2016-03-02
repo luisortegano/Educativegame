@@ -22,7 +22,20 @@ public class NewUserFormPanelController : MonoBehaviour {
 
 	public void CreateNewUser () {
 		this.gameObject.SetActive(false); //deactivate button
+		UserSQLite user = new UserSQLite();
+		int idOfUser = user.SaveUser(this.nameInputField.text.Trim(),this.lastNameInputField.text.Trim());
+		
+		/*Guardar imagen en carpeta con el numero de id del usuario */
+		if( !Directory.Exists(UserSQLite.PROFILE_IMAGE_PATH) ){
+			Directory.CreateDirectory(UserSQLite.PROFILE_IMAGE_PATH);
+		}
 
+		File.Move(CameraController.temporalCapture,
+		          Path.Combine(UserSQLite.PROFILE_IMAGE_PATH, idOfUser.ToString() +".png"));
+
+		this.UserSelectionPanel.SetActive(true);
+
+		/*
 		if("".Equals(lastNameInputField.text.Trim()) || "".Equals(nameInputField.text.Trim())){
 			AndroidNativePopups.OpenAlertDialog("Ups!","Al parecer hace faltan datos.",
             "continuar",
@@ -31,8 +44,10 @@ public class NewUserFormPanelController : MonoBehaviour {
 			});
 			return;
 		}
+		*/
 
 		//If want to register like super user
+		/*
 		if(this.isSuperUserToggle.isOn && !superUserPassword.Equals(supeUserInputField.text)){
 			AndroidNativePopups.OpenAlertDialog(
 				"Clave Incorrecta", "La clave de super usuario es incorrecta.",
@@ -41,7 +56,7 @@ public class NewUserFormPanelController : MonoBehaviour {
 				UserSQLite user = new UserSQLite();
 				int idOfUser = user.SaveUser(this.nameInputField.text.Trim(),this.lastNameInputField.text.Trim());
 
-				/*Guardar imagen en carpeta con el numero de id del usuario */
+				/*Guardar imagen en carpeta con el numero de id del usuario * /
 				if( !Directory.Exists(UserSQLite.PROFILE_IMAGE_PATH) ){
 					Directory.CreateDirectory(UserSQLite.PROFILE_IMAGE_PATH);
 				}
@@ -62,7 +77,7 @@ public class NewUserFormPanelController : MonoBehaviour {
 			UserSQLite user = new UserSQLite();
 			int idOfUser = user.SaveUser(this.nameInputField.text.Trim(),this.lastNameInputField.text.Trim());
 			
-			/*Guardar imagen en carpeta con el numero de id del usuario */
+			/*Guardar imagen en carpeta con el numero de id del usuario * /
 			if( !Directory.Exists(UserSQLite.PROFILE_IMAGE_PATH) ){
 				Directory.CreateDirectory(UserSQLite.PROFILE_IMAGE_PATH);
 			}
@@ -72,5 +87,6 @@ public class NewUserFormPanelController : MonoBehaviour {
 
 			this.UserSelectionPanel.SetActive(true);
 		}
+		*/
 	}
 }

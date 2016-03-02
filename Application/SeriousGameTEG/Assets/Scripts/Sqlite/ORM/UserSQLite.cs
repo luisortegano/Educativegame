@@ -11,8 +11,9 @@ namespace ORM {
 		public static string Id = "id";
 		public static string Name = "name";
 		public static string LastName = "lastname";
-		public static string PROFILE_IMAGE_PATH = Path.Combine(Path.Combine(Application.persistentDataPath,"users"),
-		                                                       "profile")+Path.DirectorySeparatorChar;
+		public static string PROFILE_IMAGE_PATH = Application.persistentDataPath + Path.AltDirectorySeparatorChar ;
+		//+ "users" + Path.AltDirectorySeparatorChar + "profile" + Path.AltDirectorySeparatorChar;
+		//Path.Combine(Path.Combine(Application.persistentDataPath,"users"),"profile")+Path.AltDirectorySeparatorChar;
 		
 		private DataTable users;
 		
@@ -34,6 +35,10 @@ namespace ORM {
 				return Convert.ToInt32(result.Rows[0]["seq"]);
 			}
 			return -1;
+		}
+
+		public string imagePathOfUser (int UserId){
+			return UserSQLite.PROFILE_IMAGE_PATH + UserId + ".png";
 		}
 	}
 }
