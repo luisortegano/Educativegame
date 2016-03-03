@@ -45,6 +45,7 @@ public class GameController : MonoBehaviour {
 	public int toFindValue;
 	public RawImage toFindImage;
 	public int amountToFind;
+	public int maxFails;
 	
 	
 	
@@ -125,7 +126,8 @@ public class GameController : MonoBehaviour {
 	
 	void Update (){
 		if( veloPanel.activeSelf ) return;
-		if ( this.amountToFind == this.points)	{
+		Debug.Log("points="+this.points + " fails="+ this.fails + " maxFails="+ this.maxFails);
+		if ( this.amountToFind == this.points || this.fails == this.maxFails )	{
 			finishGame();
 			return;
 		}
@@ -163,6 +165,10 @@ public class GameController : MonoBehaviour {
 	
 	public void setAmountToFind (int amount){
 		this.amountToFind = amount;
+	}
+
+	public void setMaxFails (int maxFails){
+		this.maxFails = maxFails;
 	}
 }
 	

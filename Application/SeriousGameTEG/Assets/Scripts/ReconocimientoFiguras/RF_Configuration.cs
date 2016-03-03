@@ -68,8 +68,8 @@ public class RF_Configuration : MonoBehaviour {
 	}
 
 	public void setConfiguration (string JsonConfigurations){
-		Debug.Log( "Configuration to use ["+JsonConfigurations+"]" );
 		JsonUtility.FromJsonOverwrite(JsonConfigurations,this);
+		Debug.Log( "#####GameConfiguration jsonFromGC ["+ JsonUtility.ToJson(this) +"]" );
 	}
 
 	public void setGameLevelPanel ( GameLevelPanel glp  ){
