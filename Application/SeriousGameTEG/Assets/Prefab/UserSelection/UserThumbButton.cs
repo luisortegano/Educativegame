@@ -6,8 +6,6 @@ using ORM;
 
 public class UserThumbButton : MonoBehaviour {
 	public Button button;
-	public Text nameLabel;
-	public Text lastNameLabel;
 	public int userId;
 
 	public RawImage avatarUser;

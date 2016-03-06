@@ -25,34 +25,11 @@ namespace ORM {
 
 		public bool loadGames (int IdUser) {
 			this.games = this.sqlDB().ExecuteQuery("select * from game left outer join enabled_game_user on game.id=enabled_game_user.id_game and enabled_game_user.id_user = "+IdUser+" where game.is_default = 1 or enabled_game_user.id_user not null");
+			return this.Games!=null;
+		}
 
-			/*
-			this.games = this.sqlDB().ExecuteQuery("SELECT " + qutil.allModel(GameSQLite.table)+ " FROM "+GameUserSQLite.table
-				+ qutil.join(GameSQLite.table,GameSQLite.Id,GameUserSQLite.table,GameUserSQLite.Id_Game)
-				+" WHERE "+ qutil.equalsValue(GameUserSQLite.table,GameUserSQLite.Id_User,userManager.getUserSelected())
-				+ " UNION "
-				+ "SELECT "+ qutil.allModel(GameSQLite.table)+ " FROM "+ GameSQLite.table + " WHERE "
-				+ qutil.equalsValue(GameSQLite.table,GameSQLite.Is_Default,1)
-				);
-			
-			Debug.Log("Query return games #:" + this.games.Rows.Count);
-
-			/*
-			this.games = this.sqlDB().ExecuteQuery ("SELECT "+ qutil.allModel(GameSQLite.table) + ", "
-                + qutil.attributeFromTable(CategorySQLite.table,CategorySQLite.Name) + " as "+ qutil.attributeFromTableTag(CategorySQLite.table,CategorySQLite.Name)
-			    +" FROM " + GameSQLite.table + qutil.leftOuterJoin(LevelResultSQLite.table, LevelResultSQLite.Level_Code, GameSQLite.table, GameSQLite.Level_code_pass)
-			    + qutil.join(CategorySQLite.table,CategorySQLite.Id,GameSQLite.table,GameSQLite.Id_Category)
-			    + " WHERE " + qutil.equalsValue(GameSQLite.table,GameSQLite.Is_Default,1)
-                + " or " + qutil.equalsValue(LevelResultSQLite.table, LevelResultSQLite.Id_User, userManager.getUserSelected())
-			    + ";");
-
-			/*
-			this.games = this.sqlDB().ExecuteQuery ("SELECT "+ qutil.allModel(GameSQLite.table) + ", "
-			    + qutil.attributeFromTable(CategorySQLite.table,CategorySQLite.Name) + " as "+ qutil.attributeFromTableTag(CategorySQLite.table,CategorySQLite.Name)
-			    +" FROM " + GameSQLite.table + qutil.innerJoin(CategorySQLite.table, CategorySQLite.Id, GameSQLite.table, GameSQLite.Id_Category)
-			    + ";");
-			*/
-
+		public bool loadAllGames (){
+			this.games = this.sqlDB().ExecuteQuery("select game.name from game join category on  game.id_category = category.id");
 			return this.Games!=null;
 		}
 
