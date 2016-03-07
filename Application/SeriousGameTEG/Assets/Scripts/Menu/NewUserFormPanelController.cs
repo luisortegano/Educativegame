@@ -13,7 +13,7 @@ public class NewUserFormPanelController : MonoBehaviour {
 	public InputField lastNameInputField;
 	public InputField supeUserInputField;
 	public Toggle isSuperUserToggle;
-	private string superUserPassword = "pass";
+	//private string superUserPassword = "pass";
 
 	public void CancelCreateNewUser () {
 		this.gameObject.SetActive(false);

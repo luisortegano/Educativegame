@@ -19,6 +19,10 @@ namespace ORM {
 			return this.sqlDB ().ExecuteQuery ("SELECT * FROM game_level LEFT OUTER JOIN game_level_user ON game_level_user.id_user = "+IdUser+" AND game_level_user.game_level_code = game_level.code WHERE (game_level_user.id_user NOT null OR level=1) AND game_level.id_game = "+IdGame+";");
 		}
 
+		public DataTable getAllLevelsOfGame (int IdGame ){
+			return this.sqlDB ().ExecuteQuery ("SELECT * FROM game_level where game_level.id_game = " + IdGame );
+		}
+
 		public SqliteDatabase sqlDB (){
 			if (sqlDBAttr == null) {
 				sqlDBAttr = new SqliteDatabase(Path.Combine (Application.persistentDataPath, "TEG_SG.db"));

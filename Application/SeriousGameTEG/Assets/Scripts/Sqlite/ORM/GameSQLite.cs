@@ -29,7 +29,7 @@ namespace ORM {
 		}
 
 		public bool loadAllGames (){
-			this.games = this.sqlDB().ExecuteQuery("select game.name from game join category on  game.id_category = category.id");
+			this.games = this.sqlDB().ExecuteQuery("select game.name as name, game.id as id from game join category on  game.id_category = category.id");
 			return this.Games!=null;
 		}
 

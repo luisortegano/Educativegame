@@ -11,6 +11,8 @@ public class LevelResultJson{
 	public int maxFails;
 	public bool winGame;
 
+	public LevelResultJson  (){}
+
 	public LevelResultJson (int challengeTime, int expendedTime, int maxHits, int hits, int maxFails, int fails, bool winGame){
 		this.challengeTime=challengeTime;
 		this.expendedTime = expendedTime;
@@ -18,6 +20,5 @@ public class LevelResultJson{
 		this.hits=hits;
 		this.maxFails=maxFails;
 		this.winGame=winGame;
-	}
-		
+	}	
 }
