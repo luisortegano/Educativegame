@@ -97,7 +97,7 @@ public class OptionsPanelManager : MonoBehaviour {
 	}
 
 	public int getCurrentGame(){
-		return this.dropDownGames.value;
+		return Mathf.Max(0, this.dropDownGames.value -1);
 	}
 
 	public int getCurrentLevel(){

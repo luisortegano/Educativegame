@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using ORM;
 
 public class ResultManager_ReconocimientoFiguras : MonoBehaviour, IResult
@@ -23,12 +24,21 @@ public class ResultManager_ReconocimientoFiguras : MonoBehaviour, IResult
 	}
 
 
-	public GameObject getResults (){
-		Text go = (Text)Instantiate(Resources.Load("Assets/Scripts/ResultInterface/GeneralResultText"));
-		//Text t = (Text)go;
-		go.text = "aqui escupo los promedios";
-		return go.gameObject;
-		//return "printing resuuuults!";
+	public GameObject getResults (int IdUser, int IdGame, int Level){
+		DataTable dt = this.getResult().getLevelResults(IdUser, IdGame, Level);
+
+		List<LevelResultJson> resultados = new List<LevelResultJson>();
+		LevelResultJson lr;
+		Debug.Log("### Retrive results count = " + dt.Rows.Count);
+		foreach(DataRow current in dt.Rows){
+			lr = new LevelResultJson ();
+			JsonUtility.FromJsonOverwrite((string)current[LevelResultsSQLite.Result],lr);
+			Debug.Log("The following result was loaded [" + JsonUtility.ToJson(lr) + "]");
+		}
+
+		GameObject go = (GameObject)Instantiate(Resources.Load("GeneralResultText"));
+		go.GetComponent<Text>().text= "aqui escupo los promedios";
+		return go;
 	}
 }
 

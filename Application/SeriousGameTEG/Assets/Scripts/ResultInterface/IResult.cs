@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface IResult{
 
-	GameObject getResults();
+	GameObject getResults(int IdUser, int IdGame, int Level);
 
 }
 
