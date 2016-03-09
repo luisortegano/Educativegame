@@ -8,6 +8,8 @@ using ORM;
 
 public class OptionsPanelManager : MonoBehaviour {
 
+	public GameObject viewChartPanel;
+
 	public Dropdown dropDownGames;
 	public Dropdown dropDownLevels;
 
@@ -51,9 +53,14 @@ public class OptionsPanelManager : MonoBehaviour {
 		}
 		dropDownLevels.ClearOptions();
 		dropDownLevels.AddOptions(list);
+
+		// send signal of update chart
+		viewChartPanel.GetComponent<ViewChartPanel>().UpdateChartPanel();
 	}
 
 	public void selectGameFromDropDown(int selectedIndex){
+		this.getGames().loadAllGames();
+		Debug.Log("### @selectGameFromDropDown Games.Rows.Count " + this.getGames().Games.Rows.Count);
 		DataRow dr = this.getGames().Games.Rows[selectedIndex];
 		Debug.Log("### Game was selected" + (string)dr[GameSQLite.Name] + " id="+(int)dr[GameSQLite.Id]);
 		populateGameLevelDropDownMenu((int)dr[GameSQLite.Id]);
@@ -65,6 +72,7 @@ public class OptionsPanelManager : MonoBehaviour {
 
 	void OnEnable (){
 		this.populateGamesDropDownMenu();
+		Debug.Log("###Selecting game on enable = " + this.dropDownGames.value);
 		selectGameFromDropDown(this.dropDownGames.value);
 
 		if(this.selectUserId <= 0){
@@ -74,6 +82,26 @@ public class OptionsPanelManager : MonoBehaviour {
 				Debug.Log("####Setting selected User =" + this.selectUserId);
 			}
 		}
+
+
+
+		/*string res = GameObject.FindGameObjectWithTag("InterfaceResultsManagerPrefabs").GetComponent<InterfaceResultsManagerPrefabs>().getResultsOf(0);
+		Debug.Log("### Response of InterfaceResultsManagerPrefabs 0 = " + res);
+		Debug.Log(GameObject.FindGameObjectWithTag("InterfaceResultsManagerPrefabs"));
+		Debug.Log(GameObject.FindGameObjectWithTag("InterfaceResultsManagerPrefabs").GetComponent<InterfaceResultsManagerPrefabs>());*/
+	}
+
+
+	public int getCurrentUser(){
+		return this.selectUserId;
+	}
+
+	public int getCurrentGame(){
+		return this.dropDownGames.value;
+	}
+
+	public int getCurrentLevel(){
+		return this.dropDownLevels.value;
 	}
 
 }

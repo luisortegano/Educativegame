@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using ORM;
 
-public class ResultManager_ReconocimientoFiguras : MonoBehaviour
+public class ResultManager_ReconocimientoFiguras : MonoBehaviour, IResult
 {
 	private LevelResultsSQLite results;
 
@@ -19,6 +20,15 @@ public class ResultManager_ReconocimientoFiguras : MonoBehaviour
 			JsonUtility.FromJsonOverwrite((string)current[LevelResultsSQLite.Result],lrj);
 			Debug.Log("###Values seted " + JsonUtility.ToJson(lrj));
 		}
+	}
+
+
+	public GameObject getResults (){
+		Text go = (Text)Instantiate(Resources.Load("Assets/Scripts/ResultInterface/GeneralResultText"));
+		//Text t = (Text)go;
+		go.text = "aqui escupo los promedios";
+		return go.gameObject;
+		//return "printing resuuuults!";
 	}
 }
 
