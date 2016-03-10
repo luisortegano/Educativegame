@@ -101,7 +101,7 @@ public class OptionsPanelManager : MonoBehaviour {
 	}
 
 	public int getCurrentLevel(){
-		return this.dropDownLevels.value;
+		return Mathf.Max(1, this.dropDownLevels.value);
 	}
 
 }
