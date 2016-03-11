@@ -47,8 +47,7 @@ public class GameController : MonoBehaviour {
 	public int amountToFind;
 	public int maxFails;
 	
-	
-	
+
 	public void initGameController (){
 		ic = imageCenter.GetComponent<ImageCenter>();
 	}
@@ -148,6 +147,7 @@ public class GameController : MonoBehaviour {
 	public void finishGame(){
 		getRF_Config().calculateExpendedTime((int)this.countDown);
 		getRF_Config().setHits(this.points);
+		Debug.Log("### SetFails = " + this.fails);
 		getRF_Config().setFails(this.fails);
 		getRF_Config().verifiedResult();
 		getRF_Config().persistResults();
@@ -171,4 +171,3 @@ public class GameController : MonoBehaviour {
 		this.maxFails = maxFails;
 	}
 }
-	

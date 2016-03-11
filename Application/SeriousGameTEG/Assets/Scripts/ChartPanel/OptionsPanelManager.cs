@@ -66,8 +66,13 @@ public class OptionsPanelManager : MonoBehaviour {
 		populateGameLevelDropDownMenu((int)dr[GameSQLite.Id]);
 	}
 
+	public void selectLevelFromDropDown(int selectedIndex){
+		// send signal of update chart
+		viewChartPanel.GetComponent<ViewChartPanel>().UpdateChartPanel();
+	}
+
 	public void setUserId (int UserId){
-		
+		this.selectUserId = UserId;
 	}
 
 	void OnEnable (){
@@ -101,7 +106,7 @@ public class OptionsPanelManager : MonoBehaviour {
 	}
 
 	public int getCurrentLevel(){
-		return Mathf.Max(1, this.dropDownLevels.value);
+		return Mathf.Max(1, this.dropDownLevels.value+1);
 	}
 
 }

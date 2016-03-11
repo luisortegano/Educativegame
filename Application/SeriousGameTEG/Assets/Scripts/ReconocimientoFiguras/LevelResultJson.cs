@@ -19,6 +19,7 @@ public class LevelResultJson{
 		this.maxHits = maxHits;
 		this.hits=hits;
 		this.maxFails=maxFails;
+		this.fails=fails;
 		this.winGame=winGame;
 	}
 

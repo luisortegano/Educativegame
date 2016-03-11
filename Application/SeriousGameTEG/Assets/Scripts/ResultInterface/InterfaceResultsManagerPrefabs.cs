@@ -11,7 +11,6 @@ public class InterfaceResultsManagerPrefabs : MonoBehaviour {
 		if( prefabsInterface.Count == 0 ||  prefabsInterface.Count <= IdGame ){
 			return null;
 		}
-
 		GameObject prefab = Instantiate(prefabsInterface[IdGame]);
 		GameObject res = prefab.GetComponent<IResult>().getResults(IdUser,IdGame+1,Level);
 		Destroy(prefab);

@@ -82,7 +82,6 @@ public class RF_Configuration : MonoBehaviour {
 
 		LevelResultJson lrJson = new LevelResultJson (this.challengeTime,this.expendedTime,this.maxDiscoverFigures,this.hits
 			,this.maxFails,this.fails,this.winGame);
-
 		Debug.Log("Resultados a Json: ["+JsonUtility.ToJson(lrJson)+"]");
 
 		levelResult.insertLevelResult(um.getUserSelected(), this.gameLevelPanel.CodeLevel,this.winGame,JsonUtility.ToJson(lrJson));
