@@ -37,9 +37,8 @@ public class CameraController : MonoBehaviour {
 				}else if (Screen.orientation == ScreenOrientation.LandscapeRight){
 					Image.transform.localScale = new Vector3 (1,-1,1);
 				}
-
-
 				this.cameraIsActive=true;
+				OnEnable();
 			}
 		}
 	}
@@ -58,7 +57,6 @@ public class CameraController : MonoBehaviour {
 	}
 
 	public void saveimage (){
-
 		if (this.cameraIsActive){
 			if( this.wct.isPlaying ){
 				// take picture
@@ -66,11 +64,6 @@ public class CameraController : MonoBehaviour {
 				this.wct.Pause();
 				snap.SetPixels(wct.GetPixels());
 				snap.Apply();
-
-				//if (wct.videoVerticallyMirrored)
-				//	snap = FlipTexture(photo);
-				//if (wct.videoRotationAngle != 0)
-				//	snap = RotateTexture(photo, wct.videoRotationAngle);
 
 				Debug.Log("###########SAVED ON: " + CameraController.temporalCapture );
 				File.WriteAllBytes(CameraController.temporalCapture, snap.EncodeToPNG());
@@ -81,5 +74,4 @@ public class CameraController : MonoBehaviour {
 			}
 		}
 	}
-
 }
