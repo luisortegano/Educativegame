@@ -6,7 +6,7 @@ using ORM;
 
 
 [Serializable]
-public class RF_Configuration : MonoBehaviour {
+public class RF_Configuration : MonoBehaviour, GameConfigurationInterface {
 	
 	/* Cantidad distintas de figuras que hay en el juego */
 	public int AmountFigures;

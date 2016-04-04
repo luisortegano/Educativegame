@@ -34,7 +34,7 @@ public class GameLevelPanel : MonoBehaviour {
 	}
 
 	public void clickPlay(){
-		Debug.Log ("Loading Game ("+GameId+")");
+		Debug.Log ("### Loading Game ("+GameId+")");
 		StartCoroutine(LoadLevelAditiveAs(GameId));
 	}
 }
