@@ -28,7 +28,6 @@ public class ResultManager_ReconocimientoFiguras : MonoBehaviour, IResult
 		Debug.Log("### @getResults("+IdUser+","+IdGame+","+Level+")");
 		DataTable dt = this.getResult().getLevelResults(IdUser, IdGame, Level);
 
-		List<LevelResultJson> resultados = new List<LevelResultJson>();
 		LevelResultJson lr;
 		LevelResultJson avg = new LevelResultJson(0,0,0,0,0,0,false);
 		Debug.Log("### Retrive results count = " + dt.Rows.Count);
