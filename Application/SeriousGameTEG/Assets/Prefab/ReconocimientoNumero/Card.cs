@@ -18,5 +18,8 @@ public class Card : MonoBehaviour {
 		StartCoroutine("fadeWarning");
 	}
 
+	public void displayCardNumber (){
+		this.numberCardText.text = this.numberCard.ToString();
+	}
 
 }
