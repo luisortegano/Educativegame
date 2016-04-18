@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,8 +10,9 @@ public class GameController_RN : MonoBehaviour {
 	public GameObject gameMainPanel;
 	public GameObject gamePanel;
 	public GameObject optionHolderPanel;
+	public GameObject finishPanel;
 
-//	GamePanel que mantiene los elementos de la lista deslizable 
+	// GamePanel que mantiene los elementos de la lista deslizable 
 	public GameObject cardsPanel;
 	public GameObject cardPrefab;
 	private Queue<GameObject> cardsQueue;
@@ -25,7 +27,7 @@ public class GameController_RN : MonoBehaviour {
 		this.gameMainPanel.SetActive(false);
 		mockConfiguration();
 		generateCards();
-		setFirstCard();
+		setHubCard();
 		this.gamePanel.SetActive(true);
 	}
 
@@ -46,7 +48,7 @@ public class GameController_RN : MonoBehaviour {
 			cards.Add(instantiateGame(i));
 		}
 
-//		Desordenar lista
+		// Desordenar lista
 		for (int i = 0; i < cards.Count; i++) {
 			GameObject temp = cards[i];
 			int randomIndex = Random.Range(i, cards.Count);
@@ -57,20 +59,33 @@ public class GameController_RN : MonoBehaviour {
 		this.cardsQueue = new Queue<GameObject> (cards);
 	}
 
-	void setFirstCard (){
-		Debug.Log("### Set first Card");
+	void changeCard (){
+		cardsQueue.Enqueue(cardsQueue.Dequeue());
+	}
+
+	public void setHubCard (){
+		this.changeCard();
 		GameObject firstElement = cardsQueue.Peek();
+		this.optionHolderPanel.GetComponentInChildren<Text>().text = firstElement.GetComponent<Card>().numberCard.ToString();
+	}
 
-		firstElement.transform.SetParent(this.optionHolderPanel.transform);
+	public bool checkCard( int checkNumber ){
+		if (0 == cardsQueue.Count){
+			return false;
+		}
 
-		firstElement.transform.localScale = new Vector3(1,1,1);
-
-		firstElement.GetComponent<Card>().displayCardNumber();
-		RectTransform rt = firstElement.GetComponent<RectTransform>();
-		rt.anchorMin = new Vector2(0, 0);
-		rt.anchorMax = new Vector2(1, 1);
-		rt.pivot = new Vector2(0.5f, 0.5f);
-		rt.localPosition = new Vector3(0f,0f,0f);
+		bool check = cardsQueue.Peek().GetComponent<Card>().numberCard == checkNumber;
+		if ( check ){
+			cardsQueue.Dequeue();
+			if (0<cardsQueue.Count ){
+				GameObject firstElement = cardsQueue.Peek();
+				this.optionHolderPanel.GetComponentInChildren<Text>().text = firstElement.GetComponent<Card>().numberCard.ToString();
+			}else{
+				this.optionHolderPanel.GetComponentInChildren<Text>().text = "-";
+				this.finishGame();
+			}
+		}
+		return check;
 	}
 
 	public GameObject instantiateGame (int NumberCard) {
@@ -82,4 +97,8 @@ public class GameController_RN : MonoBehaviour {
 		return newCard;
 	}
 
+	void finishGame(){
+		this.finishPanel.SetActive(true);
+		this.finishPanel.GetComponentInChildren<Text>().text = "Se acabo!";
+	}
 }

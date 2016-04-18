@@ -5,6 +5,7 @@ using System.Collections;
 [Serializable]
 public class Configuration_RN : MonoBehaviour, GameConfigurationInterface {
 
+	public float game_time;
 	public int amountNumbers;
 
 	public void setConfiguration (string JsonConfigurations){

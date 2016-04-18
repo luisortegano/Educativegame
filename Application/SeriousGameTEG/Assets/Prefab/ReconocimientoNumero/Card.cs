@@ -22,4 +22,22 @@ public class Card : MonoBehaviour {
 		this.numberCardText.text = this.numberCard.ToString();
 	}
 
+	public void click (){
+		GameObject GameController = GameObject.FindGameObjectWithTag("GameControllerSG");
+		GameController_RN gc = GameController.GetComponent<GameController_RN>();
+		if(gc.checkCard(this.numberCard)){
+			this.setWarning(new Color(0f,1f,0f));
+			this.numberCardText.text = this.numberCard.ToString();
+		}else{
+			this.setWarning(new Color(1f,0f,0f));
+		}
+//		if( numberCard.ToString() == numberCardText.text ){
+//			Debug.Log("Next Card was clicked");
+//			this.SendMessageUpwards("setHubCard");
+//		}else{
+//			Debug.Log("Card was clicked");
+//		}
+
+	}
+
 }
