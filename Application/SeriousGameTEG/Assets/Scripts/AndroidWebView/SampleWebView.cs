@@ -28,14 +28,10 @@ public class SampleWebView : MonoBehaviour
 	public GUIText status;
 	WebViewObject webViewObject;
 
-#if !UNITY_WEBPLAYER
+
 	IEnumerator Start()
-#else
-	void Start()
-#endif
 	{
-		webViewObject =
-			(new GameObject("WebViewObject")).AddComponent<WebViewObject>();
+		webViewObject = (new GameObject("WebViewObject")).AddComponent<WebViewObject>();
 		webViewObject.Init((msg)=>{
 			Debug.Log(string.Format("CallFromJS[{0}]", msg));
 			status.text = msg;
@@ -61,19 +57,49 @@ public class SampleWebView : MonoBehaviour
             System.IO.File.WriteAllText(dst, result);
             webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
         }
-        if (Application.platform != RuntimePlatform.Android) {
-            webViewObject.EvaluateJS(
-                "window.addEventListener('load', function() {" +
-                "	window.Unity = {" +
-                "		call:function(msg) {" +
-                "			var iframe = document.createElement('IFRAME');" +
-                "			iframe.setAttribute('src', 'unity:' + msg);" +
-                "			document.documentElement.appendChild(iframe);" +
-                "			iframe.parentNode.removeChild(iframe);" +
-                "			iframe = null;" +
-                "		}" +
-                "	}" +
-                "}, false);");
-        }
+//        if (Application.platform != RuntimePlatform.Android) {
+//            webViewObject.EvaluateJS(
+//                "window.addEventListener('load', function() {" +
+//                "	window.Unity = {" +
+//                "		call:function(msg) {" +
+//                "			var iframe = document.createElement('IFRAME');" +
+//                "			iframe.setAttribute('src', 'unity:' + msg);" +
+//                "			document.documentElement.appendChild(iframe);" +
+//                "			iframe.parentNode.removeChild(iframe);" +
+//                "			iframe = null;" +
+//                "		}" +
+//                "	}" +
+//                "}, false);");
+//        }
 	}
+
+
+	bool change = false;
+	public void changeSize () {
+		if(change){
+			webViewObject.SetMargins(5, 5, 5, Screen.height / 4);
+		}else{
+			webViewObject.SetMargins(5, 5, 5, 5);
+		}
+	}
+
+	bool hide = true;
+	public void hideWV () {
+		webViewObject.SetVisibility(hide);
+		hide = !hide;
+	}
+
+
+	bool destroy = true;
+	public void fenixM () {
+		if(destroy){
+			webViewObject.SetVisibility(false);
+			Destroy(webViewObject);
+		}else{
+			Start();
+		}
+		destroy = !destroy;
+	}
+
+
 }
