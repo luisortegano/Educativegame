@@ -45,57 +45,35 @@ public class SampleWebView : MonoBehaviour
 		webViewObject.SetMargins(5, 5, 5, Screen.height / 4);
 		webViewObject.SetVisibility(true);
 
-		switch (Application.platform) {
-#if !UNITY_WEBPLAYER
-		case RuntimePlatform.OSXEditor:
-		case RuntimePlatform.OSXPlayer:
-		case RuntimePlatform.IPhonePlayer:
-		case RuntimePlatform.Android:
-			if (Url.StartsWith("http")) {
-				webViewObject.LoadURL(Url.Replace(" ", "%20"));
-			} else {
-				var src = System.IO.Path.Combine(Application.streamingAssetsPath, Url);
-				var dst = System.IO.Path.Combine(Application.persistentDataPath, Url);
-				var result = "";
-				if (src.Contains("://")) {
-					var www = new WWW(src);
-					yield return www;
-					result = www.text;
-				} else {
-					result = System.IO.File.ReadAllText(src);
-				}
-				System.IO.File.WriteAllText(dst, result);
-				webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
-			}
-			if (Application.platform != RuntimePlatform.Android) {
-				webViewObject.EvaluateJS(
-					"window.addEventListener('load', function() {" +
-					"	window.Unity = {" +
-					"		call:function(msg) {" +
-					"			var iframe = document.createElement('IFRAME');" +
-					"			iframe.setAttribute('src', 'unity:' + msg);" +
-					"			document.documentElement.appendChild(iframe);" +
-					"			iframe.parentNode.removeChild(iframe);" +
-					"			iframe = null;" +
-					"		}" +
-					"	}" +
-					"}, false);");
-			}
-			break;
-#else
-		case RuntimePlatform.OSXWebPlayer:
-		case RuntimePlatform.WindowsWebPlayer:
-			webViewObject.LoadURL(Url.Replace(" ", "%20"));
-			webViewObject.EvaluateJS(
-				"parent.$(function() {" +
-				"	window.Unity = {" +
-				"		call:function(msg) {" +
-				"			parent.unityWebView.sendMessage('WebViewObject', msg)" +
-				"		}" +
-				"	};" +
-				"});");
-			break;
-#endif
-		}
+        if (Url.StartsWith("http")) {
+            webViewObject.LoadURL(Url.Replace(" ", "%20"));
+        } else {
+            var src = System.IO.Path.Combine(Application.streamingAssetsPath, Url);
+            var dst = System.IO.Path.Combine(Application.persistentDataPath, Url);
+            var result = "";
+            if (src.Contains("://")) {
+                var www = new WWW(src);
+                yield return www;
+                result = www.text;
+            } else {
+                result = System.IO.File.ReadAllText(src);
+            }
+            System.IO.File.WriteAllText(dst, result);
+            webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
+        }
+        if (Application.platform != RuntimePlatform.Android) {
+            webViewObject.EvaluateJS(
+                "window.addEventListener('load', function() {" +
+                "	window.Unity = {" +
+                "		call:function(msg) {" +
+                "			var iframe = document.createElement('IFRAME');" +
+                "			iframe.setAttribute('src', 'unity:' + msg);" +
+                "			document.documentElement.appendChild(iframe);" +
+                "			iframe.parentNode.removeChild(iframe);" +
+                "			iframe = null;" +
+                "		}" +
+                "	}" +
+                "}, false);");
+        }
 	}
 }
