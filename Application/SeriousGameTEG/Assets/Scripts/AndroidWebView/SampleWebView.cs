@@ -38,7 +38,7 @@ public class SampleWebView : MonoBehaviour
 			status.GetComponent<Animation>().Play();
 		});
 		
-		webViewObject.SetMargins(5, 5, 5, Screen.height / 4);
+		webViewObject.SetMargins(Mathf.RoundToInt(Screen.width*0.4f), Mathf.RoundToInt(Screen.height*.25f), 5, 0 );
 		webViewObject.SetVisibility(true);
 
         if (Url.StartsWith("http")) {
@@ -57,20 +57,6 @@ public class SampleWebView : MonoBehaviour
             System.IO.File.WriteAllText(dst, result);
             webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
         }
-//        if (Application.platform != RuntimePlatform.Android) {
-//            webViewObject.EvaluateJS(
-//                "window.addEventListener('load', function() {" +
-//                "	window.Unity = {" +
-//                "		call:function(msg) {" +
-//                "			var iframe = document.createElement('IFRAME');" +
-//                "			iframe.setAttribute('src', 'unity:' + msg);" +
-//                "			document.documentElement.appendChild(iframe);" +
-//                "			iframe.parentNode.removeChild(iframe);" +
-//                "			iframe = null;" +
-//                "		}" +
-//                "	}" +
-//                "}, false);");
-//        }
 	}
 
 

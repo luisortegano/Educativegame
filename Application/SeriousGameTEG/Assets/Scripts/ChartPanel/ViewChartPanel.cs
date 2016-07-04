@@ -25,4 +25,12 @@ public class ViewChartPanel : MonoBehaviour {
 		}
 	}
 
+	public void Start(){
+		
+	}
+
+//	IEnumerator properties (){
+//		
+//	}
+
 }

@@ -17,6 +17,7 @@ public class ChartPanel : MonoBehaviour {
 	
 	public void clickBackToHome(){
 		getUIM().MenuSetActive(Menu.ChartPanel,false);
+		getUIM().MenuSetActive(Menu.WebViewChart,false);
 		getUIM().MenuSetActive(Menu.HubPanel,true);
 		getUIM().MenuSetActive(Menu.HomePanel,true);
 	}
