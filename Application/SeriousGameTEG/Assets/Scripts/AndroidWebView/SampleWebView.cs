@@ -59,6 +59,12 @@ public class SampleWebView : MonoBehaviour
         }
 	}
 
+	public void SetActiveWebView(bool hideWebView){
+		Debug.Log("###### visible?" + hideWebView.ToString());
+		webViewObject.SetVisibility(hideWebView);
+		Debug.Log("###### END visible?" + hideWebView.ToString());
+	}
+
 
 	bool change = false;
 	public void changeSize () {

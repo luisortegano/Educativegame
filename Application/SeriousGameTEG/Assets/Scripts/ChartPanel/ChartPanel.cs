@@ -14,18 +14,26 @@ public class ChartPanel : MonoBehaviour {
 		}
 		return uim;
 	}
-	
-	public void clickBackToHome(){
-		getUIM().MenuSetActive(Menu.ChartPanel,false);
-		getUIM().MenuSetActive(Menu.WebViewChart,false);
-		getUIM().MenuSetActive(Menu.HubPanel,true);
-		getUIM().MenuSetActive(Menu.HomePanel,true);
-	}
 
 	void OnEnable (){
 		backButton.onClick.RemoveAllListeners();
 		backButton.onClick.AddListener(() => clickBackToHome());
 	}
+	
+	public void clickBackToHome(){
+		getUIM().MenuSetActive(Menu.ChartPanel,false);
+		//getUIM().MenuSetActive(Menu.WebViewChart,false);
+		GameObject wvc = GameObject.FindGameObjectWithTag("WebViewChart");
+		if( wvc == null ){
+			Debug.Log("############## NO se encontro objeto");
+		}else{
+			wvc.GetComponent<SampleWebView>().SetActiveWebView(false);
+		}
+		getUIM().MenuSetActive(Menu.HubPanel,true);
+		getUIM().MenuSetActive(Menu.HomePanel,true);
+	}
+
+
 
 	public void setUserId (int UserId){
 		this.IdChartUser = UserId;
