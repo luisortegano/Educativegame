@@ -41,7 +41,8 @@ public class OptionsPanelManager : MonoBehaviour {
 			foreach(DataRow dr in this.getGames().Games.Rows ){
 				list.Add((string)dr[GameSQLite.Name]);
 			}
-			dropDownGames.ClearOptions();
+			if(dropDownGames.options != null && 0 < dropDownGames.options.Count )
+				dropDownGames.ClearOptions();
 			dropDownGames.AddOptions(list);
 		}
 	}
@@ -87,8 +88,6 @@ public class OptionsPanelManager : MonoBehaviour {
 				Debug.Log("####Setting selected User =" + this.selectUserId);
 			}
 		}
-
-
 
 		/*string res = GameObject.FindGameObjectWithTag("InterfaceResultsManagerPrefabs").GetComponent<InterfaceResultsManagerPrefabs>().getResultsOf(0);
 		Debug.Log("### Response of InterfaceResultsManagerPrefabs 0 = " + res);

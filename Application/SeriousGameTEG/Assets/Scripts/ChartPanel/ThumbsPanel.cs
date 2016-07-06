@@ -14,6 +14,7 @@ public class ThumbsPanel : MonoBehaviour {
 		GameObject[] ListUsers = GameObject.FindGameObjectsWithTag("UserThumbButton");
 		this.cleanContentPanel(ListUsers);
 		this.populateUsers();
+		this.gameObject.GetComponentInChildren<UserChartThumbButton>().setAsActualUserChart();
 	}
 
 	public void cleanContentPanel(GameObject[] ListUsers){

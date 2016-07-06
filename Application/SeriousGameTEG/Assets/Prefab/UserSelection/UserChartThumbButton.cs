@@ -15,6 +15,6 @@ public class UserChartThumbButton : MonoBehaviour {
 	public RawImage avatarUser;
 
 	public void setAsActualUserChart (){
-		GameObject.FindGameObjectWithTag("OptionChartManager").SendMessage("setUserId",this.userId);
+		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("setUserId",this.userId);
 	}
 }
