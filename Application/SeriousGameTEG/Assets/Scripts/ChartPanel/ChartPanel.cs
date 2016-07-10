@@ -9,7 +9,8 @@ public class ChartPanel : MonoBehaviour {
 	public Button backButton;
 	public int IdChartUser;
 
-	public GameObject UserOptionPanel;
+	public GameObject OptionPanelRoot;
+	public GameObject UserOptionPanelObject;
 	public GameObject ChartsOptionPanel;
 
 
@@ -55,12 +56,15 @@ public class ChartPanel : MonoBehaviour {
 		UserSQLite userSQL = new UserSQLite ();
 		User user = userSQL.getUserData(this.IdChartUser);
 
-		// Remove all objects
-		foreach( GameObject current in this.gameObject.GetComponentsInChildren<GameObject>()){
-			DestroyImmediate(current);
+
+		//Create Panel If not exits
+		if( UserOptionPanelObject == null ){
+			UserOptionPanelObject = Instantiate(Resources.Load("UseroptionPanelPrefab", typeof (GameObject))) as GameObject;
+			UserOptionPanelObject.transform.SetParent(OptionPanelRoot.gameObject.transform, false);
 		}
 
-		// Insert Values of user
+		UserOptionalPanel script = UserOptionPanelObject.GetComponent<UserOptionalPanel>();
+		script.setUserInfo(user.Id,user.Name,user.LastName);
 
 	}
 	
