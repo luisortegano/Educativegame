@@ -63,6 +63,11 @@ namespace ORM {
 			return user;
 		}
 
+		public void updateUserData (User uu){
+			this.sqlDB().ExecuteNonQuery("UPDATE "+ UserSQLite.table + " SET " + UserSQLite.Name + "='" + uu.Name
+				+ "', " + UserSQLite.LastName +"='"+uu.LastName + "' WHERE " + UserSQLite.Id + "=" + uu.Id);
+		}
+
 	}
 
 	public class User {

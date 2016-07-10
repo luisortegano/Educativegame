@@ -56,16 +56,19 @@ public class ChartPanel : MonoBehaviour {
 		UserSQLite userSQL = new UserSQLite ();
 		User user = userSQL.getUserData(this.IdChartUser);
 
-
 		//Create Panel If not exits
 		if( UserOptionPanelObject == null ){
-			UserOptionPanelObject = Instantiate(Resources.Load("UseroptionPanelPrefab", typeof (GameObject))) as GameObject;
+			UserOptionPanelObject = Instantiate(Resources.Load("UserOptionPanelPrefab", typeof (GameObject))) as GameObject;
 			UserOptionPanelObject.transform.SetParent(OptionPanelRoot.gameObject.transform, false);
 		}
 
-		UserOptionalPanel script = UserOptionPanelObject.GetComponent<UserOptionalPanel>();
-		script.setUserInfo(user.Id,user.Name,user.LastName);
+		UserOptionalPanel scriptUserOptionPanel = UserOptionPanelObject.GetComponent<UserOptionalPanel>();
+		scriptUserOptionPanel.setUserInfo(user);
+	}
 
+	public void destroyUserOption(){
+		DestroyImmediate(UserOptionPanelObject);
+		UserOptionPanelObject = null;
 	}
 	
 }
