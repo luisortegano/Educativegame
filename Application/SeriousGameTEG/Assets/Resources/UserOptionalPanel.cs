@@ -30,11 +30,17 @@ public class UserOptionalPanel : MonoBehaviour {
 		}
 	}
 
+	public void clearInputs (){
+		NameInput.GetComponent<InputField>().text = "";
+		LastNameInput.GetComponent<InputField>().text = "";
+		NameInput.GetComponent<InputField>().ForceLabelUpdate();
+		LastNameInput.GetComponent<InputField>().ForceLabelUpdate();
+	}
+
 	public void updateUser (){
 		UserSQLite userSQL = new UserSQLite ();
 		this.user.Name = this.NameInput.GetComponent<InputField>().text;
 		this.user.LastName = this.LastNameInput.GetComponent<InputField>().text;
-//		Debug.Log(this.user.Name + " " + this.user.LastName);
 		userSQL.updateUserData(this.user);
 	}
 }

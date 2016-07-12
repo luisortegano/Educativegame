@@ -24,11 +24,36 @@ using UnityEngine;
 public class SampleWebView : MonoBehaviour
 {
 	public string Url;
-	public string SameDomainUrl;
+//	public string SameDomainUrl;
 //	public GUIText status;
 	WebViewObject webViewObject;
 
-	void Start (){
+	public IEnumerator CreateWebView (){
+		Debug.Log("##### The method CreateWebView was reached");
+
+		//Crear GO y ponerle el componente de WVO
+		webViewObject = (new GameObject("WebViewObject")).AddComponent<WebViewObject>();
+		webViewObject.Init(); // Inicializar WVO sin script
+
+		webViewObject.SetMargins(Mathf.RoundToInt(Screen.width*0.4f), Mathf.RoundToInt(Screen.height*.25f), 5, 0 ); 
+		webViewObject.SetVisibility(true);
+
+		if (Url.StartsWith("http")) {
+            webViewObject.LoadURL(Url.Replace(" ", "%20"));
+        } else {
+            var src = System.IO.Path.Combine(Application.streamingAssetsPath, Url);
+            var dst = System.IO.Path.Combine(Application.persistentDataPath, Url);
+            var result = "";
+            if (src.Contains("://")) {
+                var www = new WWW(src);
+                yield return www;
+                result = www.text;
+            } else {
+                result = System.IO.File.ReadAllText(src);
+            }
+            System.IO.File.WriteAllText(dst, result);
+            webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
+        }
 
 	}
 
@@ -91,7 +116,7 @@ public class SampleWebView : MonoBehaviour
 			webViewObject.SetVisibility(false);
 			Destroy(webViewObject);
 		}else{
-			Start();
+//			Start();
 		}
 		destroy = !destroy;
 	}

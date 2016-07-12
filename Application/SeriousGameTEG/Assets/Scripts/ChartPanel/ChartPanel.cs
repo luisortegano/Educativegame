@@ -11,7 +11,7 @@ public class ChartPanel : MonoBehaviour {
 
 	public GameObject OptionPanelRoot;
 	public GameObject UserOptionPanelObject;
-	public GameObject ChartsOptionPanel;
+	public GameObject ChartsOptionPanelObject;
 
 
 	UserInterfaceManager getUIM(){
@@ -24,6 +24,9 @@ public class ChartPanel : MonoBehaviour {
 	void OnEnable (){
 		backButton.onClick.RemoveAllListeners();
 		backButton.onClick.AddListener(() => clickBackToHome());
+
+		// Crear WebView y activarlo
+		OptionPanelRoot.BroadcastMessage("CreateWebView");
 	}
 	
 	public void clickBackToHome(){
@@ -50,7 +53,7 @@ public class ChartPanel : MonoBehaviour {
 		Debug.Log("### UserId = "+ IdChartUser);
 
 		//Hide other options sub-panels
-		ChartsOptionPanel.SetActive(false);
+		ChartsOptionPanelObject.SetActive(false);
 
 		//Find User values 
 		UserSQLite userSQL = new UserSQLite ();
@@ -67,8 +70,18 @@ public class ChartPanel : MonoBehaviour {
 	}
 
 	public void destroyUserOption(){
+		if( UserOptionPanelObject == null ) return;
 		DestroyImmediate(UserOptionPanelObject);
 		UserOptionPanelObject = null;
+	}
+
+	public void DisplayChartsOption (){
+		//Hide other options sub-panel
+		destroyUserOption();
+
+		//Display Option Charts
+		ChartsOptionPanelObject.SetActive(true);
+
 	}
 	
 }

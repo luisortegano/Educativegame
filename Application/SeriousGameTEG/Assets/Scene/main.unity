@@ -4164,7 +4164,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1629600399}
+      - m_Target: {fileID: 0}
         m_MethodName: fenixM
         m_Mode: 1
         m_Arguments:
@@ -4944,7 +4944,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1118823627}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1650417224}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1118823627
@@ -6081,7 +6092,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1629600399}
+      - m_Target: {fileID: 0}
         m_MethodName: hideWV
         m_Mode: 1
         m_Arguments:
@@ -6853,7 +6864,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Url: testEmbebed.html
-  SameDomainUrl: 
 --- !u!4 &1629600400
 Transform:
   m_ObjectHideFlags: 0
@@ -6974,7 +6984,7 @@ MonoBehaviour:
   IdChartUser: 0
   OptionPanelRoot: {fileID: 2016879364}
   UserOptionPanelObject: {fileID: 0}
-  ChartsOptionPanel: {fileID: 957469713}
+  ChartsOptionPanelObject: {fileID: 957469713}
 --- !u!1 &1671436291
 GameObject:
   m_ObjectHideFlags: 0
@@ -7668,7 +7678,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1834655371}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1650417229}
+        m_MethodName: DisplayChartsOption
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1834655371
@@ -8054,7 +8075,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1629600399}
+      - m_Target: {fileID: 0}
         m_MethodName: changeSize
         m_Mode: 1
         m_Arguments:
