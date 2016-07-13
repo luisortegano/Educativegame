@@ -4551,7 +4551,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Graficos
+  m_Text: Reportes
 --- !u!222 &1074612134
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8794,8 +8794,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewChartPanel: {fileID: 1190454696}
-  dropDownGames: {fileID: 0}
-  dropDownLevels: {fileID: 0}
+  dropDownGames: {fileID: 1107219976}
+  dropDownLevels: {fileID: 1547372228}
   selectUserId: 1
 --- !u!114 &2016879370
 MonoBehaviour:
