@@ -19,6 +19,7 @@ TagManager:
   - OptionChartManager
   - InterfaceResultsManagerPrefabs
   - WebViewChart
+  - rev
   layers:
   - Default
   - TransparentFX

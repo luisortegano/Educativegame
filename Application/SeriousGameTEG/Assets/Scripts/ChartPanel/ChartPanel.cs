@@ -13,6 +13,45 @@ public class ChartPanel : MonoBehaviour {
 	public GameObject UserOptionPanelObject;
 	public GameObject ChartsOptionPanelObject;
 
+	public string URL;
+	GameObject supportWebViewObject;
+	public GameObject ViewChartPanelObject;
+
+	public IEnumerator CreateWebView (){
+		Debug.Log("##### The method CreateWebView was reached");
+
+		//Crear GO y ponerle el componente de WVO
+		supportWebViewObject = new GameObject("WebViewObject");
+		WebViewObject webViewObject = supportWebViewObject.AddComponent<WebViewObject>();
+		webViewObject.Init(); // Inicializar WVO sin script
+
+		webViewObject.SetMargins(Mathf.RoundToInt(Screen.width*0.37f), Mathf.RoundToInt(Screen.height*.1f), 5, 0 );
+		webViewObject.SetVisibility(true);
+
+		if (URL.StartsWith("http")) {
+            webViewObject.LoadURL(URL.Replace(" ", "%20"));
+        } else {
+			var src = System.IO.Path.Combine(Application.streamingAssetsPath, URL);
+			var dst = System.IO.Path.Combine(Application.persistentDataPath, URL);
+            var result = "";
+            if (src.Contains("://")) {
+                var www = new WWW(src);
+                yield return www;
+                result = www.text;
+            } else {
+                result = System.IO.File.ReadAllText(src);
+            }
+            System.IO.File.WriteAllText(dst, result);
+            webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
+        }
+
+	}
+
+	public void DestroyWebView (){
+		DestroyImmediate(supportWebViewObject.GetComponent<WebViewObject>());
+		DestroyImmediate(supportWebViewObject);
+		supportWebViewObject=null;
+	}
 
 	UserInterfaceManager getUIM(){
 		if(uim==null){
@@ -26,18 +65,22 @@ public class ChartPanel : MonoBehaviour {
 		backButton.onClick.AddListener(() => clickBackToHome());
 
 		// Crear WebView y activarlo
-		OptionPanelRoot.BroadcastMessage("CreateWebView");
+		StartCoroutine(CreateWebView());
+	}
+
+	void OnDisable (){
+		DestroyWebView();
 	}
 	
 	public void clickBackToHome(){
 		getUIM().MenuSetActive(Menu.ChartPanel,false);
 		//getUIM().MenuSetActive(Menu.WebViewChart,false);
-		GameObject wvc = GameObject.FindGameObjectWithTag("WebViewChart");
-		if( wvc == null ){
-			Debug.Log("############## NO se encontro objeto");
-		}else{
-			wvc.GetComponent<SampleWebView>().SetActiveWebView(false);
-		}
+//		GameObject wvc = GameObject.FindGameObjectWithTag("WebViewChart");
+//		if( wvc == null ){
+//			Debug.Log("############## NO se encontro objeto");
+//		}else{
+//			wvc.GetComponent<SampleWebView>().SetActiveWebView(false);
+//		}
 		getUIM().MenuSetActive(Menu.HubPanel,true);
 		getUIM().MenuSetActive(Menu.HomePanel,true);
 	}

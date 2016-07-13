@@ -26,7 +26,7 @@ public class ViewChartPanel : MonoBehaviour {
 	}
 
 	public void Start(){
-		
+//		Debug.Log("###### X=" + this.GetComponent<RectTransform>().rect.size.x + " || Y=" + this.GetComponent<RectTransform>().rect.size.y );
 	}
 
 //	IEnumerator properties (){
