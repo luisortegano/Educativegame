@@ -7,8 +7,8 @@ virtual methos are dospised for basic behavior
 **/
 
 public abstract class Report {
-	private int Id;
-	private string Name;
-	private string Description;
-	private string Prefab;
+	public int Id;
+	public string Name;
+	public string Description;
+	public string Prefab;
 }
