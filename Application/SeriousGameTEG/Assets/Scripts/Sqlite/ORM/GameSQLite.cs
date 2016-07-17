@@ -45,6 +45,9 @@ namespace ORM {
 		public Game getGame(int Id_game){
 			DataTable result = this.sqlDB().ExecuteQuery("SELECT * FROM game WHERE id=" + Id_game);
 			if( result.Rows.Count != 1 ) return null;
+			return new Game((int)result.Rows[0][GameSQLite.Id],(int)result.Rows[0][GameSQLite.Id_Category],
+				(string)result.Rows[0][GameSQLite.Name], (string)result.Rows[0][GameSQLite.Description],
+				(int)result.Rows[0][GameSQLite.Level_code_pass], 0<(int)result.Rows[0][GameSQLite.Is_Default]);
 		}
 
 		public SqliteDatabase sqlDB (){
