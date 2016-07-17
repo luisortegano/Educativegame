@@ -37,10 +37,8 @@ public class GameLevelContentPanel : MonoBehaviour {
 		UserManager um = GameObject.FindGameObjectWithTag("ConfigurationObject").GetComponent<UserManager>();
 		GameLevelSQLite gameORM = new GameLevelSQLite ();
 		Debug.Log("### UserSelected="+um.getUserSelected()+"| GameIDSelected="+this.GameIdSelected);
-		DataTable dt = gameORM.getLevelsOfGame ( um.getUserSelected(), this.GameIdSelected);
-		Debug.Log("### Cantidad de niveles "+ dt.Rows.Count);
-		foreach (DataRow level in dt.Rows) {
-			this.instantiateGameLevel(this.GameIdSelected,(int)level[GameLevelSQLite.code] ,(int)level[GameLevelSQLite.Level],(string)level[GameLevelSQLite.Configuration]);
+		foreach (GameLevelDTO level in gameORM.getLevelsOfGame ( um.getUserSelected(), this.GameIdSelected)) {
+			this.instantiateGameLevel(this.GameIdSelected, level.Code, level.Level, level.Configuration);
 		}
 	}
 	

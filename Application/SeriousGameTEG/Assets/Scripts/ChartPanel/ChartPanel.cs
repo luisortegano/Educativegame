@@ -75,14 +75,9 @@ public class ChartPanel : MonoBehaviour {
 	}
 	
 	public void clickBackToHome(){
+		destroyUserOption();
+		destroyReportSelection();
 		getUIM().MenuSetActive(Menu.ChartPanel,false);
-		//getUIM().MenuSetActive(Menu.WebViewChart,false);
-//		GameObject wvc = GameObject.FindGameObjectWithTag("WebViewChart");
-//		if( wvc == null ){
-//			Debug.Log("############## NO se encontro objeto");
-//		}else{
-//			wvc.GetComponent<SampleWebView>().SetActiveWebView(false);
-//		}
 		getUIM().MenuSetActive(Menu.HubPanel,true);
 		getUIM().MenuSetActive(Menu.HomePanel,true);
 	}

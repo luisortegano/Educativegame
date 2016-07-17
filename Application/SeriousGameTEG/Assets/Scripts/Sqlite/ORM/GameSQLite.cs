@@ -37,9 +37,14 @@ namespace ORM {
 			return null;
 		}
 
-		public DataTable getLevelsOfGame (int IdUser,int IdGame){
+		public List<GameLevelDTO> getLevelsOfGame (int IdUser,int IdGame){
 			GameLevelSQLite GameLevelORM = new GameLevelSQLite ();
 			return GameLevelORM.getLevelsOfGame (IdUser, IdGame);
+		}
+
+		public Game getGame(int Id_game){
+			DataTable result = this.sqlDB().ExecuteQuery("SELECT * FROM game WHERE id=" + Id_game);
+			if( result.Rows.Count != 1 ) return null;
 		}
 
 		public SqliteDatabase sqlDB (){
@@ -47,6 +52,24 @@ namespace ORM {
 				sqlDBAttr = new SqliteDatabase(Path.Combine (Application.persistentDataPath, "TEG_SG.db"));
 			}
 			return sqlDBAttr;
+		}
+	}
+
+	public class Game {
+		public int Id;
+		public int Id_Category;
+		public string Name;
+		public string Description;
+		public int Level_code_pass;
+		public bool Is_Default;
+
+		public Game (int Id, int Id_Category, string Name, string Description, int Level_code_pass, bool isdef){
+			this.Id = Id;
+			this.Id_Category = Id_Category;
+			this.Name=Name;
+			this.Description=Description;
+			this.Level_code_pass=Level_code_pass;
+			this.Is_Default = isdef;
 		}
 	}
 }

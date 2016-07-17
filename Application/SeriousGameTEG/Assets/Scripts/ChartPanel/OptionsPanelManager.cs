@@ -49,8 +49,8 @@ public class OptionsPanelManager : MonoBehaviour {
 
 	void populateGameLevelDropDownMenu (int IdGame){
 		List<string> list = new List<string>();
-		foreach( DataRow dr in this.getLevels().getAllLevelsOfGame(IdGame).Rows ){
-			list.Add(((int)dr[GameLevelSQLite.Level]).ToString());
+		foreach( GameLevelDTO current in this.getLevels().getAllLevelsOfGame(IdGame) ){
+			list.Add(((int)current.Level).ToString());
 		}
 		dropDownLevels.ClearOptions();
 		dropDownLevels.AddOptions(list);
