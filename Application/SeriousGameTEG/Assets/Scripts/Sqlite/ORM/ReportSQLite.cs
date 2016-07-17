@@ -8,7 +8,7 @@ namespace ORM {
 		public static string table = "report";
 		public static string Id = "id";
 		public static string Name = "name";
-		public static string Description = "lastname";
+		public static string Description = "description";
 		public static string Prefab = "prefab_name";
 		private SqliteDatabase sqlDBAttr = null;
 

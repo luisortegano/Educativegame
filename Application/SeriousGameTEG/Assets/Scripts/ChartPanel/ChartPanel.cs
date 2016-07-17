@@ -11,6 +11,7 @@ public class ChartPanel : MonoBehaviour {
 
 	public GameObject OptionPanelRoot;
 	public GameObject UserOptionPanelObject;
+	private GameObject ReportSelectionPanelObject;
 	public GameObject ChartsOptionPanelObject;
 
 	public string URL;
@@ -25,7 +26,8 @@ public class ChartPanel : MonoBehaviour {
 		WebViewObject webViewObject = supportWebViewObject.AddComponent<WebViewObject>();
 		webViewObject.Init(); // Inicializar WVO sin script
 
-		webViewObject.SetMargins(Mathf.RoundToInt(Screen.width*0.37f), Mathf.RoundToInt(Screen.height*.1f), 5, 0 );
+		//Valores a Ojo % 
+		webViewObject.SetMargins(Mathf.RoundToInt(Screen.width*0.39f), Mathf.RoundToInt(Screen.height*.12f), 10, 10);
 		webViewObject.SetVisibility(true);
 
 		if (URL.StartsWith("http")) {
@@ -90,13 +92,10 @@ public class ChartPanel : MonoBehaviour {
 		this.IdChartUser = UserId;
 	}
 
-
-
 	public void DisplayUserProperties(){
-		Debug.Log("### UserId = "+ IdChartUser);
-
 		//Hide other options sub-panels
 		ChartsOptionPanelObject.SetActive(false);
+		destroyReportSelection();
 
 		//Find User values 
 		UserSQLite userSQL = new UserSQLite ();
@@ -121,10 +120,28 @@ public class ChartPanel : MonoBehaviour {
 	public void DisplayChartsOption (){
 		//Hide other options sub-panel
 		destroyUserOption();
+		destroyReportSelection();
 
 		//Display Option Charts
 		ChartsOptionPanelObject.SetActive(true);
 
+	}
+
+	public void DisplayReportSelection (){
+		//Hide other options sub-panels
+		destroyUserOption();
+		ChartsOptionPanelObject.SetActive(false);
+
+		//Create Panel If not exits
+		if( ReportSelectionPanelObject == null ){
+			ReportSelectionPanelObject = Instantiate( Resources.Load("ReportPanel",typeof(GameObject))) as GameObject;
+			ReportSelectionPanelObject.transform.SetParent(OptionPanelRoot.gameObject.transform, false);
+		}
+	}
+
+	public void destroyReportSelection(){
+		if( ReportSelectionPanelObject == null ) return;
+		DestroyImmediate(ReportSelectionPanelObject);
 	}
 	
 }
