@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: a5918bc17027bd8488f93f1041add26c
 timeCreated: 1468974354
+=======
+guid: 589481997f5b4c34e83ea0f67f8fd595
+timeCreated: 1468841473
+>>>>>>> origin/modulo-reportes
 licenseType: Free
 DefaultImporter:
   userData: 

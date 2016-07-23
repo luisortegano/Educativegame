@@ -21,13 +21,13 @@ public class RFGanadosDia : MonoBehaviour {
 		levels = levelSQL.getAllLevelsOfGame(this.Game);
 
 		//Add checkbox per level
-		GameObject auxiliar;
-		foreach(GameLevelDTO current in levels){
-			auxiliar = Instantiate( Resources.Load("utils/Checkbox",typeof(GameObject))) as GameObject;
-			auxiliar.GetComponentInChildren<Text>().text = current.Level.ToString();
-			auxiliar.gameObject.transform.SetParent(this.gameObject.transform,false);
-			LevelCheckBox.Add(auxiliar);
-		}
+//		GameObject auxiliar;
+//		foreach(GameLevelDTO current in levels){
+//			auxiliar = Instantiate( Resources.Load("utils/Checkbox",typeof(GameObject))) as GameObject;
+//			auxiliar.GetComponentInChildren<Text>().text = current.Level.ToString();
+//			auxiliar.gameObject.transform.SetParent(this.gameObject.transform,false);
+//			LevelCheckBox.Add(auxiliar);
+//		}
 	}
 
 }
