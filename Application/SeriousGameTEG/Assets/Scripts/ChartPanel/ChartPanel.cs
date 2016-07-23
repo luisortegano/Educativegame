@@ -9,10 +9,12 @@ public class ChartPanel : MonoBehaviour {
 	public Button backButton;
 	public int IdChartUser;
 
-	public GameObject OptionPanelRoot;
-	public GameObject UserOptionPanelObject;
+	public GameObject OptionPanelRoot;				//Panel to display widgets
+	private GameObject UserOptionPanelObject;		//
 	private GameObject ReportSelectionPanelObject;
-	public GameObject ChartsOptionPanelObject;
+	private GameObject ReportOptionsPanelObject;
+
+	public GameObject ChartsOptionPanelObject;  /**DEPRECATED**/
 
 	public string URL;
 	GameObject supportWebViewObject;
@@ -77,6 +79,7 @@ public class ChartPanel : MonoBehaviour {
 	public void clickBackToHome(){
 		destroyUserOption();
 		destroyReportSelection();
+		destroyReportOption();
 		getUIM().MenuSetActive(Menu.ChartPanel,false);
 		getUIM().MenuSetActive(Menu.HubPanel,true);
 		getUIM().MenuSetActive(Menu.HomePanel,true);
@@ -90,7 +93,8 @@ public class ChartPanel : MonoBehaviour {
 	public void DisplayUserProperties(){
 		//Hide other options sub-panels
 		ChartsOptionPanelObject.SetActive(false);
-		destroyReportSelection();
+		hideReportSelection();
+		hideReportOption();
 
 		//Find User values 
 		UserSQLite userSQL = new UserSQLite ();
@@ -101,6 +105,7 @@ public class ChartPanel : MonoBehaviour {
 			UserOptionPanelObject = Instantiate(Resources.Load("UserOptionPanelPrefab", typeof (GameObject))) as GameObject;
 			UserOptionPanelObject.transform.SetParent(OptionPanelRoot.gameObject.transform, false);
 		}
+		UserOptionPanelObject.SetActive(true);
 
 		UserOptionalPanel scriptUserOptionPanel = UserOptionPanelObject.GetComponent<UserOptionalPanel>();
 		scriptUserOptionPanel.setUserInfo(user);
@@ -109,22 +114,17 @@ public class ChartPanel : MonoBehaviour {
 	public void destroyUserOption(){
 		if( UserOptionPanelObject == null ) return;
 		DestroyImmediate(UserOptionPanelObject);
-		UserOptionPanelObject = null;
 	}
 
-	public void DisplayChartsOption (){
-		//Hide other options sub-panel
-		destroyUserOption();
-		destroyReportSelection();
-
-		//Display Option Charts
-		ChartsOptionPanelObject.SetActive(true);
-
+	public void hideUserOption(){
+		if( UserOptionPanelObject == null ) return;
+		UserOptionPanelObject.SetActive(false);
 	}
 
 	public void DisplayReportSelection (){
 		//Hide other options sub-panels
-		destroyUserOption();
+		hideUserOption();
+		hideReportOption();
 		ChartsOptionPanelObject.SetActive(false);
 
 		//Create Panel If not exits
@@ -132,11 +132,47 @@ public class ChartPanel : MonoBehaviour {
 			ReportSelectionPanelObject = Instantiate( Resources.Load("ReportPanel",typeof(GameObject))) as GameObject;
 			ReportSelectionPanelObject.transform.SetParent(OptionPanelRoot.gameObject.transform, false);
 		}
+		ReportSelectionPanelObject.SetActive(true);
 	}
 
 	public void destroyReportSelection(){
 		if( ReportSelectionPanelObject == null ) return;
 		DestroyImmediate(ReportSelectionPanelObject);
 	}
-	
+
+	public void hideReportSelection(){
+		if( ReportSelectionPanelObject == null ) return;
+		ReportSelectionPanelObject.SetActive(false);
+	}
+
+	public void DisplayReportOption (){
+		//Hide other options sub-panel
+		hideUserOption();
+		hideReportSelection();
+
+		//Display Option Charts
+		// OLD ChartsOptionPanelObject.SetActive(true);
+
+		if(ReportSelectionPanelObject==null)return;
+		//Find name of Report prefab
+		string prefab = ReportSelectionPanelObject.GetComponent<ReportPanel>().getNamePrefabOfSelectedReport();
+
+
+		//Create Panel If not exits
+		if( ReportOptionsPanelObject == null ){
+			ReportOptionsPanelObject = Instantiate(Resources.Load(prefab, typeof (GameObject))) as GameObject;
+			ReportOptionsPanelObject.transform.SetParent(OptionPanelRoot.gameObject.transform, false);
+		}
+		ReportOptionsPanelObject.SetActive(true);
+	}
+
+	public void destroyReportOption(){
+		if( ReportOptionsPanelObject == null ) return;
+		DestroyImmediate(ReportOptionsPanelObject);
+	}
+
+	public void hideReportOption(){
+		if( ReportOptionsPanelObject == null ) return;
+		ReportOptionsPanelObject.SetActive(false);
+	}
 }

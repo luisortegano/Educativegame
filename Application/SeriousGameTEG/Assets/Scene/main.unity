@@ -470,8 +470,8 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 152.42574, y: -172.44234}
-  m_SizeDelta: {x: 304.85147, y: 15.094339}
+  m_AnchoredPosition: {x: 152.42574, y: -172.53424}
+  m_SizeDelta: {x: 304.85147, y: 15.068493}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &195960600
 MonoBehaviour:
@@ -1111,8 +1111,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 152.42574, y: -107.34801}
-  m_SizeDelta: {x: 304.85147, y: 15.094339}
+  m_AnchoredPosition: {x: 152.42574, y: -107.46575}
+  m_SizeDelta: {x: 304.85147, y: 15.068493}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &366221258
 MonoBehaviour:
@@ -3784,10 +3784,10 @@ RectTransform:
   - {fileID: 1547372226}
   m_Father: {fileID: 2016879365}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0000076293945, y: 0.000015258789}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 152.42574, y: -160}
+  m_SizeDelta: {x: 304.85147, y: 320}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &957469715
 MonoBehaviour:
@@ -4627,7 +4627,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 152.42574, y: -139.89517}
+  m_AnchoredPosition: {x: 152.42574, y: -140}
   m_SizeDelta: {x: 304.85147, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1107219975
@@ -6721,7 +6721,7 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 152.42574, y: -204.98952}
+  m_AnchoredPosition: {x: 152.42574, y: -205.0685}
   m_SizeDelta: {x: 304.85147, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1547372227
@@ -6942,7 +6942,6 @@ MonoBehaviour:
   backButton: {fileID: 1018134934}
   IdChartUser: 0
   OptionPanelRoot: {fileID: 2016879364}
-  UserOptionPanelObject: {fileID: 0}
   ChartsOptionPanelObject: {fileID: 957469713}
   URL: home.html
   ViewChartPanelObject: {fileID: 1190454696}
@@ -7641,7 +7640,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1650417229}
-        m_MethodName: DisplayChartsOption
+        m_MethodName: DisplayReportOption
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

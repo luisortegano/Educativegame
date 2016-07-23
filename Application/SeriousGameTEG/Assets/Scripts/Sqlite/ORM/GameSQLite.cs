@@ -29,7 +29,7 @@ namespace ORM {
 		}
 
 		public bool loadAllGames (){
-			this.games = this.sqlDB().ExecuteQuery("select game.name as name, game.id as id from game join category on  game.id_category = category.id");
+			this.games = this.sqlDB().ExecuteQuery("select game.name as name, game.id as id FROM game JOIN category on  game.id_category = category.id");
 			return this.Games!=null;
 		}
 
@@ -48,6 +48,17 @@ namespace ORM {
 			return new Game((int)result.Rows[0][GameSQLite.Id],(int)result.Rows[0][GameSQLite.Id_Category],
 				(string)result.Rows[0][GameSQLite.Name], (string)result.Rows[0][GameSQLite.Description],
 				(int)result.Rows[0][GameSQLite.Level_code_pass], 0<(int)result.Rows[0][GameSQLite.Is_Default]);
+		}
+
+		public List<Game> getAllGames(){
+			DataTable result = this.sqlDB().ExecuteQuery("SELECT * FROM game");
+			List<Game> games = new List<Game>();
+			foreach( DataRow current in result.Rows ){
+				games.Add(new Game((int)current[GameSQLite.Id], (int)current[GameSQLite.Id_Category],
+					(string)current[GameSQLite.Name], (string)current[GameSQLite.Description],
+					(int)current[GameSQLite.Level_code_pass], 0<(int)current[GameSQLite.Is_Default]));
+			}
+			return games;
 		}
 
 		public SqliteDatabase sqlDB (){

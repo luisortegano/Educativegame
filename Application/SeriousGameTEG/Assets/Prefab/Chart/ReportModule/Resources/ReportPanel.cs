@@ -27,5 +27,9 @@ public class ReportPanel : MonoBehaviour {
 			Description.text = listReports[ReportDropdownName.value].Description;
 	}
 
+	public string getNamePrefabOfSelectedReport (){
+		return listReports[ReportDropdownName.value].Prefab;
+	}
+
 
 }
