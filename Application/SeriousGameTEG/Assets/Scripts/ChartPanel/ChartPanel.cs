@@ -157,12 +157,14 @@ public class ChartPanel : MonoBehaviour {
 		//Find name of Report prefab
 		string prefab = ReportSelectionPanelObject.GetComponent<ReportPanel>().getNamePrefabOfSelectedReport();
 
+		Debug.Log("##### Creating Report of prefab " + prefab);
 
 		//Create Panel If not exits
 		if( ReportOptionsPanelObject == null ){
 			ReportOptionsPanelObject = Instantiate(Resources.Load(prefab, typeof (GameObject))) as GameObject;
 			ReportOptionsPanelObject.transform.SetParent(OptionPanelRoot.gameObject.transform, false);
 		}
+		ReportOptionsPanelObject.GetComponent<Report>().setUserId(this.IdChartUser);
 		ReportOptionsPanelObject.SetActive(true);
 	}
 

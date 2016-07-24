@@ -1,0 +1,20 @@
+[
+	{
+		"chartID":"1",
+		"data":	[
+			{"age":"WIN","population":3},
+			{"age":"WIN","population":3},
+			{"age":"WIN","population":3},
+			{"age":"WIN","population":3}
+		]
+	},
+	{
+		"chartID":"2",
+		"data":	[
+			{"age":"WIN","population":3},
+			{"age":"WIN","population":2},
+			{"age":"WIN","population":4},
+			{"age":"WIN","population":1}
+		]
+	}
+]

@@ -30,7 +30,12 @@ namespace ORM {
 
 	}
 
-	public class ReportDTO : Report {
+	public class ReportDTO {
+		public int Id;
+		public string Name;
+		public string Description;
+		public string Prefab;
+
 		public ReportDTO (int Id, string Name, string Description, string Prefab){
 			this.Id = Id;
 			this.Name = Name;

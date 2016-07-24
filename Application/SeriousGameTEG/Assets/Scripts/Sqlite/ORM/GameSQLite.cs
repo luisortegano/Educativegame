@@ -4,6 +4,30 @@ using UnityEngine;
 using System.Collections.Generic;
 
 namespace ORM {
+
+	public class Game {
+		public int Id;
+		public int Id_Category;
+		public string Name;
+		public string Description;
+		public int Level_code_pass;
+		public bool Is_Default;
+
+		public Game (int Id, int Id_Category, string Name, string Description, int Level_code_pass, bool isdef){
+			this.Id = Id;
+			this.Id_Category = Id_Category;
+			this.Name=Name;
+			this.Description=Description;
+			this.Level_code_pass=Level_code_pass;
+			this.Is_Default = isdef;
+		}
+
+		public override string ToString ()
+		{
+			return string.Format ("id["+Id+"]"+"category["+Id_Category+"]"+"name["+Name+"]");
+		}
+	}
+	
 	public class GameSQLite{
 
 		public static string table = "game";
@@ -52,11 +76,27 @@ namespace ORM {
 
 		public List<Game> getAllGames(){
 			DataTable result = this.sqlDB().ExecuteQuery("SELECT * FROM game");
+
+			Debug.Log("##### Starting Game showing DATATABLE");
+			foreach(DataRow c in result.Rows){
+				Debug.Log("#####name = "+ (string)c[GameSQLite.Name] );
+			}
+			Debug.Log("##### Finishing Game showing DATATABLE");
+
 			List<Game> games = new List<Game>();
+
+			Debug.Log("##### Start games = " + games.Count);
+			Debug.Log("##### Start gamesResult = " + result.Rows.Count);
+
 			foreach( DataRow current in result.Rows ){
-				games.Add(new Game((int)current[GameSQLite.Id], (int)current[GameSQLite.Id_Category],
-					(string)current[GameSQLite.Name], (string)current[GameSQLite.Description],
-					(int)current[GameSQLite.Level_code_pass], 0<(int)current[GameSQLite.Is_Default]));
+				games.Add(new Game( 
+					(int)current[GameSQLite.Id],
+					(int)current[GameSQLite.Id_Category],
+					(string)current[GameSQLite.Name],
+					(string)current[GameSQLite.Description],
+					current[GameSQLite.Level_code_pass]==null?-1:(int)current[GameSQLite.Level_code_pass],
+					0<(int)current[GameSQLite.Is_Default]
+				));
 			}
 			return games;
 		}
@@ -69,21 +109,5 @@ namespace ORM {
 		}
 	}
 
-	public class Game {
-		public int Id;
-		public int Id_Category;
-		public string Name;
-		public string Description;
-		public int Level_code_pass;
-		public bool Is_Default;
 
-		public Game (int Id, int Id_Category, string Name, string Description, int Level_code_pass, bool isdef){
-			this.Id = Id;
-			this.Id_Category = Id_Category;
-			this.Name=Name;
-			this.Description=Description;
-			this.Level_code_pass=Level_code_pass;
-			this.Is_Default = isdef;
-		}
-	}
 }
