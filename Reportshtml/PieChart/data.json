@@ -1,20 +1,26 @@
 [
 	{
 		"chartID":"1",
+		"date":"sdfsjfsjdfñjsdf",
 		"data":	[
-			{"age":"WIN","population":3},
-			{"age":"WIN","population":3},
-			{"age":"WIN","population":3},
-			{"age":"WIN","population":3}
+			{"label":"WIN","amount":3,"color":"#00f"},
+			{"label":"LOSE","amount":3,"color":"#f00"}
 		]
 	},
 	{
 		"chartID":"2",
+		"date":"sdfsjfsjdfñjsdf",
 		"data":	[
-			{"age":"WIN","population":3},
-			{"age":"WIN","population":2},
-			{"age":"WIN","population":4},
-			{"age":"WIN","population":1}
+			{"label":"WIN","amount":6,"color":"#00f"},
+			{"label":"LOSE","amount":2,"color":"#f00"}
+		]
+	},
+	{
+		"chartID":"3",
+		"date":"sdfsjfsjdfñjsdf",
+		"data":	[
+			{"label":"WIN","amount":100,"color":"#00f"},
+			{"label":"LOSE","amount":2,"color":"#f00"}
 		]
 	}
 ]
