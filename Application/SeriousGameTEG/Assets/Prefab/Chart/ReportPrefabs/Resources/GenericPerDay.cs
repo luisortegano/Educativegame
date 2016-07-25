@@ -1,4 +1,5 @@
 ﻿using ORM;
+using GenericPerDayChart;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
@@ -92,6 +93,30 @@ public class GenericPerDay : MonoBehaviour, Report {
 				newList.Add(current);
 				mappedResults.Add(date.Date,newList);
 			}
+		}
+
+
+		foreach(KeyValuePair<DateTime,List<LevelResult>> listResultsPerDay in mappedResults){
+			Value[] data = new Value[2];
+			for(int i=0; i<2; i++) data[i] =new Value();
+			data[0].label="win";
+			data[1].label="lose";
+
+			foreach( LevelResult current in listResultsPerDay.Value ){
+				if(current.Win){
+					data[0].amount++;
+				}else{
+					data[1].amount++;
+				}
+			}
+
+			DayChart daychart = new DayChart("valued",listResultsPerDay.Key.ToString());
+			daychart.setValues(data);
+//			for(int i=0; i<2; i++){
+//				//Debug.Log( "###$$$" + JsonUtility.ToJson(data[i]) );
+//				daychart.addValue(data[i]);
+//			} 
+			Debug.Log("########" + JsonUtility.ToJson(daychart));
 		}
 
 //		foreach(KeyValuePair<DateTime,List<LevelResult>> current in mappedResults){
