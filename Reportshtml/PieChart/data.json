@@ -2,7 +2,7 @@
 	{
 		"chartID":"1",
 		"date":"sdfsjfsjdfñjsdf",
-		"data":	[
+		"values":	[
 			{"label":"WIN","amount":3,"color":"#00f"},
 			{"label":"LOSE","amount":3,"color":"#f00"}
 		]
@@ -10,7 +10,7 @@
 	{
 		"chartID":"2",
 		"date":"sdfsjfsjdfñjsdf",
-		"data":	[
+		"values":	[
 			{"label":"WIN","amount":6,"color":"#00f"},
 			{"label":"LOSE","amount":2,"color":"#f00"}
 		]
@@ -18,9 +18,10 @@
 	{
 		"chartID":"3",
 		"date":"sdfsjfsjdfñjsdf",
-		"data":	[
+		"values":	[
 			{"label":"WIN","amount":100,"color":"#00f"},
 			{"label":"LOSE","amount":2,"color":"#f00"}
 		]
-	}
+	},
+	{"chartId":"valued","date":"07/24/2016 00:00:00","values":[{"label":"win","amount":3,"color":"#00f"}]}
 ]

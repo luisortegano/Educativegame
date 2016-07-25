@@ -1,33 +1,43 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 
+//using System.IO;
+//using System.Runtime.Serialization.Formatters.Binary;
+//using System.Collections.Generic;
+
+
 namespace GenericPerDayChart{
+	[Serializable]
 	public class DataGenericPerDay {
-		
+		public List<DayChart> chartArray;
+
+		public void addDayChart(DayChart chart){
+			if(chartArray==null) chartArray = new List<DayChart>();
+			chartArray.Add(chart);
+		}
 	}
 
+	[Serializable]
 	public class DayChart{
 		public string chartId;
 		public string date;
-		public Value[] values;
+		public List<Value> values;
 
 		public DayChart(string chartId, string date){
 			this.chartId=chartId;
 			this.date=date;
 		}
 
-		public void setValues( Value[] values){
-			this.values=values;
+		public void addValue(Value val){
+			if(values==null) values = new List<Value>();
+			values.Add(val);
 		}
-
-//		public void addValue(Value val){
-//			if(values==null) values = new List<Value>();
-//			values.Add(val);
-//		}
 	}
 
+	[Serializable]
 	public class Value{
 		public string label;
 		public int amount;

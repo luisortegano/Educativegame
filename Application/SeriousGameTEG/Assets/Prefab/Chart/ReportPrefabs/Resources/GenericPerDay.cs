@@ -95,30 +95,27 @@ public class GenericPerDay : MonoBehaviour, Report {
 			}
 		}
 
-
+		DataGenericPerDay dataGeneric = new DataGenericPerDay();
 		foreach(KeyValuePair<DateTime,List<LevelResult>> listResultsPerDay in mappedResults){
-			Value[] data = new Value[2];
-			for(int i=0; i<2; i++) data[i] =new Value();
-			data[0].label="win";
-			data[1].label="lose";
+			DayChart daychart = new DayChart("valued",listResultsPerDay.Key.ToString());
+			Value wins = new Value();
+			wins.label="win";
+			wins.color="#00f";
 
-			foreach( LevelResult current in listResultsPerDay.Value ){
-				if(current.Win){
-					data[0].amount++;
-				}else{
-					data[1].amount++;
-				}
+			foreach( LevelResult current in listResultsPerDay.Value )
+				if(current.Win) wins.amount++;
+
+			if(0<wins.amount)
+				daychart.addValue(wins);
+
+			if(listResultsPerDay.Value.Count != wins.amount){
+				daychart.addValue(new Value("LOSE",listResultsPerDay.Value.Count-wins.amount,"#f00"));
 			}
 
-			DayChart daychart = new DayChart("valued",listResultsPerDay.Key.ToString());
-			daychart.setValues(data);
-//			for(int i=0; i<2; i++){
-//				//Debug.Log( "###$$$" + JsonUtility.ToJson(data[i]) );
-//				daychart.addValue(data[i]);
-//			} 
-			Debug.Log("########" + JsonUtility.ToJson(daychart));
+			dataGeneric.addDayChart(daychart);
 		}
 
+//		Debug.Log("##### Json = " + JsonUtility.ToJson(dataGeneric));
 //		foreach(KeyValuePair<DateTime,List<LevelResult>> current in mappedResults){
 //			Debug.Log("#####  Elements of date  " + current.Key.ToString() );
 //			foreach( LevelResult current1 in current.Value ){
