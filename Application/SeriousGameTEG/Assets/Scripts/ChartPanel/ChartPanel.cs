@@ -17,44 +17,81 @@ public class ChartPanel : MonoBehaviour {
 	public GameObject ChartsOptionPanelObject;  /**DEPRECATED**/
 
 	public string URL;
-	GameObject supportWebViewObject;
+	WebViewObject webViewObject;
 	public GameObject ViewChartPanelObject;
 
-	public IEnumerator CreateWebView (){
+	public void CreateWebView (){
 		Debug.Log("##### The method CreateWebView was reached");
 
 		//Crear GO y ponerle el componente de WVO
-		supportWebViewObject = new GameObject("WebViewObject");
-		WebViewObject webViewObject = supportWebViewObject.AddComponent<WebViewObject>();
-		webViewObject.Init(); // Inicializar WVO sin script
+		webViewObject = (new GameObject("WebViewObject")).AddComponent<WebViewObject>();
+		webViewObject.Init(enableWKWebView:true); // Inicializar WVO sin script
 
 		//Valores a Ojo % 
 		webViewObject.SetMargins(Mathf.RoundToInt(Screen.width*0.39f), Mathf.RoundToInt(Screen.height*.12f), 10, 10);
 		webViewObject.SetVisibility(true);
 
-		if (URL.StartsWith("http")) {
-            webViewObject.LoadURL(URL.Replace(" ", "%20"));
-        } else {
-			var src = System.IO.Path.Combine(Application.streamingAssetsPath, URL);
-			var dst = System.IO.Path.Combine(Application.persistentDataPath, URL);
-            var result = "";
-            if (src.Contains("://")) {
-                var www = new WWW(src);
-                yield return www;
-                result = www.text;
-            } else {
-                result = System.IO.File.ReadAllText(src);
-            }
-            System.IO.File.WriteAllText(dst, result);
-            webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
-        }
+		StartCoroutine(loadURL());
+
+
+//		if (URL.StartsWith("http")) {
+//            webViewObject.LoadURL(URL.Replace(" ", "%20"));
+//        } else {
+//			var src = System.IO.Path.Combine(Application.streamingAssetsPath, URL);
+//			var dst = System.IO.Path.Combine(Application.persistentDataPath, URL);
+//            var result = "";
+//            if (src.Contains("://")) {
+//                var www = new WWW(src);
+//                yield return www;
+//                result = www.text;
+//            } else {
+//                result = System.IO.File.ReadAllText(src);
+//            }
+//            System.IO.File.WriteAllText(dst, result);
+//            webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
+//        }
 
 	}
 
+	public void loadURL(string page){
+		URL = page;
+		StartCoroutine(loadURL());
+	}
+
+	private IEnumerator loadURL (){
+		if (URL.StartsWith("http")) {
+			webViewObject.LoadURL(URL.Replace(" ", "%20"));
+        } else {
+            var exts = new string[]{
+                ".html"  // should be last
+            };
+            foreach (var ext in exts) {
+				var url = URL.Replace(".html", ext);
+                var src = System.IO.Path.Combine(Application.streamingAssetsPath, url);
+                var dst = System.IO.Path.Combine(Application.persistentDataPath, url);
+                byte[] result = null;
+                if (src.Contains("://")) {
+                    var www = new WWW(src);
+                    yield return www;
+                    result = www.bytes;
+                } else {
+                    result = System.IO.File.ReadAllBytes(src);
+                }
+                System.IO.File.WriteAllBytes(dst, result);
+                if (ext == ".html") {
+                    webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
+                    break;
+                }
+            }
+        }
+        yield break;
+	}
+
 	public void DestroyWebView (){
-		DestroyImmediate(supportWebViewObject.GetComponent<WebViewObject>());
-		DestroyImmediate(supportWebViewObject);
-		supportWebViewObject=null;
+		GameObject rootObject = webViewObject.gameObject;
+		DestroyImmediate(webViewObject.GetComponent<WebViewObject>());
+		DestroyImmediate(rootObject);
+		webViewObject=null;
 	}
 
 	UserInterfaceManager getUIM(){
@@ -69,7 +106,7 @@ public class ChartPanel : MonoBehaviour {
 		backButton.onClick.AddListener(() => clickBackToHome());
 
 		// Crear WebView y activarlo
-		StartCoroutine(CreateWebView());
+		CreateWebView();
 	}
 
 	void OnDisable (){

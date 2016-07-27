@@ -6943,7 +6943,7 @@ MonoBehaviour:
   IdChartUser: 0
   OptionPanelRoot: {fileID: 2016879364}
   ChartsOptionPanelObject: {fileID: 957469713}
-  URL: test.html
+  URL: home.html
   ViewChartPanelObject: {fileID: 1190454696}
 --- !u!1 &1671436291
 GameObject:

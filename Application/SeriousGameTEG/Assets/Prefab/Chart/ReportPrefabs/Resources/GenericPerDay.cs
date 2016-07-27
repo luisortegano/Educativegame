@@ -70,12 +70,15 @@ public class GenericPerDay : MonoBehaviour, Report {
 		levelsDropdown.gameObject.transform.SetParent(filterPanelObjects.gameObject.transform,false);
 		levelsDropdownUI.RefreshShownValue();
 
-
+		levelsDropdownUI.onValueChanged.AddListener(delegate {
+			getActualResults();
+		});
 
 		getActualResults();
 	}
 
-	private void getActualResults(){
+
+	public void getActualResults(){
 		Dropdown gameDropdownUI = gamesDropdown.GetComponent<Dropdown>();
 		Dropdown levelsDropdownUI = levelsDropdown.GetComponent<Dropdown>();
 
@@ -115,14 +118,30 @@ public class GenericPerDay : MonoBehaviour, Report {
 			dataGeneric.addDayChart(daychart);
 		}
 
-//		Debug.Log("##### Json = " + JsonUtility.ToJson(dataGeneric));
-//		foreach(KeyValuePair<DateTime,List<LevelResult>> current in mappedResults){
-//			Debug.Log("#####  Elements of date  " + current.Key.ToString() );
-//			foreach( LevelResult current1 in current.Value ){
-//				Debug.Log( "##### result = " + JsonUtility.ToJson(current1.Result) );
-//			}
-//		}
+		Debug.Log("#####dataPIE" + JsonUtility.ToJson(dataGeneric));
+		System.IO.File.WriteAllText( System.IO.Path.Combine(Application.persistentDataPath, "pieDataPerDay.json"),
+			JsonUtility.ToJson(dataGeneric,true) );
 
+		StartCoroutine(copyHtmlToIndex());
+
+	}
+
+	IEnumerator copyHtmlToIndex(){
+		Debug.Log("##### Starting Copy of PieChart.html");
+		var src = System.IO.Path.Combine(Application.streamingAssetsPath, "PieChart.html");
+        var dst = System.IO.Path.Combine(Application.persistentDataPath, "index.html");
+        byte[] result = null;
+        if (src.Contains("://")) {
+            var www = new WWW(src);
+            yield return www;
+            result = www.bytes;
+        } else {
+            result = System.IO.File.ReadAllBytes(src);
+        }
+		System.IO.File.WriteAllBytes(dst, result);
+        BroadcastMessage("loadURL","index.html");
+		Debug.Log("##### Finishing Copy of PieChart.html");
+        yield break;
 	}
 
 }

@@ -1,27 +1,10 @@
-[
-	{
-		"chartID":"1",
-		"date":"sdfsjfsjdfñjsdf",
-		"values":	[
-			{"label":"WIN","amount":3,"color":"#00f"},
-			{"label":"LOSE","amount":3,"color":"#f00"}
-		]
-	},
-	{
-		"chartID":"2",
-		"date":"sdfsjfsjdfñjsdf",
-		"values":	[
-			{"label":"WIN","amount":6,"color":"#00f"},
-			{"label":"LOSE","amount":2,"color":"#f00"}
-		]
-	},
-	{
-		"chartID":"3",
-		"date":"sdfsjfsjdfñjsdf",
-		"values":	[
-			{"label":"WIN","amount":100,"color":"#00f"},
-			{"label":"LOSE","amount":2,"color":"#f00"}
-		]
-	},
-	{"chartId":"valued","date":"07/24/2016 00:00:00","values":[{"label":"win","amount":3,"color":"#00f"}]}
-]
+{
+	"chartArray":
+	[
+		{
+			"chartID":"valued","date":"07/24/2016 00:00:00","values":[{"label":"win","amount":3,"color":"#00f"},{"label":"win","amount":1,"color":"#f00"}]
+		},
+		{"chartID":"valued","date":"07/24/2016 00:00:00","values":[{"label":"win","amount":2,"color":"#00f"},{"label":"win","amount":2,"color":"#f00"}]},
+		{"chartID":"valued","date":"07/24/2016 00:00:00","values":[{"label":"win","amount":1,"color":"#00f"},{"label":"win","amount":3,"color":"#f00"}]}
+	]
+}

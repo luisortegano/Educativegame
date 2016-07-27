@@ -29,7 +29,7 @@ public class Configuration : MonoBehaviour {
 			// game database does not exists, copy default db as template
 			if (Application.platform == RuntimePlatform.Android)
 			{
-				WWW reader = new WWW(System.IO.Path.Combine(Application.streamingAssetsPath, "d3.min.js.file"));
+				WWW reader = new WWW(System.IO.Path.Combine(Application.streamingAssetsPath, "d3.min.js"));
 				while (!reader.isDone) {}
 				Debug.Log ("##### d3.min.js.file -> " + System.IO.Path.Combine(Application.persistentDataPath, "d3.min.js"));
 				System.IO.File.WriteAllBytes(System.IO.Path.Combine (Application.persistentDataPath, "d3.min.js"), reader.bytes);
