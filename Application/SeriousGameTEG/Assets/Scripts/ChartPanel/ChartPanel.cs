@@ -14,15 +14,13 @@ public class ChartPanel : MonoBehaviour {
 	private GameObject ReportSelectionPanelObject;
 	private GameObject ReportOptionsPanelObject;
 
-	public GameObject ChartsOptionPanelObject;  /**DEPRECATED**/
-
 	public string URL;
 	WebViewObject webViewObject;
 	public GameObject ViewChartPanelObject;
 
 	public void CreateWebView (){
 		Debug.Log("##### The method CreateWebView was reached");
-
+		URL = "home.html";
 		//Crear GO y ponerle el componente de WVO
 		webViewObject = (new GameObject("WebViewObject")).AddComponent<WebViewObject>();
 		webViewObject.Init(enableWKWebView:true); // Inicializar WVO sin script
@@ -32,57 +30,23 @@ public class ChartPanel : MonoBehaviour {
 		webViewObject.SetVisibility(true);
 
 		StartCoroutine(loadURL());
-
-
-//		if (URL.StartsWith("http")) {
-//            webViewObject.LoadURL(URL.Replace(" ", "%20"));
-//        } else {
-//			var src = System.IO.Path.Combine(Application.streamingAssetsPath, URL);
-//			var dst = System.IO.Path.Combine(Application.persistentDataPath, URL);
-//            var result = "";
-//            if (src.Contains("://")) {
-//                var www = new WWW(src);
-//                yield return www;
-//                result = www.text;
-//            } else {
-//                result = System.IO.File.ReadAllText(src);
-//            }
-//            System.IO.File.WriteAllText(dst, result);
-//            webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
-//        }
-
 	}
 
 	public void loadURL(string page){
+		Debug.Log("#####new URL -> " + page);
 		URL = page;
 		StartCoroutine(loadURL());
+		Debug.Log("#####Finish URL");
 	}
 
 	private IEnumerator loadURL (){
 		if (URL.StartsWith("http")) {
 			webViewObject.LoadURL(URL.Replace(" ", "%20"));
         } else {
-            var exts = new string[]{
-                ".html"  // should be last
-            };
-            foreach (var ext in exts) {
-				var url = URL.Replace(".html", ext);
-                var src = System.IO.Path.Combine(Application.streamingAssetsPath, url);
-                var dst = System.IO.Path.Combine(Application.persistentDataPath, url);
-                byte[] result = null;
-                if (src.Contains("://")) {
-                    var www = new WWW(src);
-                    yield return www;
-                    result = www.bytes;
-                } else {
-                    result = System.IO.File.ReadAllBytes(src);
-                }
-                System.IO.File.WriteAllBytes(dst, result);
-                if (ext == ".html") {
-                    webViewObject.LoadURL("file://" + dst.Replace(" ", "%20"));
-                    break;
-                }
-            }
+        	string destination = System.IO.Path.Combine(Application.persistentDataPath, URL);
+			Debug.Log("##### Loading url -> " + "file://" + destination);
+			webViewObject.LoadURL("file://" + destination.Replace(" ", "%20"));
+			Debug.Log("##### Finishing Loading url -> " + "file://" + destination);
         }
         yield break;
 	}
@@ -129,7 +93,6 @@ public class ChartPanel : MonoBehaviour {
 
 	public void DisplayUserProperties(){
 		//Hide other options sub-panels
-		ChartsOptionPanelObject.SetActive(false);
 		hideReportSelection();
 		hideReportOption();
 
@@ -162,7 +125,6 @@ public class ChartPanel : MonoBehaviour {
 		//Hide other options sub-panels
 		hideUserOption();
 		hideReportOption();
-		ChartsOptionPanelObject.SetActive(false);
 
 		//Create Panel If not exits
 		if( ReportSelectionPanelObject == null ){
@@ -186,9 +148,6 @@ public class ChartPanel : MonoBehaviour {
 		//Hide other options sub-panel
 		hideUserOption();
 		hideReportSelection();
-
-		//Display Option Charts
-		// OLD ChartsOptionPanelObject.SetActive(true);
 
 		if(ReportSelectionPanelObject==null)return;
 		//Find name of Report prefab

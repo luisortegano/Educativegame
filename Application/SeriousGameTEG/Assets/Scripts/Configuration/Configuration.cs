@@ -39,6 +39,22 @@ public class Configuration : MonoBehaviour {
 					System.IO.Path.Combine (Application.persistentDataPath, "d3.min.js"), true);
 			}       
 		}
+
+		if (!System.IO.File.Exists(System.IO.Path.Combine (Application.persistentDataPath, "home.html"))) {
+			Debug.Log ("#####d3.min.js was not in local folder");
+			// game database does not exists, copy default db as template
+			if (Application.platform == RuntimePlatform.Android)
+			{
+				WWW reader = new WWW(System.IO.Path.Combine(Application.streamingAssetsPath, "home.html"));
+				while (!reader.isDone) {}
+				Debug.Log ("##### d3.min.js.file -> " + System.IO.Path.Combine(Application.persistentDataPath, "home.html"));
+				System.IO.File.WriteAllBytes(System.IO.Path.Combine (Application.persistentDataPath, "home.html"), reader.bytes);
+			} else {
+				Debug.Log ("#####Copying DataBase From Streaming Assets (NO Android)");
+				System.IO.File.Copy(System.IO.Path.Combine(Application.streamingAssetsPath, "home.html"),
+					System.IO.Path.Combine (Application.persistentDataPath, "home.html"), true);
+			}       
+		}
 	}
 
 	void Update () {
