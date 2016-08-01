@@ -5,6 +5,8 @@ using System.Collections;
 
 public class ChartPanel : MonoBehaviour {
 
+	public static string INDEX_PAGE="home.html";
+
 	private UserInterfaceManager uim;
 	public Button backButton;
 	public int IdChartUser;
@@ -19,9 +21,8 @@ public class ChartPanel : MonoBehaviour {
 	public GameObject ViewChartPanelObject;
 
 	public void CreateWebView (){
-		Debug.Log("##### The method CreateWebView was reached");
-		URL = "home.html";
-		//Crear GO y ponerle el componente de WVO
+		URL = ChartPanel.INDEX_PAGE;
+
 		webViewObject = (new GameObject("WebViewObject")).AddComponent<WebViewObject>();
 		webViewObject.Init(enableWKWebView:true); // Inicializar WVO sin script
 
@@ -32,11 +33,14 @@ public class ChartPanel : MonoBehaviour {
 		StartCoroutine(loadURL());
 	}
 
+	UserInterfaceManager getUIM(){
+		if(uim==null) uim = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UserInterfaceManager>();
+		return uim;
+	}
+
 	public void loadURL(string page){
-		Debug.Log("#####new URL -> " + page);
 		URL = page;
 		StartCoroutine(loadURL());
-		Debug.Log("#####Finish URL");
 	}
 
 	private IEnumerator loadURL (){
@@ -44,9 +48,7 @@ public class ChartPanel : MonoBehaviour {
 			webViewObject.LoadURL(URL.Replace(" ", "%20"));
         } else {
         	string destination = System.IO.Path.Combine(Application.persistentDataPath, URL);
-			Debug.Log("##### Loading url -> " + "file://" + destination);
 			webViewObject.LoadURL("file://" + destination.Replace(" ", "%20"));
-			Debug.Log("##### Finishing Loading url -> " + "file://" + destination);
         }
         yield break;
 	}
@@ -58,18 +60,9 @@ public class ChartPanel : MonoBehaviour {
 		webViewObject=null;
 	}
 
-	UserInterfaceManager getUIM(){
-		if(uim==null){
-			uim = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UserInterfaceManager>();
-		}
-		return uim;
-	}
-
 	void OnEnable (){
 		backButton.onClick.RemoveAllListeners();
 		backButton.onClick.AddListener(() => clickBackToHome());
-
-		// Crear WebView y activarlo
 		CreateWebView();
 	}
 
@@ -152,7 +145,6 @@ public class ChartPanel : MonoBehaviour {
 		if(ReportSelectionPanelObject==null)return;
 		//Find name of Report prefab
 		string prefab = ReportSelectionPanelObject.GetComponent<ReportPanel>().getNamePrefabOfSelectedReport();
-
 		Debug.Log("##### Creating Report of prefab " + prefab);
 
 		//Create Panel If not exits

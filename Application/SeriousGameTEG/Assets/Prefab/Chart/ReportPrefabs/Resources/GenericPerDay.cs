@@ -49,6 +49,11 @@ public class GenericPerDay : MonoBehaviour, Report {
 	// Use this for initialization
 	void Start () {
 		
+		//Game label
+		GameObject textGameGO = Instantiate( Resources.Load("utils/Text",typeof(GameObject))) as GameObject;
+		Text textGames = textGameGO.GetComponent<Text>();
+		textGames.text="Juego";
+		textGameGO.transform.SetParent(filterPanelObjects.gameObject.transform,false);
 		//Game dropdown
 		gamesDropdown = Instantiate( Resources.Load("utils/Dropdown",typeof(GameObject))) as GameObject;
 		Dropdown gameDropdownUI = gamesDropdown.GetComponent<Dropdown>();
@@ -60,6 +65,11 @@ public class GenericPerDay : MonoBehaviour, Report {
 		gameDropdownUI.RefreshShownValue();
 
 		//Levels dropdown
+		GameObject textLevelGO = Instantiate( Resources.Load("utils/Text",typeof(GameObject))) as GameObject;
+		Text textLevelGames = textLevelGO.GetComponent<Text>();
+		textLevelGames.text="Nivel";
+		textLevelGO.transform.SetParent(filterPanelObjects.gameObject.transform,false);
+		Debug.Log("##### level dropdown GPD");
 		levels = levelDatabase().getAllLevelsOfGame(games[gameDropdownUI.value].Id);
 		levelsDropdown = Instantiate( Resources.Load("utils/Dropdown",typeof(GameObject))) as GameObject;
 		Dropdown levelsDropdownUI = levelsDropdown.GetComponent<Dropdown>();
@@ -69,6 +79,7 @@ public class GenericPerDay : MonoBehaviour, Report {
 		}
 		levelsDropdown.gameObject.transform.SetParent(filterPanelObjects.gameObject.transform,false);
 		levelsDropdownUI.RefreshShownValue();
+		Debug.Log("##### level dropdown GPD");
 
 		levelsDropdownUI.onValueChanged.AddListener(delegate {
 			getActualResults();
@@ -118,15 +129,14 @@ public class GenericPerDay : MonoBehaviour, Report {
 			dataGeneric.addDayChart(daychart);
 		}
 
-		Debug.Log("#####dataPIE" + JsonUtility.ToJson(dataGeneric));
 		System.IO.File.WriteAllText( System.IO.Path.Combine(Application.persistentDataPath, "pieDataPerDay.json"),
 			JsonUtility.ToJson(dataGeneric,true) );
 
-		StartCoroutine(copyHtmlToIndex());
+		StartCoroutine(((Report)this).copyHtmlToIndex());
 
 	}
 
-	IEnumerator copyHtmlToIndex(){
+	IEnumerator Report.copyHtmlToIndex(){
 		Debug.Log("##### Starting Copy of PieChart.html");
 		var src = System.IO.Path.Combine(Application.streamingAssetsPath, "PieChart.html");
         var dst = System.IO.Path.Combine(Application.persistentDataPath, "index.html");
