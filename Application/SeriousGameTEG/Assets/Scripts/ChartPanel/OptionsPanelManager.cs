@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using ORM;
 
 /* TAG = OptionChartManager */
 
+[Obsolete]
 public class OptionsPanelManager : MonoBehaviour {
 
 	public GameObject viewChartPanel;

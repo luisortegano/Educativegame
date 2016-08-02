@@ -52,7 +52,6 @@ public class ContentPanelUserSelection : MonoBehaviour {
 		byte[] textureBytes = File.ReadAllBytes(getUserSqlite().imagePathOfUser(UserId));
 		var tex = new Texture2D(1, 1);
 		tex.LoadImage(textureBytes);
-		Debug.Log("Bytes de la Imagen = " + textureBytes.Length);
 		button.avatarUser.texture = tex;
 
 		newUserThumb.transform.SetParent(gameObject.transform);
