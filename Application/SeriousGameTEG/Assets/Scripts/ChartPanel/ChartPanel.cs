@@ -18,7 +18,16 @@ public class ChartPanel : MonoBehaviour {
 
 	public string URL;
 	WebViewObject webViewObject;
-	public GameObject ViewChartPanelObject;
+
+	void OnEnable (){
+		backButton.onClick.RemoveAllListeners();
+		backButton.onClick.AddListener(() => clickBackToHome());
+		CreateWebView();
+	}
+
+	void OnDisable (){
+		DestroyWebView();
+	}
 
 	public void CreateWebView (){
 		URL = ChartPanel.INDEX_PAGE;
@@ -36,6 +45,10 @@ public class ChartPanel : MonoBehaviour {
 	UserInterfaceManager getUIM(){
 		if(uim==null) uim = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UserInterfaceManager>();
 		return uim;
+	}
+
+	private void loadHomePage (){
+		loadURL(ChartPanel.INDEX_PAGE);
 	}
 
 	public void loadURL(string page){
@@ -60,15 +73,7 @@ public class ChartPanel : MonoBehaviour {
 		webViewObject=null;
 	}
 
-	void OnEnable (){
-		backButton.onClick.RemoveAllListeners();
-		backButton.onClick.AddListener(() => clickBackToHome());
-		CreateWebView();
-	}
 
-	void OnDisable (){
-		DestroyWebView();
-	}
 	
 	public void clickBackToHome(){
 		destroyUserOption();
@@ -88,6 +93,7 @@ public class ChartPanel : MonoBehaviour {
 		//Hide other options sub-panels
 		hideReportSelection();
 		hideReportOption();
+		loadHomePage();
 
 		//Find User values 
 		UserSQLite userSQL = new UserSQLite ();
@@ -118,6 +124,7 @@ public class ChartPanel : MonoBehaviour {
 		//Hide other options sub-panels
 		hideUserOption();
 		hideReportOption();
+		loadHomePage();
 
 		//Create Panel If not exits
 		if( ReportSelectionPanelObject == null ){
@@ -147,9 +154,14 @@ public class ChartPanel : MonoBehaviour {
 		string prefab = ReportSelectionPanelObject.GetComponent<ReportPanel>().getNamePrefabOfSelectedReport();
 		Debug.Log("##### Creating Report of prefab " + prefab);
 
+		if( ReportOptionsPanelObject != null && ReportOptionsPanelObject.name == prefab ){
+			destroyReportOption();
+		}
+
 		//Create Panel If not exits
 		if( ReportOptionsPanelObject == null ){
 			ReportOptionsPanelObject = Instantiate(Resources.Load(prefab, typeof (GameObject))) as GameObject;
+			ReportOptionsPanelObject.name = prefab;
 			ReportOptionsPanelObject.transform.SetParent(OptionPanelRoot.gameObject.transform, false);
 		}
 		ReportOptionsPanelObject.GetComponent<Report>().setUserId(this.IdChartUser);
