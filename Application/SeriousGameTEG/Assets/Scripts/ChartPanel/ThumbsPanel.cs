@@ -6,7 +6,7 @@ using ORM;
 
 public class ThumbsPanel : MonoBehaviour {
 
-	public GameObject userThumbPrefab;
+	public static string USER_THUMB_RESOURCE_PATH = "UserChartThumbButton";
 	private UserSQLite Usuarios;
 
 	void OnEnable() {
@@ -19,41 +19,32 @@ public class ThumbsPanel : MonoBehaviour {
 
 	public void cleanContentPanel(GameObject[] ListUsers){
 		if(ListUsers!=null && 0 < ListUsers.Length ){
-			foreach(GameObject current in ListUsers){
+			foreach(GameObject current in ListUsers)
 				DestroyImmediate(current.gameObject);
-			}
 		}
 	}
 
 	public void populateUsers(){
 		getUserSqlite().loadUsers();
-		//Debug.Log("Cantidad de usuarios" + getUserSqlite().Users.Rows.Count);
-		foreach( DataRow currentUser in getUserSqlite().Users.Rows ){
+		foreach( DataRow currentUser in getUserSqlite().Users.Rows )
 			this.InstantiateUser(Convert.ToString(currentUser[UserSQLite.Name]),Convert.ToString(currentUser[UserSQLite.LastName]), Convert.ToInt32(currentUser[UserSQLite.Id]));
-		}
 	}
 
-	public void InstantiateUser ( string name, string lastName, int UserId){
-		Debug.Log("###STARTING CREATE USER "+ UserId +" ###");
-		GameObject newUserThumb = (GameObject)Instantiate(userThumbPrefab); 
-		UserChartThumbButton button = newUserThumb.GetComponent<UserChartThumbButton>();
-		//button.nameLabel.text = name;
-		//button.lastNameLabel.text = lastName;
-		button.userId = UserId;
+	public void InstantiateUser (string name, string lastName, int UserId){
+		GameObject newUserThumb = Instantiate(Resources.Load(ThumbsPanel.USER_THUMB_RESOURCE_PATH,typeof(GameObject))) as GameObject;
 
+		UserChartThumbButton button = newUserThumb.GetComponent<UserChartThumbButton>();
+		button.userId = UserId;
 		byte[] textureBytes = File.ReadAllBytes(getUserSqlite().imagePathOfUser(UserId));
 		var tex = new Texture2D(1, 1);
 		tex.LoadImage(textureBytes);
-		Debug.Log("Bytes de la Imagen = " + textureBytes.Length);
 		button.avatarUser.texture = tex;
 
-		newUserThumb.transform.SetParent(gameObject.transform);
-		newUserThumb.transform.localScale = new Vector3(1,1,1);
-		Debug.Log("###FINISHING CREATE USER "+ UserId +" ###");
+		newUserThumb.transform.SetParent(gameObject.transform,false);
 	}
 
 	UserSQLite getUserSqlite () {
-		if(this.Usuarios == null)	this.Usuarios = new UserSQLite();
+		if(this.Usuarios == null) this.Usuarios = new UserSQLite();
 		return this.Usuarios;
 	}
 }

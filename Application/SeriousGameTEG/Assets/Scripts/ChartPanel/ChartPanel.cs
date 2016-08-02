@@ -85,8 +85,9 @@ public class ChartPanel : MonoBehaviour {
 	}
 
 	public void setUserId (int UserId){
-		Debug.Log("### The user was changed to: " + UserId );
 		this.IdChartUser = UserId;
+		if(this.isDisplayedUserProperties())
+			DisplayUserProperties();
 	}
 
 	public void DisplayUserProperties(){
@@ -108,6 +109,10 @@ public class ChartPanel : MonoBehaviour {
 
 		UserOptionalPanel scriptUserOptionPanel = UserOptionPanelObject.GetComponent<UserOptionalPanel>();
 		scriptUserOptionPanel.setUserInfo(user);
+	}
+
+	public bool isDisplayedUserProperties(){
+		return UserOptionPanelObject != null && UserOptionPanelObject.activeSelf;
 	}
 
 	public void destroyUserOption(){

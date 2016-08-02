@@ -5,7 +5,7 @@ using System.Collections;
 using ORM;
 
 /*
-TAG = UserThumbButton
+@TAG = UserThumbButton
 */
 
 public class UserChartThumbButton : MonoBehaviour {
