@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+	<head>
+		<script type="text/javascript" src="d3.min.js"></script>
+	</head>
+	<body>
+		<svg width="50" height="50">
+			<polyline  fill="yellow" stroke="blue" stroke-width="2"
+				points="5,30 50,0" />
+		</svg>
+	</body>
+	<script>
+		var circleRadii = [40, 20, 10];
+		
+		var svgContainer = d3.select("body").append("svg")
+			.attr("width", 200).attr("height", 200);
+			
+		var circles = svgContainer.selectAll("circle")
+			.data(circleRadii)
+			.enter()
+			.append("circle");
+			
+		circles.attr("cx", function (d) { return d*2; }).attr("cy", function (d) { return d*2; })
+			.attr("r", function (d) { return d; }).style("fill", "green");
+			
+	</script>
+</html>

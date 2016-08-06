@@ -1,11 +1,11 @@
 # =============== #
 # Unity generated #
 # =============== #
+Deploy/
+[Ll]ibrary/
 Temp/
-/Library/FailedAssetImports.txt
-/Library/cache/
-/Library/previews/
-/Library/ScriptAssemblies
+[Oo]bj/
+/[Bb]uild/
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
@@ -53,7 +53,6 @@ Deploy/
 *.userprefs
 *.pidb
 *.booproj
-*.meta
 
 # Unity3D generated meta files
 *.pidb.meta

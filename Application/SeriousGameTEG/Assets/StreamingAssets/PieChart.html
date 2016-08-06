@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.arc text {
+  font: 17px sans-serif;
+  text-anchor: middle;
+  fill: #fff;
+}
+
+.arc path {
+  stroke: #FFF;
+}
+
+</style>
+<body>
+<script src="d3.min.js"></script>
+<script>
+
+var width = 250,
+    height = 250,
+    radius = Math.min(width, height) / 2;
+
+var arc = d3.svg.arc()
+    .outerRadius(radius - 5)
+    .innerRadius(0);
+
+var labelArc = d3.svg.arc()
+    .outerRadius(radius - 40)
+    .innerRadius(radius - 40);
+
+var pie = d3.layout.pie()
+    .sort(null)
+    .value(function(d) { return d.amount; });
+
+d3.json("pieDataPerDay.json",  function(error, data) {
+	if (error) throw error;
+	var actualData = data.chartArray;
+	for(i=0;i<actualData.length;i++){
+		CreatePieChart(actualData[i]);
+	}
+});
+
+function CreatePieChart (data){
+	var svg = d3.select("body").append("svg")
+	.attr("id", data.chartId)
+    .attr("width", width)
+    .attr("height", height)
+	.append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+	var g = svg.selectAll(".arc")
+		.data(pie(data.values))
+		.enter().append("g")
+		.attr("class", "arc");
+
+	g.append("path")
+		.attr("d", arc)
+		.style("fill", function(d) { return d.data.color; });
+
+	g.append("text")
+		.attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+		.attr("dy", ".35em")
+		.text(function(d) { return d.data.label; });
+}
+
+function type(d) {
+	d.population = +d.population;
+	return d;
+}
+
+</script>
