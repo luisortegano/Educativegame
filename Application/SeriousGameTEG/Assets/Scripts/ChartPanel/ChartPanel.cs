@@ -85,9 +85,12 @@ public class ChartPanel : MonoBehaviour {
 	}
 
 	public void setUserId (int UserId){
+		if (this.IdChartUser == UserId) return;
 		this.IdChartUser = UserId;
 		if(this.isDisplayedUserProperties())
 			DisplayUserProperties();
+		if(this.isDisplayedReportOption())
+			DisplayReportOption();
 	}
 
 	public void DisplayUserProperties(){
@@ -139,6 +142,7 @@ public class ChartPanel : MonoBehaviour {
 		ReportSelectionPanelObject.SetActive(true);
 	}
 
+
 	public void destroyReportSelection(){
 		if( ReportSelectionPanelObject == null ) return;
 		DestroyImmediate(ReportSelectionPanelObject);
@@ -171,6 +175,10 @@ public class ChartPanel : MonoBehaviour {
 		}
 		ReportOptionsPanelObject.GetComponent<Report>().setUserId(this.IdChartUser);
 		ReportOptionsPanelObject.SetActive(true);
+	}
+
+	public bool isDisplayedReportOption(){
+		return ReportOptionsPanelObject != null && ReportOptionsPanelObject.activeSelf;
 	}
 
 	public void destroyReportOption(){
