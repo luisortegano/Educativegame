@@ -66,7 +66,6 @@ public class GameController : MonoBehaviour {
 		}
 	
 		if( 0 < this.countDown  ) {
-			removeAlert();
 			countDownUpdate();
 			timeLeftUpdate();
 			if (timeLeft <= 0){
@@ -139,22 +138,14 @@ public class GameController : MonoBehaviour {
 		}else{
 			colorAlert = new Color (255,0,0,.5f);
 		}
-		this.gameObject.GetComponent<Image>().color = colorAlert;
-		alertTime = alertTimeDefault;
+		StartCoroutine(riseAlert(colorAlert));
 	}
-	
-	void removeAlert (){
-		alertTime -= Time.deltaTime;
-		if( alertTime < 0 ){ 
-			if(this.gameObject.GetComponent<Image>().color.g > 0){
-				this.setImagesTable();
-				timeLeft = time;
-			}
-			this.gameObject.GetComponent<Image>().color = new Color (0,0,0);
-		}
-	}
-	
 
+	IEnumerator riseAlert( Color alert ){
+		this.gameObject.GetComponent<Image>().color = alert;
+		yield return new WaitForSeconds(1f);
+		this.gameObject.GetComponent<Image>().color = new Color (0,0,0);
+	}
 
 	public void finishGame(){
 		getRF_Config().calculateExpendedTime((int)this.countDown);
