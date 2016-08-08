@@ -72,6 +72,7 @@ public class RF_Configuration : MonoBehaviour, GameConfigurationInterface {
 		Debug.Log( "#####GameConfiguration jsonFromGC ["+ JsonUtility.ToJson(this) +"]" );
 	}
 
+	[Obsolete]
 	public void setGameLevelPanel ( GameLevelPanel glp  ){
 		this.gameLevelPanel = glp;
 	}
