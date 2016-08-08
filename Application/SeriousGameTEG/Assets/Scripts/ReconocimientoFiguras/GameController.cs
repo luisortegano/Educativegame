@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Serialization;
 using System.Collections;
 
 public class GameController : MonoBehaviour {
-	
+
+	public GameObject Canvas;
+
 	public GameObject RF_ConfigurationGO;
 	RF_Configuration rf_Config;
 	
@@ -20,8 +23,9 @@ public class GameController : MonoBehaviour {
 	
 	//Tablero
 	GameObject gamePanel;
+
 	//Velo
-	public GameObject veloPanel;
+	GameObject veloPanel;
 	
 	
 	// For rotation purpouse
@@ -46,6 +50,33 @@ public class GameController : MonoBehaviour {
 	public RawImage toFindImage;
 	public int amountToFind;
 	public int maxFails;
+
+
+	void Awake (){
+		veloPanel = Instantiate( Resources.Load("ReconocimientoFiguras/VeloPanel",typeof(GameObject))) as GameObject;
+		veloPanel.transform.SetParent(Canvas.transform, false);
+	}
+
+	void Update (){
+		if( veloPanel.activeSelf ) return;
+		//Debug.Log("points="+this.points + " fails="+ this.fails + " maxFails="+ this.maxFails);
+		if ( this.amountToFind == this.points || this.fails == this.maxFails )	{
+			finishGame();
+			return;
+		}
+	
+		if( 0 < this.countDown  ) {
+			removeAlert();
+			countDownUpdate();
+			timeLeftUpdate();
+			if (timeLeft <= 0){
+				setImagesTable();
+				timeLeft = time;
+			}
+		}else if (!veloPanel.activeSelf){
+			finishGame();
+		}
+	}
 	
 
 	public void initGameController (){
@@ -123,38 +154,20 @@ public class GameController : MonoBehaviour {
 		}
 	}
 	
-	void Update (){
-		if( veloPanel.activeSelf ) return;
-		Debug.Log("points="+this.points + " fails="+ this.fails + " maxFails="+ this.maxFails);
-		if ( this.amountToFind == this.points || this.fails == this.maxFails )	{
-			finishGame();
-			return;
-		}
-	
-		if( 0 < this.countDown  ) {
-			removeAlert();
-			countDownUpdate();
-			timeLeftUpdate();
-			if (timeLeft <= 0){
-				setImagesTable();
-				timeLeft = time;
-			}
-		}else if (!veloPanel.activeSelf){
-			finishGame();
-		}
-	}
+
 
 	public void finishGame(){
 		getRF_Config().calculateExpendedTime((int)this.countDown);
 		getRF_Config().setHits(this.points);
-		Debug.Log("### SetFails = " + this.fails);
 		getRF_Config().setFails(this.fails);
 		getRF_Config().verifiedResult();
-		getRF_Config().persistResults();
+		//getRF_Config().persistResults(); //NOT COMMENTED
 
 		/*Raise velo*/
 		veloPanel.GetComponent<VeloPanel>().FinalText.text = getRF_Config().getResultMessage();
 		veloPanel.SetActive(true);
+		VeloPanel veloPanelS = veloPanel.GetComponent<VeloPanel>();
+		veloPanelS.displayFlyer(VeloPanel.END);
 		return;
 	}
 	
