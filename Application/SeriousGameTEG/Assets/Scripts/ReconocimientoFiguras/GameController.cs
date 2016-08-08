@@ -152,7 +152,7 @@ public class GameController : MonoBehaviour {
 		getRF_Config().setHits(this.points);
 		getRF_Config().setFails(this.fails);
 		getRF_Config().verifiedResult();
-		//getRF_Config().persistResults(); //NOT COMMENTED
+		getRF_Config().persistResults(); //NOT COMMENTED
 
 		/*Raise velo*/
 		veloPanel.GetComponent<VeloPanel>().FinalText.text = getRF_Config().getResultMessage();
