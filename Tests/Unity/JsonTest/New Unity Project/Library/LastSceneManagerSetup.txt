@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/scene/jsonTest.unity
-  isLoaded: 1
-  isActive: 1
