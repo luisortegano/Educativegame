@@ -10,6 +10,7 @@ public class ReportPanel : MonoBehaviour {
 	public Text Description;
 	private List<ReportDTO> listReports;
 
+
 	void OnEnable (){
 		ReportSQLite reportSQL = new ReportSQLite ();
 		listReports = reportSQL.getAllReports();
@@ -20,6 +21,11 @@ public class ReportPanel : MonoBehaviour {
 		ReportDropdownName.AddOptions(reportNames);
 		if(0 < listReports.Count )
 			Description.text = listReports[ReportDropdownName.value].Description;
+	}
+
+	void OnDisable (){
+		ReportDropdownName.ClearOptions();
+		listReports.Clear();
 	}
 
 	void OnReportChanged (){
