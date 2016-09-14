@@ -11,6 +11,9 @@ public class ReportPanel : MonoBehaviour {
 	private List<ReportDTO> listReports;
 
 	void OnEnable (){
+		if (listReports != null && 0 < listReports.Count)
+			return;
+
 		ReportSQLite reportSQL = new ReportSQLite ();
 		listReports = reportSQL.getAllReports();
 		List<string> reportNames = new List<string>();
