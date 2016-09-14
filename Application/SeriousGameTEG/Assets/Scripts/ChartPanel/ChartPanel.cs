@@ -57,6 +57,7 @@ public class ChartPanel : MonoBehaviour {
 	}
 
 	private IEnumerator loadURL (){
+		Debug.Log(string.Format("##### Loading URL [{0}]",URL));
 		if (URL.StartsWith("http")) {
 			webViewObject.LoadURL(URL.Replace(" ", "%20"));
         } else {

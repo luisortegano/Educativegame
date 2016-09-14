@@ -34,6 +34,7 @@ namespace ORM
 //		}
 
 		public List<LevelResult> getLevelResults (int UserId, int GameId, int Level){
+			Debug.Log(string.Format("##### @getLevelResults (int UserId={0}, int GameId={1}, int Level={2})",UserId,GameId,Level));
 			DataTable result = this.sqlDB().ExecuteQuery("select * from level_results join user on level_results.id_user = user.id and user.id = "+ UserId 
 				+ " join game_level on level_results.level_code = game_level.code and game_level.level = "+ Level 
 				+ " join game on game_level.id_game = game.id and game.id = " + GameId);
