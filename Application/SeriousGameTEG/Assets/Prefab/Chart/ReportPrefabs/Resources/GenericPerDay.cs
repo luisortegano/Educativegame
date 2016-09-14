@@ -149,8 +149,8 @@ public class GenericPerDay : MonoBehaviour, Report {
             result = System.IO.File.ReadAllBytes(src);
         }
 		System.IO.File.WriteAllBytes(dst, result);
-		Debug.Log("##### Writing -> " + dst);
-		Debug.Log("##### Finishing Copy of PieChart.html");
+
+		Debug.Log(string.Format("##### Finishing Copy of [{0}]",dst));
 		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("loadURL","index.html");
 	}
 

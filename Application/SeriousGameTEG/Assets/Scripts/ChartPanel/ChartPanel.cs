@@ -94,7 +94,8 @@ public class ChartPanel : MonoBehaviour {
 			DisplayReportOption();
 	}
 
-	public void DisplayUserProperties(){
+
+	public void DisplayUserProperties(){	//Jugador
 		//Hide other options sub-panels
 		hideReportSelection();
 		hideReportOption();
@@ -154,7 +155,7 @@ public class ChartPanel : MonoBehaviour {
 		ReportSelectionPanelObject.SetActive(false);
 	}
 
-	public void DisplayReportOption (){
+	public void DisplayReportOption (){	//ChartsOption
 		//Hide other options sub-panel
 		hideUserOption();
 		hideReportSelection();

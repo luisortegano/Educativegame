@@ -41,6 +41,12 @@ namespace ORM
 
 			List<LevelResult> results = new List<LevelResult>();
 			foreach(DataRow current in result.Rows){
+				Debug.Log(string.Format("[Id_User={0}][Level_Code={1}][Win={2}][Result={3}]",
+					(int)current[LevelResultsSQLite.Id_User],
+					(int)current[LevelResultsSQLite.Level_Code],
+					(int)current[LevelResultsSQLite.Win], 
+					(string)current[LevelResultsSQLite.Result]
+				));
 				results.Add( new LevelResult( 
 					(int)current[LevelResultsSQLite.Id_User], 
 					(int)current[LevelResultsSQLite.Level_Code] ,
