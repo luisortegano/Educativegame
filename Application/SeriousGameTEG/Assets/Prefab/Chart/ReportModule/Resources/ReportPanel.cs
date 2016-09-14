@@ -17,6 +17,7 @@ public class ReportPanel : MonoBehaviour {
 		List<string> reportNames = new List<string>();
 		foreach(ReportDTO current in listReports){
 			reportNames.Add(current.Name);
+			Debug.Log("##### "+current.ToString());
 		}
 		ReportDropdownName.AddOptions(reportNames);
 		if(0 < listReports.Count )
@@ -37,6 +38,7 @@ public class ReportPanel : MonoBehaviour {
 		Debug.Log("listreposrtsCount="+listReports.Count + "|ReportDropdownName.value"+ReportDropdownName.value);
 		if(0 < listReports.Count )
 			return listReports[ReportDropdownName.value].Prefab;
+		return null;
 	}
 
 

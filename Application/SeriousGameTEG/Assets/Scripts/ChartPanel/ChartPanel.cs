@@ -161,11 +161,8 @@ public class ChartPanel : MonoBehaviour {
 		if(ReportSelectionPanelObject==null)return;
 		//Find name of Report prefab
 		string prefab = ReportSelectionPanelObject.GetComponent<ReportPanel>().getNamePrefabOfSelectedReport();
-		Debug.Log("##### Creating Report of prefab " + prefab);
-
-		if( ReportOptionsPanelObject != null && ReportOptionsPanelObject.name == prefab ){
-			destroyReportOption();
-		}
+		if(prefab == null)return;
+		Debug.Log("##### Report of prefab " + prefab);
 
 		//Create Panel If not exits
 		if( ReportOptionsPanelObject == null ){
