@@ -34,7 +34,9 @@ public class ReportPanel : MonoBehaviour {
 	}
 
 	public string getNamePrefabOfSelectedReport (){
-		return listReports[ReportDropdownName.value].Prefab;
+		Debug.Log("listreposrtsCount="+listReports.Count + "|ReportDropdownName.value"+ReportDropdownName.value);
+		if(0 < listReports.Count )
+			return listReports[ReportDropdownName.value].Prefab;
 	}
 
 
