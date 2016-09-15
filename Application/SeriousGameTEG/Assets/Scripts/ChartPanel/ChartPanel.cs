@@ -22,16 +22,19 @@ public class ChartPanel : MonoBehaviour {
 	void OnEnable (){
 		backButton.onClick.RemoveAllListeners();
 		backButton.onClick.AddListener(() => clickBackToHome());
-		CreateWebView();
+		CreateWebView(ChartPanel.INDEX_PAGE);
 	}
 
 	void OnDisable (){
 		DestroyWebView();
 	}
 
-	public void CreateWebView (){
-		URL = ChartPanel.INDEX_PAGE;
+	public void reset () {
+		DestroyWebView();
+		CreateWebView("index.html");
+	}
 
+	public void CreateWebView (string url){
 		webViewObject = (new GameObject("WebViewObject")).AddComponent<WebViewObject>();
 		webViewObject.Init(enableWKWebView:true); // Inicializar WVO sin script
 
@@ -39,7 +42,7 @@ public class ChartPanel : MonoBehaviour {
 		webViewObject.SetMargins(Mathf.RoundToInt(Screen.width*0.39f), Mathf.RoundToInt(Screen.height*.12f), 10, 10);
 		webViewObject.SetVisibility(true);
 
-		StartCoroutine(loadURL());
+		loadURL(url);
 	}
 
 	UserInterfaceManager getUIM(){
