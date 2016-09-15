@@ -68,14 +68,14 @@ public class ChartPanel : MonoBehaviour {
 	}
 
 	public void DestroyWebView (){
-		GameObject rootObject = webViewObject.gameObject;
-		DestroyImmediate(webViewObject.GetComponent<WebViewObject>());
-		DestroyImmediate(rootObject);
-		webViewObject=null;
+		if( webViewObject != null ){
+			GameObject rootObject = webViewObject.gameObject;
+			DestroyImmediate(webViewObject.GetComponent<WebViewObject>());
+			DestroyImmediate(rootObject);
+			webViewObject=null;
+		}
 	}
 
-
-	
 	public void clickBackToHome(){
 		destroyUserOption();
 		destroyReportSelection();
