@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using ORM;
 using System.Collections;
+using System;
 
 public class ChartPanel : MonoBehaviour {
 
@@ -22,16 +23,19 @@ public class ChartPanel : MonoBehaviour {
 	void OnEnable (){
 		backButton.onClick.RemoveAllListeners();
 		backButton.onClick.AddListener(() => clickBackToHome());
-		CreateWebView();
+		CreateWebView(ChartPanel.INDEX_PAGE);
 	}
 
 	void OnDisable (){
 		DestroyWebView();
 	}
 
-	public void CreateWebView (){
-		URL = ChartPanel.INDEX_PAGE;
+	public void reset () {
+		DestroyWebView();
+		CreateWebView("index.html");
+	}
 
+	public void CreateWebView (string url){
 		webViewObject = (new GameObject("WebViewObject")).AddComponent<WebViewObject>();
 		webViewObject.Init(enableWKWebView:true); // Inicializar WVO sin script
 
@@ -39,7 +43,7 @@ public class ChartPanel : MonoBehaviour {
 		webViewObject.SetMargins(Mathf.RoundToInt(Screen.width*0.39f), Mathf.RoundToInt(Screen.height*.12f), 10, 10);
 		webViewObject.SetVisibility(true);
 
-		StartCoroutine(loadURL());
+		loadURL(url+"?"+ DateTime.Now.ToString("yyyyMMddHHmmssfff"));
 	}
 
 	UserInterfaceManager getUIM(){
@@ -52,11 +56,13 @@ public class ChartPanel : MonoBehaviour {
 	}
 
 	public void loadURL(string page){
+		Debug.Log(string.Format("##### Loading URL WITH PARAMETER [{0}]",page));
 		URL = page;
 		StartCoroutine(loadURL());
 	}
 
 	private IEnumerator loadURL (){
+		Debug.Log(string.Format("##### Loading URL [{0}]",URL));
 		if (URL.StartsWith("http")) {
 			webViewObject.LoadURL(URL.Replace(" ", "%20"));
         } else {
@@ -67,14 +73,14 @@ public class ChartPanel : MonoBehaviour {
 	}
 
 	public void DestroyWebView (){
-		GameObject rootObject = webViewObject.gameObject;
-		DestroyImmediate(webViewObject.GetComponent<WebViewObject>());
-		DestroyImmediate(rootObject);
-		webViewObject=null;
+		if( webViewObject != null ){
+			GameObject rootObject = webViewObject.gameObject;
+			DestroyImmediate(webViewObject.GetComponent<WebViewObject>());
+			DestroyImmediate(rootObject);
+			webViewObject=null;
+		}
 	}
 
-
-	
 	public void clickBackToHome(){
 		destroyUserOption();
 		destroyReportSelection();
@@ -93,7 +99,8 @@ public class ChartPanel : MonoBehaviour {
 			DisplayReportOption();
 	}
 
-	public void DisplayUserProperties(){
+
+	public void DisplayUserProperties(){	//Jugador
 		//Hide other options sub-panels
 		hideReportSelection();
 		hideReportOption();
@@ -153,7 +160,7 @@ public class ChartPanel : MonoBehaviour {
 		ReportSelectionPanelObject.SetActive(false);
 	}
 
-	public void DisplayReportOption (){
+	public void DisplayReportOption (){	//ChartsOption
 		//Hide other options sub-panel
 		hideUserOption();
 		hideReportSelection();
@@ -161,11 +168,8 @@ public class ChartPanel : MonoBehaviour {
 		if(ReportSelectionPanelObject==null)return;
 		//Find name of Report prefab
 		string prefab = ReportSelectionPanelObject.GetComponent<ReportPanel>().getNamePrefabOfSelectedReport();
-		Debug.Log("##### Creating Report of prefab " + prefab);
-
-		if( ReportOptionsPanelObject != null && ReportOptionsPanelObject.name == prefab ){
-			destroyReportOption();
-		}
+		if(prefab == null)return;
+		Debug.Log("##### Report of prefab " + prefab);
 
 		//Create Panel If not exits
 		if( ReportOptionsPanelObject == null ){
