@@ -23,19 +23,16 @@ public class ChartPanel : MonoBehaviour {
 	void OnEnable (){
 		backButton.onClick.RemoveAllListeners();
 		backButton.onClick.AddListener(() => clickBackToHome());
-		CreateWebView(ChartPanel.INDEX_PAGE);
+		CreateWebView();
 	}
 
 	void OnDisable (){
 		DestroyWebView();
 	}
 
-	public void reset () {
-		DestroyWebView();
-		CreateWebView("index.html");
-	}
+	public void CreateWebView (){
+		URL = ChartPanel.INDEX_PAGE;
 
-	public void CreateWebView (string url){
 		webViewObject = (new GameObject("WebViewObject")).AddComponent<WebViewObject>();
 		webViewObject.Init(enableWKWebView:true); // Inicializar WVO sin script
 
