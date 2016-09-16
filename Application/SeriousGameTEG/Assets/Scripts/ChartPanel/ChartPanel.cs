@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using ORM;
 using System.Collections;
+using System;
 
 public class ChartPanel : MonoBehaviour {
 
@@ -42,7 +43,7 @@ public class ChartPanel : MonoBehaviour {
 		webViewObject.SetMargins(Mathf.RoundToInt(Screen.width*0.39f), Mathf.RoundToInt(Screen.height*.12f), 10, 10);
 		webViewObject.SetVisibility(true);
 
-		loadURL(url);
+		loadURL(url+"?"+ DateTime.Now.ToString("yyyyMMddHHmmssfff"));
 	}
 
 	UserInterfaceManager getUIM(){
@@ -55,6 +56,7 @@ public class ChartPanel : MonoBehaviour {
 	}
 
 	public void loadURL(string page){
+		Debug.Log(string.Format("##### Loading URL WITH PARAMETER [{0}]",page));
 		URL = page;
 		StartCoroutine(loadURL());
 	}

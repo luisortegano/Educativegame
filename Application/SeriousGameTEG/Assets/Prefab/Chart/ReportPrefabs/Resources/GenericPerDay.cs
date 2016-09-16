@@ -9,6 +9,11 @@ using System.Collections.Generic;
 public class GenericPerDay : MonoBehaviour, Report {
 
 	int UserId;
+	string serial;
+
+	private void generateSerial (){
+		serial = "pieDataPerDay"+ DateTime.Now.ToString("yyyyMMddHHmmssfff");
+	}
 
 	public void setUserId (int UserId){
 		this.UserId = UserId;
@@ -129,7 +134,8 @@ public class GenericPerDay : MonoBehaviour, Report {
 			dataGeneric.addDayChart(daychart);
 		}
 
-		System.IO.File.WriteAllText( System.IO.Path.Combine(Application.persistentDataPath, "pieDataPerDay.json"),
+		this.generateSerial();
+		System.IO.File.WriteAllText( System.IO.Path.Combine(Application.persistentDataPath, serial+".json"),
 			JsonUtility.ToJson(dataGeneric,true) );
 
 		StartCoroutine(((Report)this).copyHtmlToIndex());
@@ -151,7 +157,7 @@ public class GenericPerDay : MonoBehaviour, Report {
 		System.IO.File.WriteAllBytes(dst, result);
 
 		Debug.Log(string.Format("##### Finishing Copy of [{0}]",dst));
-		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("loadURL","index.html");
+		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("loadURL","index.html?data="+serial);
 	}
 
 }

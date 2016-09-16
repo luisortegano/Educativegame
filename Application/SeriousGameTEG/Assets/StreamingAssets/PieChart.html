@@ -17,6 +17,16 @@
 <script src="d3.min.js"></script>
 <script>
 
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
 var width = 250,
     height = 250,
     radius = Math.min(width, height) / 2;
@@ -33,7 +43,7 @@ var pie = d3.layout.pie()
     .sort(null)
     .value(function(d) { return d.amount; });
 
-d3.json("pieDataPerDay.json",  function(error, data) {
+d3.json(getParameterByName('data')+'.json',  function(error, data) {
 	if (error) throw error;
 	var actualData = data.chartArray;
 	for(i=0;i<actualData.length;i++){
