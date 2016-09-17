@@ -43,17 +43,36 @@
         .orient("left")
         .ticks(10, "%");
 
+var getDayData = function( data ){
+    var dayChart = [];
+    for( i=0;i<data.length; i++ ){
+        var auxDay = [];
+        var winChart = [];
+        var loseChart = [];
+        winChart.push({"letter":"Tiempo","frequency":data[i].win.averageTime});
+        winChart.push({"letter":"Fallos","frequency":data[i].win.averageFails});
+        auxDay.push(winChart);
+        loseChart.push({"letter":"Tiempo","frequency":data[i].lose.averageTime});
+        loseChart.push({"letter":"Aciertos","frequency":data[i].lose.averageHits});
+        auxDay.push(loseChart);
+        dayChart.push(auxDay);
+    }
+    return dayChart;
+}
+
+var doChart = function(data, svgId){
+    /*
+    Data must be 
+    [ {letter:"",frequency:averageValue} ]
+    */
+
     var svg = d3.select("body").append("svg")
+        .attr("id",svgId)
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
-      .append("g")
+        .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-//d3.tsv("data.tsv", type, function(error, data) {
-d3.json("data.json", function(error, data) {
-    if (error) throw error;
-
-    if( data.data != undefined )    data = data.data;
 
     x.domain(data.map(function(d) {
         return d.letter;
@@ -86,15 +105,31 @@ d3.json("data.json", function(error, data) {
         .attr("width", x.rangeBand())
         .attr("y", function(d) { return y(d.frequency); })
         .attr("height", function(d) { return height - y(d.frequency); });
+}
+
+var DoDayChart = function (arrayDays){
+    for(i=0;i<arrayDays.length;i++){
+        for(j=0;j<arrayDays[i].length;j++){
+            doChart(arrayDays[i][j]);
+        }
+    }
+}
+
+d3.json("data.json", function(error, data) {
+    if (error){
+        // Agregar HTML de error
+    }
+    console.log(getDayData(data.latestResults));
+    DoDayChart(getDayData(data.latestResults));
+    /*if( data.data != undefined )    data = data.data;
+    doChart(data,"a");
+    doChart(data,"b");
+    doChart(data,"c");
+    doChart(data,"d");*/
 });
 
 function type(d) {
-    // Procesa para transformarlo en numeros
-    console.log("-------------------------------");
-    console.log(d);
     d.frequency = +d.frequency;
-    console.log(d);
-    console.log("-------------------------------");
     return d;
 }
 </script>

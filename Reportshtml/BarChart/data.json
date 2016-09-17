@@ -1,10 +1,37 @@
 {
-    "data":
-    [
-        {"letter":"Win A","frequency":1},
-        {"letter":"Lose A","frequency":1},
-        {"letter":"C","frequency":1},
-        {"letter":"D","frequency":1},
-        {"letter":"E","frequency":1}
+    "latestResults": [
+        {
+            "date": "09/15/2016 00:00:00",
+            "win": {
+                "averageTime": -1.0,
+                "averageFails": -1.0
+            },
+            "lose": {
+                "averageTime": 0.800000011920929,
+                "averageHits": 0.0
+            }
+        },
+        {
+            "date": "09/16/2016 00:00:00",
+            "win": {
+                "averageTime": 0.36000001430511477,
+                "averageFails": 0.0
+            },
+            "lose": {
+                "averageTime": 0.10000000149011612,
+                "averageHits": 0.125
+            }
+        },
+        {
+            "date": "09/17/2016 00:00:00",
+            "win": {
+                "averageTime": 0.3199999928474426,
+                "averageFails": 0.0
+            },
+            "lose": {
+                "averageTime": 0.1599999964237213,
+                "averageHits": 0.25
+            }
+        }
     ]
 }
