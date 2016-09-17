@@ -40,7 +40,7 @@ public class ChartPanel : MonoBehaviour {
 		webViewObject.SetMargins(Mathf.RoundToInt(Screen.width*0.39f), Mathf.RoundToInt(Screen.height*.12f), 10, 10);
 		webViewObject.SetVisibility(true);
 
-		loadURL(url+"?"+ DateTime.Now.ToString("yyyyMMddHHmmssfff"));
+		loadURL(URL);
 	}
 
 	UserInterfaceManager getUIM(){

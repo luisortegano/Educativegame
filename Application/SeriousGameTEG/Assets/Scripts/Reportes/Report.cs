@@ -10,4 +10,5 @@ virtual methos are dospised for basic behavior
 public interface Report {
 	void setUserId (int UserId);
 	IEnumerator copyHtmlToIndex();
+	void generateSerial ();
 }

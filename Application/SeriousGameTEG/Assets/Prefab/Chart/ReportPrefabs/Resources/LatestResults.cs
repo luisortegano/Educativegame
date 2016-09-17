@@ -1,25 +1,45 @@
-﻿using ORM;
-using GenericPerDayChart;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
+using System.Collections;
+using System;
+using ORM;
+using LastestResults;
 
-public class GenericPerDay : MonoBehaviour, Report {
+public class LatestResults : MonoBehaviour, Report {
 
 	int UserId;
-	string serial;
+	private string serial;
+
+	//Prefab links
+	public GameObject filterPanelObjects;
 
 	public void generateSerial (){
-		serial = "pieDataPerDay"+ DateTime.Now.ToString("yyyyMMddHHmmssfff");
+		serial = "lr"+ DateTime.Now.ToString("yyyyMMddHHmmss");
 	}
 
 	public void setUserId (int UserId){
 		this.UserId = UserId;
 	}
 
-	public GameObject filterPanelObjects;
+	IEnumerator Report.copyHtmlToIndex(){
+		Debug.Log("##### Starting Copy of PieChart.html");
+		var src = System.IO.Path.Combine(Application.streamingAssetsPath, "PieChart.html");
+        var dst = System.IO.Path.Combine(Application.persistentDataPath, "index.html");
+        byte[] result = null;
+        if (src.Contains("://")) {
+            var www = new WWW(src);
+            yield return www;
+            result = www.bytes;
+        } else {
+            result = System.IO.File.ReadAllBytes(src);
+        }
+		System.IO.File.WriteAllBytes(dst, result);
+
+		Debug.Log(string.Format("##### Finishing Copy of [{0}]",dst));
+		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("loadURL","index.html?data="+serial);
+	}
 
 	private GameSQLite gameDB;
 	private GameSQLite gameDatabase(){
@@ -84,7 +104,6 @@ public class GenericPerDay : MonoBehaviour, Report {
 		}
 		levelsDropdown.gameObject.transform.SetParent(filterPanelObjects.gameObject.transform,false);
 		levelsDropdownUI.RefreshShownValue();
-		Debug.Log("##### level dropdown GPD");
 
 		levelsDropdownUI.onValueChanged.AddListener(delegate {
 			getActualResults();
@@ -93,71 +112,40 @@ public class GenericPerDay : MonoBehaviour, Report {
 		getActualResults();
 	}
 
-
 	public void getActualResults(){
 		Dropdown gameDropdownUI = gamesDropdown.GetComponent<Dropdown>();
 		Dropdown levelsDropdownUI = levelsDropdown.GetComponent<Dropdown>();
 
 		List<LevelResult> levelResults = this.resultsDatabase().getLevelResults(this.UserId, games[gameDropdownUI.value].Id, levels[levelsDropdownUI.value].Level);
+//		List<LevelResult> levelResults = this.resultsDatabase().getLevelResults(this.UserId, 1, 2);
 
 		//Map results per date
-		SortedDictionary<DateTime,List<LevelResult>>  mappedResults = new SortedDictionary<DateTime, List<LevelResult>>();
+		SortedDictionary<DateTime,List<LevelResultJson>>  mappedResults = new SortedDictionary<DateTime, List<LevelResultJson>>();
 		foreach(LevelResult current in levelResults){
 			DateTime date = Convert.ToDateTime(current.Result.date);
-
 			if( mappedResults.ContainsKey(date.Date) ){
-				mappedResults[date.Date].Add(current);
+				mappedResults[date.Date].Add(current.Result);
 			}else{
-				List<LevelResult> newList = new List<LevelResult>();
-				newList.Add(current);
+				List<LevelResultJson> newList = new List<LevelResultJson>();
+				newList.Add(current.Result);
 				mappedResults.Add(date.Date,newList);
 			}
 		}
 
-		DataGenericPerDay dataGeneric = new DataGenericPerDay();
-		foreach(KeyValuePair<DateTime,List<LevelResult>> listResultsPerDay in mappedResults){
-			DayChart daychart = new DayChart("valued",listResultsPerDay.Key.ToString());
-			Value wins = new Value();
-			wins.label="win";
-			wins.color="#00f";
+		DataLatestResults dataLatest = new DataLatestResults (mappedResults);
+		this.generateSerial();
+		System.IO.File.WriteAllText( System.IO.Path.Combine(Application.persistentDataPath, serial+".json"),
+			JsonUtility.ToJson(dataLatest,true) );
 
-			foreach( LevelResult current in listResultsPerDay.Value )
-				if(current.Win) wins.amount++;
-
-			if(0<wins.amount)
-				daychart.addValue(wins);
-
-			if(listResultsPerDay.Value.Count != wins.amount){
-				daychart.addValue(new Value("LOSE",listResultsPerDay.Value.Count-wins.amount,"#f00"));
-			}
-
-			dataGeneric.addDayChart(daychart);
-		}
-
+		Debug.Log(string.Format("###### LatestResultJson Generated game[{0}]level[{1}] json[{2}]",
+			games[gameDropdownUI.value].Id, levels[levelsDropdownUI.value].Level, JsonUtility.ToJson(dataLatest)));
+		/*
 		this.generateSerial();
 		System.IO.File.WriteAllText( System.IO.Path.Combine(Application.persistentDataPath, serial+".json"),
 			JsonUtility.ToJson(dataGeneric,true) );
 
 		StartCoroutine(((Report)this).copyHtmlToIndex());
-
-	}
-
-	IEnumerator Report.copyHtmlToIndex(){
-		Debug.Log("##### Starting Copy of PieChart.html");
-		var src = System.IO.Path.Combine(Application.streamingAssetsPath, "PieChart.html");
-        var dst = System.IO.Path.Combine(Application.persistentDataPath, "index.html");
-        byte[] result = null;
-        if (src.Contains("://")) {
-            var www = new WWW(src);
-            yield return www;
-            result = www.bytes;
-        } else {
-            result = System.IO.File.ReadAllBytes(src);
-        }
-		System.IO.File.WriteAllBytes(dst, result);
-
-		Debug.Log(string.Format("##### Finishing Copy of [{0}]",dst));
-		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("loadURL","index.html?data="+serial);
+		*/
 	}
 
 }

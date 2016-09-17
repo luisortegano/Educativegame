@@ -12,7 +12,9 @@ public class LevelResultJson{
 	public int maxFails;
 	public bool winGame;
 
-	public LevelResultJson  (){}
+	public LevelResultJson  (){
+		date = DateTime.Now.ToString();
+	}
 
 	public LevelResultJson (int challengeTime, int expendedTime, int maxHits, int hits, int maxFails, int fails, bool winGame){
 		date = DateTime.Now.ToString();
