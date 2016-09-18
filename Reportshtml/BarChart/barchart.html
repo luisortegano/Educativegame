@@ -48,11 +48,6 @@
         .ticks(10, "%");
 
 var doChart = function(data, title, svgId){
-    /*
-    Data must be 
-    [ {letter:"",frequency:averageValue} ]
-    */
-
     var svg = d3.select("body").append("svg")
         .attr("id",svgId)
         .attr("width", width + margin.left + margin.right)
