@@ -5,8 +5,12 @@
         fill: steelblue;
     }
 
-    .bar:hover {
-        fill: brown;
+    .hit {
+        fill:#009c68 !important;
+    }
+
+     .fail {
+        fill: brown !important;
     }
 
     .axis {
@@ -43,24 +47,7 @@
         .orient("left")
         .ticks(10, "%");
 
-var getDayData = function( data ){
-    var dayChart = [];
-    for( i=0;i<data.length; i++ ){
-        var auxDay = [];
-        var winChart = [];
-        var loseChart = [];
-        winChart.push({"letter":"Tiempo","frequency":data[i].win.averageTime});
-        winChart.push({"letter":"Fallos","frequency":data[i].win.averageFails});
-        auxDay.push(winChart);
-        loseChart.push({"letter":"Tiempo","frequency":data[i].lose.averageTime});
-        loseChart.push({"letter":"Aciertos","frequency":data[i].lose.averageHits});
-        auxDay.push(loseChart);
-        dayChart.push(auxDay);
-    }
-    return dayChart;
-}
-
-var doChart = function(data, svgId){
+var doChart = function(data, title, svgId){
     /*
     Data must be 
     [ {letter:"",frequency:averageValue} ]
@@ -81,6 +68,14 @@ var doChart = function(data, svgId){
         return d.frequency;
     })]);
 
+    svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", -5)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "22px")  
+        .text(title);
+
+
     /*letras en el eje x*/
     svg.append("g")
         .attr("class", "x axis")
@@ -100,17 +95,37 @@ var doChart = function(data, svgId){
     svg.selectAll(".bar")
         .data(data)
         .enter().append("rect")
-        .attr("class", "bar")
+        .attr("class", function(d){
+            var classObj = 'bar ' + (d.class?d.class:'not');
+            return classObj;
+        })
         .attr("x", function(d) { return x(d.letter); })
         .attr("width", x.rangeBand())
         .attr("y", function(d) { return y(d.frequency); })
         .attr("height", function(d) { return height - y(d.frequency); });
 }
 
+var getDayData = function( data ){
+    var dayChart = [];
+    for( i=0;i<data.length; i++ ){
+        var auxDay = [];
+        var winChart = [];
+        var loseChart = [];
+        winChart.push({"letter":"Tiempo","frequency":data[i].win.averageTime});
+        winChart.push({"letter":"Fallos","frequency":data[i].win.averageFails,"class":"fail"});
+        auxDay.push(winChart);
+        loseChart.push({"letter":"Tiempo","frequency":data[i].lose.averageTime});
+        loseChart.push({"letter":"Aciertos","frequency":data[i].lose.averageHits,"class":"hit"});
+        auxDay.push(loseChart);
+        dayChart.push({"date":data[i].date,"charts":auxDay});
+    }
+    return dayChart;
+}
+
 var DoDayChart = function (arrayDays){
-    for(i=0;i<arrayDays.length;i++){
-        for(j=0;j<arrayDays[i].length;j++){
-            doChart(arrayDays[i][j]);
+    for(i=arrayDays.length-1;i>=0;--i){
+        for(j=0;j<arrayDays[i].charts.length;j++){
+            doChart(arrayDays[i].charts[j], j==0?("Fecha: "+arrayDays[i].date):'');
         }
     }
 }
@@ -119,13 +134,7 @@ d3.json("data.json", function(error, data) {
     if (error){
         // Agregar HTML de error
     }
-    console.log(getDayData(data.latestResults));
     DoDayChart(getDayData(data.latestResults));
-    /*if( data.data != undefined )    data = data.data;
-    doChart(data,"a");
-    doChart(data,"b");
-    doChart(data,"c");
-    doChart(data,"d");*/
 });
 
 function type(d) {
