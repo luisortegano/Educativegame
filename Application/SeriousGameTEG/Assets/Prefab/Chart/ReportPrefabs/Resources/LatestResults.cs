@@ -23,24 +23,6 @@ public class LatestResults : MonoBehaviour, Report {
 		this.UserId = UserId;
 	}
 
-	IEnumerator Report.copyHtmlToIndex(){
-		Debug.Log("##### Starting Copy of PieChart.html");
-		var src = System.IO.Path.Combine(Application.streamingAssetsPath, "PieChart.html");
-        var dst = System.IO.Path.Combine(Application.persistentDataPath, "index.html");
-        byte[] result = null;
-        if (src.Contains("://")) {
-            var www = new WWW(src);
-            yield return www;
-            result = www.bytes;
-        } else {
-            result = System.IO.File.ReadAllBytes(src);
-        }
-		System.IO.File.WriteAllBytes(dst, result);
-
-		Debug.Log(string.Format("##### Finishing Copy of [{0}]",dst));
-		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("loadURL","index.html?data="+serial);
-	}
-
 	private GameSQLite gameDB;
 	private GameSQLite gameDatabase(){
 		if(gameDB==null) gameDB = new GameSQLite();
@@ -139,13 +121,26 @@ public class LatestResults : MonoBehaviour, Report {
 
 		Debug.Log(string.Format("###### LatestResultJson Generated game[{0}]level[{1}] json[{2}]",
 			games[gameDropdownUI.value].Id, levels[levelsDropdownUI.value].Level, JsonUtility.ToJson(dataLatest)));
-		/*
-		this.generateSerial();
-		System.IO.File.WriteAllText( System.IO.Path.Combine(Application.persistentDataPath, serial+".json"),
-			JsonUtility.ToJson(dataGeneric,true) );
-
+		
 		StartCoroutine(((Report)this).copyHtmlToIndex());
-		*/
 	}
 
+	IEnumerator Report.copyHtmlToIndex(){
+		Debug.Log("##### Starting Copy of BarChart.html");
+		var src = System.IO.Path.Combine(Application.streamingAssetsPath, "BarChart.html");
+		var dst = System.IO.Path.Combine(Application.persistentDataPath, "index.html");
+        byte[] result = null;
+        if (src.Contains("://")) {
+            var www = new WWW(src);
+            yield return www;
+            result = www.bytes;
+        } else {
+            result = System.IO.File.ReadAllBytes(src);
+        }
+		System.IO.File.WriteAllBytes(dst, result);
+
+		Debug.Log(string.Format("##### Finishing Copy of [{0}]",dst));
+		Debug.Log(string.Format("##### Loading [{0}]","BarChart.html?data="+serial));
+		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("loadURL","index.html?data="+serial);
+	}
 }

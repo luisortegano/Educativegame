@@ -30,8 +30,8 @@
     <script src="d3.min.js"></script>
 <script>
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    width = 400 - margin.left - margin.right,
+    height = 250 - margin.top - margin.bottom;
 
     var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
 
@@ -100,6 +100,22 @@ var doChart = function(data, title, svgId){
         .attr("height", function(d) { return height - y(d.frequency); });
 }
 
+var doNoData = function(message,svgId){
+    var svg = d3.select("body").append("svg")
+        .attr("id",svgId)
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", 50 + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", -5)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "22px")  
+        .text(message);
+}
+
 var getDayData = function( data ){
     var dayChart = [];
     for( i=0;i<data.length; i++ ){
@@ -119,13 +135,38 @@ var getDayData = function( data ){
 
 var DoDayChart = function (arrayDays){
     for(i=arrayDays.length-1;i>=0;--i){
+        var date = true;
         for(j=0;j<arrayDays[i].charts.length;j++){
-            doChart(arrayDays[i].charts[j], j==0?("Fecha: "+arrayDays[i].date):'');
+            var check = null;
+            
+            for(k=0;k<arrayDays[i].charts[j].length;k++)
+                if(0 <= arrayDays[i].charts[j][k].frequency){
+                    check = arrayDays[i].charts[j][k].frequency;
+                    break;  
+                }
+            if(check){
+                doChart(arrayDays[i].charts[j], date?("Fecha: "+arrayDays[i].date):'');
+                date=false;
+            }
+            else{
+                if(!date)
+                    doNoData('NO DATA');
+            }
         }
     }
 }
 
-d3.json("data.json", function(error, data) {
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+d3.json(getParameterByName('data')+".json", function(error, data) {
     if (error){
         // Agregar HTML de error
     }
