@@ -4,6 +4,7 @@ using System.Collections;
 public class RF_StartButton : MonoBehaviour {
 
 	public GameObject RF_ConfigurationGO;
+	public GameObject GameExplanationPanel;
 	RF_Configuration rf_Config;
 	
 	RF_Configuration getRF_Config (){
@@ -17,6 +18,7 @@ public class RF_StartButton : MonoBehaviour {
 	public GameObject ContainerPanel;
 
 	public void clickStart (){
+		GameExplanationPanel.SetActive(false);
 		this.gameObject.SetActive(false);
 		ImageCenter ic = imageCenter.GetComponent<ImageCenter>();
 		ic.loadImages();
