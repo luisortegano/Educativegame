@@ -11,11 +11,15 @@ public class ReportPanel : MonoBehaviour {
 	private List<ReportDTO> listReports;
 
 	void OnEnable (){
+		if (listReports != null && 0 < listReports.Count)
+			return;
+
 		ReportSQLite reportSQL = new ReportSQLite ();
 		listReports = reportSQL.getAllReports();
 		List<string> reportNames = new List<string>();
 		foreach(ReportDTO current in listReports){
 			reportNames.Add(current.Name);
+			Debug.Log("##### "+current.ToString());
 		}
 		ReportDropdownName.AddOptions(reportNames);
 		if(0 < listReports.Count )
@@ -28,7 +32,10 @@ public class ReportPanel : MonoBehaviour {
 	}
 
 	public string getNamePrefabOfSelectedReport (){
-		return listReports[ReportDropdownName.value].Prefab;
+		Debug.Log("listreposrtsCount="+listReports.Count + "|ReportDropdownName.value"+ReportDropdownName.value);
+		if(0 < listReports.Count )
+			return listReports[ReportDropdownName.value].Prefab;
+		return null;
 	}
 
 

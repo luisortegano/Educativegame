@@ -42,5 +42,11 @@ namespace ORM {
 			this.Description = Description;
 			this.Prefab = Prefab;
 		} 
+
+		public override string ToString ()
+		{
+			return string.Format ("[ReportDTO][Id={0}][Name={1}][Description={2}][Prefab={3}]",
+				this.Id, this.Name, this.Description,this.Prefab);
+		}
 	}
 }

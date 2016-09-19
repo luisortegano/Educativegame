@@ -1,0 +1,9 @@
+{
+    "data":[
+        {"letter":"Win A","frequency":1},
+        {"letter":"Lose A","frequency":1},
+        {"letter":"C","frequency":1},
+        {"letter":"D","frequency":1},
+        {"letter":"E","frequency":1}
+    ]
+}
