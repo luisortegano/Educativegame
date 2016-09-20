@@ -2539,11 +2539,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RF_ConfigurationGO: {fileID: 535777885}
-  ImagesURI:
-  - estrella.png
-  - mariposa.png
-  - rectangulo.png
-  - triangulo.png
   Points: 0
   pointsText: {fileID: 536393632}
   ContainerPanel: {fileID: 711100537}
