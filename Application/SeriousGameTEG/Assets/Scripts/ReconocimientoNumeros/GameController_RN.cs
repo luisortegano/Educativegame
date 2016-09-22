@@ -25,7 +25,7 @@ public class GameController_RN : MonoBehaviour {
 
 	public void initGame(){
 		this.gameMainPanel.SetActive(false);
-		mockConfiguration();
+		//mockConfiguration();
 		generateCards();
 		setHubCard();
 		this.gamePanel.SetActive(true);
