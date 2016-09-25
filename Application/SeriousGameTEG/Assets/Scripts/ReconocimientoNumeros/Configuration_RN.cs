@@ -5,7 +5,7 @@ using System.Collections;
 [Serializable]
 public class Configuration_RN : MonoBehaviour, GameConfigurationInterface {
 
-	public float challengeTime;
+	public int challengeTime;
 	public int amountNumbers;
 	public int maxFails;
 
@@ -21,5 +21,13 @@ public class Configuration_RN : MonoBehaviour, GameConfigurationInterface {
 	public void setGameLevelPanel ( GameLevelPanel glp  ){
 		this.gameLevelPanel = glp;
 	}
-	
+
+	public int getChallengeTime (){
+		return this.challengeTime;
+	}
+
+	public int getMaxFails (){
+		return this.maxFails;
+	}
+
 }

@@ -17,18 +17,46 @@ public class GameController_RN : MonoBehaviour {
 	public GameObject cardPrefab;
 	private Queue<GameObject> cardsQueue;
 
-	void mockConfiguration (){
-		Configuration = new GameObject ();
-		Configuration_RN config = Configuration.AddComponent<Configuration_RN>();
-		config.amountNumbers=3;
-	}
+
+	// Timer Configuration
+	public Text timerText;
+	int timeGame;
+
+	// Fail count
+	int fails;
+
+	// End Game flag
+	bool endGameFlag = false;
 
 	public void initGame(){
+		this.fails = 0;
+		this.timeGame = Configuration.GetComponent<Configuration_RN>().getChallengeTime();
+		this.timerText.text = string.Format("{0}",this.timeGame);
+		Debug.Log(string.Format("##### TimeGame was setted on: {0}", this.timeGame));
 		this.gameMainPanel.SetActive(false);
-		//mockConfiguration();
 		generateCards();
 		setHubCard();
 		this.gamePanel.SetActive(true);
+		StartCoroutine(timerRoutine());
+	}
+
+	IEnumerator timerRoutine(){
+		for(;;){
+			if(timeGame <= 0 || this.endGameFlag){
+				finishGame();
+				break;
+			}
+			timeGame--;
+			this.timerText.text = string.Format("{0}",this.timeGame);
+			yield return new WaitForSeconds(1f);
+		}
+	}
+
+	public void addFail(){
+		this.fails++;
+		if(fails == Configuration.GetComponent<Configuration_RN>().getMaxFails()){
+			this.finishGame();
+		}
 	}
 
 	public List<GameObject> Cards;
@@ -98,6 +126,7 @@ public class GameController_RN : MonoBehaviour {
 	}
 
 	void finishGame(){
+		this.endGameFlag = true;
 		this.finishPanel.SetActive(true);
 		this.finishPanel.GetComponentInChildren<Text>().text = "Se acabo!";
 	}
