@@ -145,7 +145,7 @@ public class GenericPerDay : MonoBehaviour, Report {
 	IEnumerator Report.copyHtmlToIndex(){
 		Debug.Log("##### Starting Copy of PieChart.html");
 		var src = System.IO.Path.Combine(Application.streamingAssetsPath, "PieChart.html");
-        var dst = System.IO.Path.Combine(Application.persistentDataPath, "index.html");
+		var dst = System.IO.Path.Combine(Application.persistentDataPath, "PieChart.html");
         byte[] result = null;
         if (src.Contains("://")) {
             var www = new WWW(src);
@@ -157,7 +157,7 @@ public class GenericPerDay : MonoBehaviour, Report {
 		System.IO.File.WriteAllBytes(dst, result);
 
 		Debug.Log(string.Format("##### Finishing Copy of [{0}]",dst));
-		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("loadURL","index.html?data="+serial);
+		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("loadURL","PieChart.html?data="+serial);
 	}
 
 }

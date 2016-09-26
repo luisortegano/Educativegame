@@ -128,7 +128,7 @@ public class LatestResults : MonoBehaviour, Report {
 	IEnumerator Report.copyHtmlToIndex(){
 		Debug.Log("##### Starting Copy of BarChart.html");
 		var src = System.IO.Path.Combine(Application.streamingAssetsPath, "BarChart.html");
-		var dst = System.IO.Path.Combine(Application.persistentDataPath, "index.html");
+		var dst = System.IO.Path.Combine(Application.persistentDataPath, "BarChart.html");
         byte[] result = null;
         if (src.Contains("://")) {
             var www = new WWW(src);
@@ -141,6 +141,6 @@ public class LatestResults : MonoBehaviour, Report {
 
 		Debug.Log(string.Format("##### Finishing Copy of [{0}]",dst));
 		Debug.Log(string.Format("##### Loading [{0}]","BarChart.html?data="+serial));
-		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("loadURL","index.html?data="+serial);
+		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("loadURL","BarChart.html?data="+serial);
 	}
 }
