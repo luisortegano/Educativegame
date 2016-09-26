@@ -29,5 +29,4 @@ public class Configuration_RN : MonoBehaviour, GameConfigurationInterface {
 	public int getMaxFails (){
 		return this.maxFails;
 	}
-
 }

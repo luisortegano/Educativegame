@@ -131,12 +131,13 @@ public class GameController_RN : MonoBehaviour {
 		this.finishPanel.SetActive(true);
 		this.finishPanel.GetComponentInChildren<Text>().text = "Se acabo!";
 
+		UserManager um =  GameObject.FindGameObjectWithTag("ConfigurationObject").GetComponent<UserManager>();
 		Configuration_RN conf = Configuration.GetComponent<Configuration_RN>();
 
 		LevelResultsSQLite levelResult = new LevelResultsSQLite();
 		LevelResultRN levelResultRNJSON = new LevelResultRN (conf.challengeTime,conf.challengeTime-this.timeGame,conf.amountNumbers,
 			conf.amountNumbers-this.cardsQueue.Count,conf.maxFails,this.fails, this.cardsQueue.Count==0  );
 
-		//levelResult.insertLevelResult(um.getUserSelected(), this.gameLevelPanel.CodeLevel,this.cardsQueue.Count==0,JsonUtility.ToJson(levelResultRNJSON));
+		levelResult.insertLevelResult(um.getUserSelected(), conf.gameLevelPanel.CodeLevel,this.cardsQueue.Count==0,JsonUtility.ToJson(levelResultRNJSON));
 	}
 }
