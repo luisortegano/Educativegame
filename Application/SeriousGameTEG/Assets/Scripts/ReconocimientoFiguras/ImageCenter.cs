@@ -19,15 +19,13 @@ public class ImageCenter : MonoBehaviour {
 	
 	//Carga de imagenes a memoria
 	string pathImage = "/Figuras";
-	public List<string> ImagesURI;
 	List<byte[]> imageBytes = new List<byte[]>();
 	
 	public void loadImages (){
 		string imagePathSA;
 		Debug.Log("Cantidad de Imagenes =" + this.getRF_Config().AmountFigures);
-		for(int i=0; i < this.getRF_Config().AmountFigures; i++){
-			Debug.Log ("Cargando ["+ImagesURI[i]+"]");
-			imagePathSA = Application.streamingAssetsPath + pathImage + Path.AltDirectorySeparatorChar + ImagesURI[i];
+		for(int i=1; i <= this.getRF_Config().AmountFigures; i++){
+			imagePathSA = Application.streamingAssetsPath + pathImage + Path.AltDirectorySeparatorChar + string.Format("forma{0}.png",i);
 			WWW reader = new WWW(imagePathSA);
 			while (!reader.isDone) { }
 			Debug.Log("Copying image From Streaming Assets (Android)");

@@ -91,6 +91,10 @@ public class LatestResults : MonoBehaviour, Report {
 			getActualResults();
 		});
 
+		gameDropdownUI.onValueChanged.AddListener(delegate {
+			refreshLevelInfo();
+		});
+
 		getActualResults();
 	}
 
@@ -125,10 +129,23 @@ public class LatestResults : MonoBehaviour, Report {
 		StartCoroutine(((Report)this).copyHtmlToIndex());
 	}
 
+	public void refreshLevelInfo (){
+		Dropdown gameDropdownUI = this.gamesDropdown.GetComponent<Dropdown>();
+		levels = levelDatabase().getAllLevelsOfGame(games[gameDropdownUI.value].Id);
+		Dropdown levelsDropdownUI = levelsDropdown.GetComponent<Dropdown>();
+		levelsDropdownUI.options.Clear();
+		foreach(GameLevelDTO current in levels){
+			levelsDropdownUI.options.Add(new Dropdown.OptionData(current.Level.ToString()));
+		}
+		levelsDropdown.gameObject.transform.SetParent(filterPanelObjects.gameObject.transform,false);
+		levelsDropdownUI.RefreshShownValue();
+		this.getActualResults();
+	}
+
 	IEnumerator Report.copyHtmlToIndex(){
 		Debug.Log("##### Starting Copy of BarChart.html");
 		var src = System.IO.Path.Combine(Application.streamingAssetsPath, "BarChart.html");
-		var dst = System.IO.Path.Combine(Application.persistentDataPath, "index.html");
+		var dst = System.IO.Path.Combine(Application.persistentDataPath, "BarChart.html");
         byte[] result = null;
         if (src.Contains("://")) {
             var www = new WWW(src);
@@ -141,6 +158,6 @@ public class LatestResults : MonoBehaviour, Report {
 
 		Debug.Log(string.Format("##### Finishing Copy of [{0}]",dst));
 		Debug.Log(string.Format("##### Loading [{0}]","BarChart.html?data="+serial));
-		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("loadURL","index.html?data="+serial);
+		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("loadURL","BarChart.html?data="+serial);
 	}
 }

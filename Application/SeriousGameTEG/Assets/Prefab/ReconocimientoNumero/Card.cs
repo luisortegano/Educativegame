@@ -28,16 +28,11 @@ public class Card : MonoBehaviour {
 		if(gc.checkCard(this.numberCard)){
 			this.setWarning(new Color(0f,1f,0f));
 			this.numberCardText.text = this.numberCard.ToString();
+
 		}else{
 			this.setWarning(new Color(1f,0f,0f));
+			gc.addFail();
 		}
-//		if( numberCard.ToString() == numberCardText.text ){
-//			Debug.Log("Next Card was clicked");
-//			this.SendMessageUpwards("setHubCard");
-//		}else{
-//			Debug.Log("Card was clicked");
-//		}
-
 	}
 
 }

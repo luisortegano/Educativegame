@@ -25,6 +25,7 @@ public class GameLevelPanel : MonoBehaviour {
 		if (GameObject.FindGameObjectWithTag("GameConfiguratorTag") != null ){
 			GameObject.FindGameObjectWithTag("GameConfiguratorTag").SendMessage("setConfiguration",this.ConfigurationText.text);
 			GameObject.FindGameObjectWithTag("GameConfiguratorTag").SendMessage("setGameLevelPanel",this);
+			Debug.Log(string.Format("send to GameConfiguratorTag -> setConfiguration[{0}]",this.ConfigurationText.text));
 		}else{
 			Debug.Log("No hay configurator");
 		}

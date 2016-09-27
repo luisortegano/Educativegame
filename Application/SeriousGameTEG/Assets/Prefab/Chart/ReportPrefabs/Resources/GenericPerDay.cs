@@ -90,7 +90,24 @@ public class GenericPerDay : MonoBehaviour, Report {
 			getActualResults();
 		});
 
+		gameDropdownUI.onValueChanged.AddListener(delegate {
+			refreshLevelInfo();
+		});
+
 		getActualResults();
+	}
+
+	public void refreshLevelInfo (){
+		Dropdown gameDropdownUI = this.gamesDropdown.GetComponent<Dropdown>();
+		levels = levelDatabase().getAllLevelsOfGame(games[gameDropdownUI.value].Id);
+		Dropdown levelsDropdownUI = levelsDropdown.GetComponent<Dropdown>();
+		levelsDropdownUI.options.Clear();
+		foreach(GameLevelDTO current in levels){
+			levelsDropdownUI.options.Add(new Dropdown.OptionData(current.Level.ToString()));
+		}
+		levelsDropdown.gameObject.transform.SetParent(filterPanelObjects.gameObject.transform,false);
+		levelsDropdownUI.RefreshShownValue();
+		this.getActualResults();
 	}
 
 
@@ -145,7 +162,7 @@ public class GenericPerDay : MonoBehaviour, Report {
 	IEnumerator Report.copyHtmlToIndex(){
 		Debug.Log("##### Starting Copy of PieChart.html");
 		var src = System.IO.Path.Combine(Application.streamingAssetsPath, "PieChart.html");
-        var dst = System.IO.Path.Combine(Application.persistentDataPath, "index.html");
+		var dst = System.IO.Path.Combine(Application.persistentDataPath, "PieChart.html");
         byte[] result = null;
         if (src.Contains("://")) {
             var www = new WWW(src);
@@ -157,7 +174,7 @@ public class GenericPerDay : MonoBehaviour, Report {
 		System.IO.File.WriteAllBytes(dst, result);
 
 		Debug.Log(string.Format("##### Finishing Copy of [{0}]",dst));
-		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("loadURL","index.html?data="+serial);
+		GameObject.FindGameObjectWithTag("ChartPanelRoot").SendMessage("loadURL","PieChart.html?data="+serial);
 	}
 
 }
