@@ -91,6 +91,10 @@ public class LatestResults : MonoBehaviour, Report {
 			getActualResults();
 		});
 
+		gameDropdownUI.onValueChanged.AddListener(delegate {
+			refreshLevelInfo();
+		});
+
 		getActualResults();
 	}
 
@@ -123,6 +127,19 @@ public class LatestResults : MonoBehaviour, Report {
 			games[gameDropdownUI.value].Id, levels[levelsDropdownUI.value].Level, JsonUtility.ToJson(dataLatest)));
 		
 		StartCoroutine(((Report)this).copyHtmlToIndex());
+	}
+
+	public void refreshLevelInfo (){
+		Dropdown gameDropdownUI = this.gamesDropdown.GetComponent<Dropdown>();
+		levels = levelDatabase().getAllLevelsOfGame(games[gameDropdownUI.value].Id);
+		Dropdown levelsDropdownUI = levelsDropdown.GetComponent<Dropdown>();
+		levelsDropdownUI.options.Clear();
+		foreach(GameLevelDTO current in levels){
+			levelsDropdownUI.options.Add(new Dropdown.OptionData(current.Level.ToString()));
+		}
+		levelsDropdown.gameObject.transform.SetParent(filterPanelObjects.gameObject.transform,false);
+		levelsDropdownUI.RefreshShownValue();
+		this.getActualResults();
 	}
 
 	IEnumerator Report.copyHtmlToIndex(){

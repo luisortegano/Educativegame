@@ -90,7 +90,24 @@ public class GenericPerDay : MonoBehaviour, Report {
 			getActualResults();
 		});
 
+		gameDropdownUI.onValueChanged.AddListener(delegate {
+			refreshLevelInfo();
+		});
+
 		getActualResults();
+	}
+
+	public void refreshLevelInfo (){
+		Dropdown gameDropdownUI = this.gamesDropdown.GetComponent<Dropdown>();
+		levels = levelDatabase().getAllLevelsOfGame(games[gameDropdownUI.value].Id);
+		Dropdown levelsDropdownUI = levelsDropdown.GetComponent<Dropdown>();
+		levelsDropdownUI.options.Clear();
+		foreach(GameLevelDTO current in levels){
+			levelsDropdownUI.options.Add(new Dropdown.OptionData(current.Level.ToString()));
+		}
+		levelsDropdown.gameObject.transform.SetParent(filterPanelObjects.gameObject.transform,false);
+		levelsDropdownUI.RefreshShownValue();
+		this.getActualResults();
 	}
 
 
