@@ -131,6 +131,12 @@ public class GameController_RN : MonoBehaviour {
 		this.finishPanel.SetActive(true);
 		this.finishPanel.GetComponentInChildren<Text>().text = "Se acabo!";
 
+		if(this.cardsQueue.Count==0){
+			GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SoundManager>().playWin();
+		}else{
+			GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SoundManager>().playLose();
+		}
+
 		UserManager um =  GameObject.FindGameObjectWithTag("ConfigurationObject").GetComponent<UserManager>();
 		Configuration_RN conf = Configuration.GetComponent<Configuration_RN>();
 

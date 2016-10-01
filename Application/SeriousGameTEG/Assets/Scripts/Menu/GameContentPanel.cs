@@ -42,8 +42,8 @@ public class GameContentPanel : MonoBehaviour {
 		panel.GameId = GameId;
 		panel.NameText.text = Name;
 		panel.CategoriaText.text = Categoria;
+		panel.setImage();
 		newCategoryPanel.transform.SetParent(gameObject.transform,false);
-		//newCategoryPanel.transform.localScale = new Vector3(1,1,1);
 	}
 
 	public void closeGameContentPanel (){

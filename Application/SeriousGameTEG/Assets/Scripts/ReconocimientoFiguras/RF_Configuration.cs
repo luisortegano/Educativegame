@@ -88,6 +88,10 @@ public class RF_Configuration : MonoBehaviour, GameConfigurationInterface {
 		levelResult.insertLevelResult(um.getUserSelected(), this.gameLevelPanel.CodeLevel,this.winGame,JsonUtility.ToJson(lrJson));
 	}
 
+	public bool isWin (){
+		return this.winGame;
+	}
+
 	void printValues(){
 		Debug.Log("Configuration Values for Game: ["+AmountFigures +" " +maxDiscoverFigures+" " + maxFails + " " + challengeTime + "]");
 		if(this.gameLevelPanel != null){

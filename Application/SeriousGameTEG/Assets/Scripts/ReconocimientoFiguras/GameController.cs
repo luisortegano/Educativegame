@@ -155,6 +155,15 @@ public class GameController : MonoBehaviour {
 		/*Raise velo*/
 		veloPanel.GetComponent<VeloPanel>().FinalText.text = getRF_Config().getResultMessage();
 		veloPanel.SetActive(true);
+
+
+
+		if(getRF_Config().isWin()){
+			GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SoundManager>().playWin();
+		}else{
+			GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SoundManager>().playLose();
+		}
+
 		return;
 	}
 	

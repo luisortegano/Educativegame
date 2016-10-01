@@ -6,11 +6,11 @@ using ORM;
 
 public class GameLevelPanel : MonoBehaviour {
 	public Text LevelText;
-	public Text ConfigurationText;
 	public Button PlayButton;
 	
 	public int GameId;
 	public int CodeLevel;
+	public string configurationJson;
 
 	private AsyncOperation async;
 
@@ -23,9 +23,9 @@ public class GameLevelPanel : MonoBehaviour {
 		Debug.Log(uim);
 
 		if (GameObject.FindGameObjectWithTag("GameConfiguratorTag") != null ){
-			GameObject.FindGameObjectWithTag("GameConfiguratorTag").SendMessage("setConfiguration",this.ConfigurationText.text);
+			GameObject.FindGameObjectWithTag("GameConfiguratorTag").SendMessage("setConfiguration",this.configurationJson);
 			GameObject.FindGameObjectWithTag("GameConfiguratorTag").SendMessage("setGameLevelPanel",this);
-			Debug.Log(string.Format("send to GameConfiguratorTag -> setConfiguration[{0}]",this.ConfigurationText.text));
+			Debug.Log(string.Format("send to GameConfiguratorTag -> setConfiguration[{0}]",this.configurationJson));
 		}else{
 			Debug.Log("No hay configurator");
 		}

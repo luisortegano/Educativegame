@@ -6,10 +6,11 @@ public class Card : MonoBehaviour {
 
 	public int numberCard;
 	public Text numberCardText;
-	public static Color basicColor = new Color (1f,1f,1f);
+	public static Color basicColor = new Color ();
 
 	IEnumerator fadeWarning (){
 		yield return new WaitForSeconds(1f);
+		ColorUtility.TryParseHtmlString("#9A64F2FF", out basicColor);
 		this.gameObject.GetComponent<Image>().color = basicColor;
 	}
 

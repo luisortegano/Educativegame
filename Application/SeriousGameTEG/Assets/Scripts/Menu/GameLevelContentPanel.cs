@@ -46,9 +46,9 @@ public class GameLevelContentPanel : MonoBehaviour {
 		GameObject newGameLevel = (GameObject)Instantiate(gameLevelPanelPrefab); 
 		GameLevelPanel levelGamePanel = newGameLevel.GetComponent<GameLevelPanel>();
 		levelGamePanel.CodeLevel = LevelCode;
-		levelGamePanel.LevelText.text = ("Level: " + Level.ToString());
-		levelGamePanel.ConfigurationText.text = Configuration;
+		levelGamePanel.LevelText.text = string.Format("Nivel: {0}", Level);
 		levelGamePanel.GameId = GameId;
+		levelGamePanel.configurationJson = Configuration;
 		newGameLevel.transform.SetParent(gameObject.transform);
 		newGameLevel.transform.localScale = new Vector3(1,1,1);
 
