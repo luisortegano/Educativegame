@@ -22,6 +22,6 @@ public class GamePanel : MonoBehaviour {
 		uim.MenuSetActive(Menu.GameContentPanel,false);
 		uim.MenuSetActive(Menu.GameLevelContentPanel,true);
 		uim.getMenuGameobject(Menu.GameLevelContentPanel).SendMessage("setGameIdSelected", this.GameId);
-		Debug.Log ( string.Format("#####The game {0} with id: {1} was selected"), this.NameText.text, this.GameId);
+		Debug.Log ( string.Format("#####The game {0} with id: {1} was selected", this.NameText.text, this.GameId));
 	}
 }
