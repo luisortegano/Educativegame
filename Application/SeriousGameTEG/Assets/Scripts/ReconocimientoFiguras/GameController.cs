@@ -153,7 +153,13 @@ public class GameController : MonoBehaviour {
 		getRF_Config().persistResults();
 
 		/*Raise velo*/
-		veloPanel.GetComponent<VeloPanel>().FinalText.text = getRF_Config().getResultMessage();
+		VeloPanel vp = veloPanel.GetComponent<VeloPanel>();
+		vp.FinalText.text = getRF_Config().getResultMessage();
+
+		/* Set Image of result */
+		//this.gameObject.GetComponent<Image>().overrideSprite =  Resources.Load<Sprite>(string.Format("endGame/{0}",this.GameId));
+		vp.endImage.overrideSprite = Resources.Load<Sprite>(string.Format("endGame/{0}",
+			getRF_Config().isWin()? "ganaste":"perdiste"));
 		veloPanel.SetActive(true);
 
 

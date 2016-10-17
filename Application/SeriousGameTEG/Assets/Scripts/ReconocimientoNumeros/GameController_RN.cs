@@ -12,6 +12,7 @@ public class GameController_RN : MonoBehaviour {
 	public GameObject gamePanel;
 	public GameObject optionHolderPanel;
 	public GameObject finishPanel;
+	public GameObject finishImage;
 
 	// GamePanel que mantiene los elementos de la lista deslizable 
 	public GameObject cardsPanel;
@@ -128,8 +129,12 @@ public class GameController_RN : MonoBehaviour {
 
 	void finishGame(){
 		this.endGameFlag = true;
+
+
 		this.finishPanel.SetActive(true);
 		this.finishPanel.GetComponentInChildren<Text>().text = "Se acabo!";
+		this.finishImage.GetComponent<Image>().overrideSprite =  Resources.Load<Sprite>(string.Format("endGame/{0}",
+			this.cardsQueue.Count==0? "ganaste":"perdiste"));
 
 		if(this.cardsQueue.Count==0){
 			GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SoundManager>().playWin();
