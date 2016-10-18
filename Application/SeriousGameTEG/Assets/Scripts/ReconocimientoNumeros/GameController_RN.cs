@@ -74,7 +74,7 @@ public class GameController_RN : MonoBehaviour {
 		List<GameObject> cards = getCards();
 		cards.Clear();
 
-		for(int i=0; i< config.amountNumbers; i++){
+		for(int i=1; i<= config.amountNumbers; i++){
 			cards.Add(instantiateGame(i));
 		}
 
