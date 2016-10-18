@@ -129,12 +129,9 @@ public class GameController_RN : MonoBehaviour {
 
 	void finishGame(){
 		this.endGameFlag = true;
-
-
-		this.finishPanel.SetActive(true);
-		this.finishPanel.GetComponentInChildren<Text>().text = "Se acabo!";
 		this.finishImage.GetComponent<Image>().overrideSprite =  Resources.Load<Sprite>(string.Format("endGame/{0}",
 			this.cardsQueue.Count==0? "ganaste":"perdiste"));
+		this.finishPanel.SetActive(true);
 
 		if(this.cardsQueue.Count==0){
 			GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SoundManager>().playWin();
