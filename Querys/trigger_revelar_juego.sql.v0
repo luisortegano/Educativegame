@@ -1,0 +1,43 @@
+CREATE TRIGGER LR_next_game AFTER INSERT ON level_results
+WHEN EXISTS ( select * from game_level join game on game.id = game_level.id_game where code = NEW.level_code and game_level.level = game.level_code_pass ) AND NEW.win = 1
+BEGIN
+	insert into enabled_game_user  select NEW.id_user as id_user, to_reveal.id_game from 
+	(
+		select 
+			game_dependation.id_dependent_game as id_game,
+			count(*) as completed ,
+			to_complete.to_complete 
+		from 
+			game_dependation 
+			left outer join game on game_dependation.id_game = game.id
+			left outer join level_results on level_results.id_user = NEW.id_user and level_results.level_code = game.level_code_pass
+			join
+			(
+				select 
+					game_dependation.id_dependent_game as id_game,
+					count(*) as to_complete
+				from 
+					game_dependation 
+					left outer join game on game_dependation.id_game = game.id
+					left outer join level_results on level_results.id_user = NEW.id_user and level_results.level_code = game.level_code_pass
+				where 
+					game_dependation.id_dependent_game in (
+						select game_dependation.id_dependent_game from game_dependation where game_dependation.id_game = (
+							select id_game from game_level join game on game.id = game_level.id_game where game_level.code = NEW.level_code and game_level.level = game.level_code_pass
+						)
+					)
+				group by game_dependation.id_dependent_game
+			) as to_complete on to_complete.id_game = game_dependation.id_dependent_game
+		where 
+			game_dependation.id_dependent_game in (
+				select game_dependation.id_dependent_game from game_dependation where game_dependation.id_game = (
+						select id_game from game_level join game on game.id = game_level.id_game where game_level.code = NEW.level_code and game_level.level = game.level_code_pass
+					) 
+				)
+			and level_results.id_user not null
+		group by game_dependation.id_dependent_game 
+	) as to_reveal
+	left outer join enabled_game_user on to_reveal.id_game = enabled_game_user.id_game
+	where  completed = to_complete and enabled_game_user.id_user is null
+    ;
+END
