@@ -1520,8 +1520,8 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -66, y: 156.29}
-  m_SizeDelta: {x: 90, y: 80}
+  m_AnchoredPosition: {x: -36, y: 13}
+  m_SizeDelta: {x: 170, y: 170}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1106110667
 MonoBehaviour:
@@ -2104,6 +2104,7 @@ GameObject:
   - 222: {fileID: 1434185441}
   - 114: {fileID: 1434185440}
   - 114: {fileID: 1434185442}
+  - 114: {fileID: 1434185443}
   m_Layer: 5
   m_Name: GameExplanationPanel
   m_TagString: Untagged
@@ -2123,10 +2124,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1885720617}
   m_RootOrder: 4
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -60, y: 0.0000095367}
-  m_SizeDelta: {x: -376, y: -101}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -95, y: 0.0000076294}
+  m_SizeDelta: {x: 463, y: 311}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1434185440
 MonoBehaviour:
@@ -2213,6 +2214,17 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1434185443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1434185438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b145630604fe6884d952f220e9bc5bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1447508109
 GameObject:
   m_ObjectHideFlags: 0
