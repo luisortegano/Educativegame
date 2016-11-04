@@ -135,7 +135,7 @@ public class GenericPerDay : MonoBehaviour, Report {
 		foreach(KeyValuePair<DateTime,List<LevelResult>> listResultsPerDay in mappedResults){
 			DayChart daychart = new DayChart("valued",listResultsPerDay.Key.ToString());
 			Value wins = new Value();
-			wins.label="win";
+			wins.label="victoria";
 			wins.color="#00f";
 
 			foreach( LevelResult current in listResultsPerDay.Value )
@@ -145,7 +145,7 @@ public class GenericPerDay : MonoBehaviour, Report {
 				daychart.addValue(wins);
 
 			if(listResultsPerDay.Value.Count != wins.amount){
-				daychart.addValue(new Value("LOSE",listResultsPerDay.Value.Count-wins.amount,"#f00"));
+				daychart.addValue(new Value("derrota",listResultsPerDay.Value.Count-wins.amount,"#f00"));
 			}
 
 			dataGeneric.addDayChart(daychart);
