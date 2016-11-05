@@ -25,6 +25,10 @@
     .x.axis path {
         display: none;
     }
+	
+	svg{
+		border: 1px black solid;
+	}
 </style>
 <body>
     <script src="d3.min.js"></script>
@@ -150,7 +154,7 @@ var DoDayChart = function (arrayDays){
             }
             else{
                 if(!date)
-                    doNoData('NO DATA');
+                    doNoData(j==0?'No gano supero niveles este dia':'No perdio este dia');
             }
         }
     }
